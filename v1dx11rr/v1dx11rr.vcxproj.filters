@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de código fuente\Shaders">
+      <UniqueIdentifier>{3e1eec91-42f4-42d4-b17e-94368fa6cc59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXRR.h">
@@ -50,16 +53,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader.fx">
-      <Filter>Archivos de código fuente</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="SkyDome.fx">
-      <Filter>Archivos de código fuente</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="TerrenoSkyBill.cpp">
       <Filter>Archivos de código fuente</Filter>
     </ClCompile>
@@ -75,10 +68,20 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Billboard.hlsl">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Modelo.fx">
-      <Filter>Archivos de código fuente</Filter>
+      <Filter>Archivos de código fuente\Shaders</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SkyDome.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
   </ItemGroup>
 </Project>
