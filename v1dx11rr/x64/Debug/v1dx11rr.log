@@ -1,0 +1,293 @@
+﻿A:\Program Files\VisualStudio2022\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(534,5): warning MSB8028: El directorio intermedio (x64\Debug\) contiene archivos compartidos de otro proyecto (Terreno.vcxproj, TerrenoSky.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\Billboard.hlsl(74,10-47): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\x64\Debug\Billboard.cso
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\Modelo.fx(59,28-58): warning X3206: 'mul': implicit truncation of vector type
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\Modelo.fx(59,3-59): warning X3206: implicit truncation of vector type
+  
+  compilation object save succeeded; see A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\x64\Debug\Modelo.cso
+  GameResource.cpp
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\GameResource.h(2,10): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+  loadModel.cpp
+A:\dev\DX11\Include\dxgitype.h(12,1): warning C4005: 'DXGI_STATUS_OCCLUDED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56388): message : vea la definición anterior de 'DXGI_STATUS_OCCLUDED'
+A:\dev\DX11\Include\dxgitype.h(13,1): warning C4005: 'DXGI_STATUS_CLIPPED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56397): message : vea la definición anterior de 'DXGI_STATUS_CLIPPED'
+A:\dev\DX11\Include\dxgitype.h(14,1): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56406): message : vea la definición anterior de 'DXGI_STATUS_NO_REDIRECTION'
+A:\dev\DX11\Include\dxgitype.h(15,1): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56415): message : vea la definición anterior de 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+A:\dev\DX11\Include\dxgitype.h(16,1): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56424): message : vea la definición anterior de 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+A:\dev\DX11\Include\dxgitype.h(17,1): warning C4005: 'DXGI_STATUS_MODE_CHANGED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56433): message : vea la definición anterior de 'DXGI_STATUS_MODE_CHANGED'
+A:\dev\DX11\Include\dxgitype.h(18,1): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56442): message : vea la definición anterior de 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+A:\dev\DX11\Include\dxgitype.h(21,1): warning C4005: 'DXGI_ERROR_INVALID_CALL': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56457): message : vea la definición anterior de 'DXGI_ERROR_INVALID_CALL'
+A:\dev\DX11\Include\dxgitype.h(22,1): warning C4005: 'DXGI_ERROR_NOT_FOUND': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56466): message : vea la definición anterior de 'DXGI_ERROR_NOT_FOUND'
+A:\dev\DX11\Include\dxgitype.h(23,1): warning C4005: 'DXGI_ERROR_MORE_DATA': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56475): message : vea la definición anterior de 'DXGI_ERROR_MORE_DATA'
+A:\dev\DX11\Include\dxgitype.h(24,1): warning C4005: 'DXGI_ERROR_UNSUPPORTED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56484): message : vea la definición anterior de 'DXGI_ERROR_UNSUPPORTED'
+A:\dev\DX11\Include\dxgitype.h(25,1): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56493): message : vea la definición anterior de 'DXGI_ERROR_DEVICE_REMOVED'
+A:\dev\DX11\Include\dxgitype.h(26,1): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56502): message : vea la definición anterior de 'DXGI_ERROR_DEVICE_HUNG'
+A:\dev\DX11\Include\dxgitype.h(27,1): warning C4005: 'DXGI_ERROR_DEVICE_RESET': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56512): message : vea la definición anterior de 'DXGI_ERROR_DEVICE_RESET'
+A:\dev\DX11\Include\dxgitype.h(28,1): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56521): message : vea la definición anterior de 'DXGI_ERROR_WAS_STILL_DRAWING'
+A:\dev\DX11\Include\dxgitype.h(29,1): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56531): message : vea la definición anterior de 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+A:\dev\DX11\Include\dxgitype.h(30,1): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56540): message : vea la definición anterior de 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+A:\dev\DX11\Include\dxgitype.h(31,1): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56550): message : vea la definición anterior de 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+A:\dev\DX11\Include\dxgitype.h(32,1): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56559): message : vea la definición anterior de 'DXGI_ERROR_NONEXCLUSIVE'
+A:\dev\DX11\Include\dxgitype.h(33,1): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56568): message : vea la definición anterior de 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+A:\dev\DX11\Include\dxgitype.h(34,1): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56578): message : vea la definición anterior de 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+A:\dev\DX11\Include\dxgitype.h(35,1): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56587): message : vea la definición anterior de 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+A:\dev\DX11\Include\d3d11.h(917,1): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56865): message : vea la definición anterior de 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+A:\dev\DX11\Include\d3d11.h(918,1): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56874): message : vea la definición anterior de 'D3D11_ERROR_FILE_NOT_FOUND'
+A:\dev\DX11\Include\d3d11.h(919,1): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56884): message : vea la definición anterior de 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+A:\dev\DX11\Include\d3d11.h(920,1): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56893): message : vea la definición anterior de 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+A:\dev\DX11\Include\d3d10.h(608,1): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56841): message : vea la definición anterior de 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+A:\dev\DX11\Include\d3d10.h(609,1): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56850): message : vea la definición anterior de 'D3D10_ERROR_FILE_NOT_FOUND'
+A:\dev\DX11\Include\xnamath.h(2662,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2662,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2662,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2662,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2663,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2663,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2663,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2664,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2664,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2664,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2665,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2666,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2667,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2668,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,46): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,58): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,70): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,82): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2690,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2691,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2694,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2695,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2698,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2702,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2702,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2712,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2712,91): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2713,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2713,78): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2715,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2716,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2716,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2717,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2717,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2717,78): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2727,54): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2728,56): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2729,58): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2730,54): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2730,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2731,56): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2731,67): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2732,54): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2732,67): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2742,60): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2742,79): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2743,70): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2754,73): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(2254,71): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4523,69): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4577,68): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4639,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4707,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4770,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4832,63): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,45): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,56): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,67): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,78): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathmisc.inl(518,43): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathmisc.inl(519,40): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathmisc.inl(519,51): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\loadModel.cpp(171,44): warning C4474: "sscanf_s": se pasaron demasiados argumentos para la cadena de formato
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\loadModel.cpp(171,44): message : los marcadores de posición y sus parámetros esperan 3 argumentos variádicos, pero se proporcionaron 4
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\loadModel.cpp(173,38): warning C4474: "sscanf_s": se pasaron demasiados argumentos para la cadena de formato
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\loadModel.cpp(173,38): message : los marcadores de posición y sus parámetros esperan 2 argumentos variádicos, pero se proporcionaron 3
+  TerrenoSkyBill.cpp
+A:\dev\DX11\Include\dxgitype.h(12,1): warning C4005: 'DXGI_STATUS_OCCLUDED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56388): message : vea la definición anterior de 'DXGI_STATUS_OCCLUDED'
+A:\dev\DX11\Include\dxgitype.h(13,1): warning C4005: 'DXGI_STATUS_CLIPPED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56397): message : vea la definición anterior de 'DXGI_STATUS_CLIPPED'
+A:\dev\DX11\Include\dxgitype.h(14,1): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56406): message : vea la definición anterior de 'DXGI_STATUS_NO_REDIRECTION'
+A:\dev\DX11\Include\dxgitype.h(15,1): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56415): message : vea la definición anterior de 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+A:\dev\DX11\Include\dxgitype.h(16,1): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56424): message : vea la definición anterior de 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+A:\dev\DX11\Include\dxgitype.h(17,1): warning C4005: 'DXGI_STATUS_MODE_CHANGED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56433): message : vea la definición anterior de 'DXGI_STATUS_MODE_CHANGED'
+A:\dev\DX11\Include\dxgitype.h(18,1): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56442): message : vea la definición anterior de 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+A:\dev\DX11\Include\dxgitype.h(21,1): warning C4005: 'DXGI_ERROR_INVALID_CALL': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56457): message : vea la definición anterior de 'DXGI_ERROR_INVALID_CALL'
+A:\dev\DX11\Include\dxgitype.h(22,1): warning C4005: 'DXGI_ERROR_NOT_FOUND': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56466): message : vea la definición anterior de 'DXGI_ERROR_NOT_FOUND'
+A:\dev\DX11\Include\dxgitype.h(23,1): warning C4005: 'DXGI_ERROR_MORE_DATA': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56475): message : vea la definición anterior de 'DXGI_ERROR_MORE_DATA'
+A:\dev\DX11\Include\dxgitype.h(24,1): warning C4005: 'DXGI_ERROR_UNSUPPORTED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56484): message : vea la definición anterior de 'DXGI_ERROR_UNSUPPORTED'
+A:\dev\DX11\Include\dxgitype.h(25,1): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56493): message : vea la definición anterior de 'DXGI_ERROR_DEVICE_REMOVED'
+A:\dev\DX11\Include\dxgitype.h(26,1): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56502): message : vea la definición anterior de 'DXGI_ERROR_DEVICE_HUNG'
+A:\dev\DX11\Include\dxgitype.h(27,1): warning C4005: 'DXGI_ERROR_DEVICE_RESET': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56512): message : vea la definición anterior de 'DXGI_ERROR_DEVICE_RESET'
+A:\dev\DX11\Include\dxgitype.h(28,1): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56521): message : vea la definición anterior de 'DXGI_ERROR_WAS_STILL_DRAWING'
+A:\dev\DX11\Include\dxgitype.h(29,1): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56531): message : vea la definición anterior de 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+A:\dev\DX11\Include\dxgitype.h(30,1): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56540): message : vea la definición anterior de 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+A:\dev\DX11\Include\dxgitype.h(31,1): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56550): message : vea la definición anterior de 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+A:\dev\DX11\Include\dxgitype.h(32,1): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56559): message : vea la definición anterior de 'DXGI_ERROR_NONEXCLUSIVE'
+A:\dev\DX11\Include\dxgitype.h(33,1): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56568): message : vea la definición anterior de 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+A:\dev\DX11\Include\dxgitype.h(34,1): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56578): message : vea la definición anterior de 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+A:\dev\DX11\Include\dxgitype.h(35,1): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56587): message : vea la definición anterior de 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+A:\dev\DX11\Include\d3d11.h(917,1): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56865): message : vea la definición anterior de 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+A:\dev\DX11\Include\d3d11.h(918,1): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56874): message : vea la definición anterior de 'D3D11_ERROR_FILE_NOT_FOUND'
+A:\dev\DX11\Include\d3d11.h(919,1): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56884): message : vea la definición anterior de 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+A:\dev\DX11\Include\d3d11.h(920,1): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56893): message : vea la definición anterior de 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+A:\dev\DX11\Include\d3d10.h(608,1): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56841): message : vea la definición anterior de 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+A:\dev\DX11\Include\d3d10.h(609,1): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\winerror.h(56850): message : vea la definición anterior de 'D3D10_ERROR_FILE_NOT_FOUND'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoRR.h(217,85): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoRR.h(322,63): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoRR.h(322,1): warning C4305: 'argumento': truncamiento de 'double' a 'FLOAT'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoRR.h(412,1): warning C4305: '+=': truncamiento de 'double' a 'float'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoRR.h(444,1): warning C4305: 'argumento': truncamiento de 'double' a 'FLOAT'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoRR.h(507,21): warning C4018: '<': no coinciden signed/unsigned
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoRR.h(509,19): warning C4018: '<': no coinciden signed/unsigned
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\Camara.h(45,63): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\Camara.h(45,1): warning C4305: 'argumento': truncamiento de 'double' a 'FLOAT'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\Billboard.h(395,14): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\Billboard.h(396,15): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+A:\dev\DX11\Include\xnamath.h(2662,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2662,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2662,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2662,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2663,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2663,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2663,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2664,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2664,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2664,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2665,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2666,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2667,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2668,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,46): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,58): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,70): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2689,82): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2690,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2691,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2694,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2695,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2698,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2702,76): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2702,88): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2712,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2712,91): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2713,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2713,78): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2715,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2716,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2716,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2717,52): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2717,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2717,78): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2727,54): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2728,56): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2729,58): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2730,54): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2730,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2731,56): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2731,67): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2732,54): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2732,67): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2742,60): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2742,79): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2743,70): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamath.h(2754,73): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(2254,71): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4523,69): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4577,68): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4639,65): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4707,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4770,64): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathconvert.inl(4832,63): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,45): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,56): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,67): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathvector.inl(1269,78): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathmisc.inl(518,43): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathmisc.inl(519,40): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\dev\DX11\Include\xnamathmisc.inl(519,51): warning C4838: la conversión de 'unsigned int' en 'INT' requiere una conversión de restricción
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\ModeloRR.h(305,64): warning C4244: 'argumento': conversión de 'int' a 'FLOAT'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\ModeloRR.h(305,1): warning C4305: 'argumento': truncamiento de 'double' a 'FLOAT'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\ModeloRR.h(365,1): warning C4305: '+=': truncamiento de 'double' a 'float'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\ModeloRR.h(395,1): warning C4305: 'argumento': truncamiento de 'double' a 'FLOAT'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\ModeloRR.h(417,44): warning C4244: 'argumento': conversión de 'double' a 'FLOAT'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(279,1): warning C4305: '+=': truncamiento de 'double' a 'float'
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(452,24): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(453,24): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(454,24): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(455,24): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(463,28): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(464,28): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(465,28): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(466,28): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(475,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(476,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(477,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(478,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(487,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(488,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(489,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\DXRR.h(490,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+  A:\dev\DX11\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoSkyBill.cpp(135,15): warning C4244: 'return': conversión de 'WPARAM' a 'int'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoSkyBill.cpp(200,30): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoSkyBill.cpp(204,70): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\v1dx11rr\TerrenoSkyBill.cpp(209,33): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+  XACT3Util.cpp
+  Generando código...
+  v1dx11rr.vcxproj -> A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_Proyecto\x64\Debug\TerrenoSkyBill.exe
