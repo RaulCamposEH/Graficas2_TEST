@@ -160,11 +160,15 @@
   <ItemGroup>
     <ClInclude Include="Billboard.h" />
     <ClInclude Include="Camara.h" />
+    <ClInclude Include="ColBox.h" />
     <ClInclude Include="DXRR.h" />
+    <ClInclude Include="GameModel.h" />
     <ClInclude Include="GamePadRR.h" />
     <ClInclude Include="GameResource.h" />
+    <ClInclude Include="Gallina.h" />
     <ClInclude Include="loadModel.h" />
     <ClInclude Include="ModeloRR.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="TerrenoRR.h" />

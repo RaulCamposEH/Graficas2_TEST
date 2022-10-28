@@ -22,7 +22,16 @@ public:
 	int ancho;
 	int alto;
 
+	D3DXVECTOR3 pastPostCam;
 	D3DXMATRIX rotacion;
+
+	float* getPos() {
+		float pos[2];
+		pos[0] = posCam.x;
+		pos[1] = posCam.z;
+
+		return pos;
+	}
 
 	Camara(D3DXVECTOR3 eye, D3DXVECTOR3 target, D3DXVECTOR3 up, int Ancho, int Alto)
 	{
@@ -59,6 +68,7 @@ public:
 
 	D3DXMATRIX UpdateCam(float vel, float arriaba, float izqder)
 	{
+		pastPostCam = posCam;
 		D3DXMATRIX vistaPrev = vista;
 		D3DXMatrixTranslation(&vista, 0, 0, 0);
 

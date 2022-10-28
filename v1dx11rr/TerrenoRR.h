@@ -68,14 +68,10 @@ private:
 public:
 	TerrenoRR(int ancho, int alto, ID3D11Device* D3DDevice, ID3D11DeviceContext* D3DContext)
 	{
-		//copiamos el device y el device context a la clase terreno
 		d3dContext = D3DContext;
 		d3dDevice = D3DDevice;
-		//este es el ancho y el alto del terreno en su escala
 		this->ancho = ancho;
 		this->alto = alto;
-		//aqui cargamos las texturas de alturas y el cesped
-
 		CargaParametros(CespedTex, texname, 100.0f);
 	}
 
@@ -468,12 +464,8 @@ private:
 	void LoadHeightData(WCHAR* heightTex)
 	{
 		HRESULT resultado;
-
-		//estructura de un aimagen o textura
 		D3DX11_IMAGE_INFO texInfo;
-		//leemos la info de la textura del mapa de alturas
 		resultado = D3DX11GetImageInfoFromFile(heightTex, NULL, &texInfo, NULL);
-		//leemos los detalles de la textura para acceder a sus caracteristicas
 		D3DX11_IMAGE_LOAD_INFO texDesc;
 		ZeroMemory(&texDesc, sizeof(texDesc));
 		texDesc.CpuAccessFlags = D3D11_CPU_ACCESS_READ;
@@ -486,11 +478,9 @@ private:
 		texDesc.Filter = D3DX11_FILTER_LINEAR;
 		texDesc.MipLevels = texInfo.MipLevels;
 
-		//obtenemos la cantidad de pìxeles en ancho y profundidad
 		anchoTexTerr = (int)texInfo.Width;
 		altoTexTerr = (int)texInfo.Height;
-		//generamos el espacio para contener los pixeles de altura
-		//como un arreglo de punteros de tipo byte
+
 		alturaData = new BYTE*[altoTexTerr];
 
 		//generamos el espacio en cada puntero de cada fila de bytes

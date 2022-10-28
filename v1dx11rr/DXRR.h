@@ -10,6 +10,7 @@
 #include "Billboard.h"
 #include "ModeloRR.h"
 #include "XACT3Util.h"
+#include "GameModel.h"
 
 class DXRR{	
 
@@ -20,6 +21,7 @@ public:
 	HINSTANCE hInstance;
 	HWND hWnd;
 
+#pragma region directx stuff
 	D3D_DRIVER_TYPE driverType;
 	D3D_FEATURE_LEVEL featureLevel;
 
@@ -34,14 +36,19 @@ public:
 	ID3D11DepthStencilState* depthStencilState;
 	ID3D11DepthStencilState* depthStencilDisabledState;
 
-	ID3D11BlendState *alphaBlendState, *commonBlendState;
+	ID3D11BlendState* alphaBlendState, * commonBlendState;
+
+	XACTINDEX cueIndex;
+	CXACT3Util m_XACT3;
+#pragma endregion
 
 	int frameBillboard;
 
-	TerrenoRR *terreno;
-	SkyDome *skydome;
-	BillboardRR *billboard;
-	Camara *camara;
+	TerrenoRR* terreno;
+	SkyDome* skydome;
+	BillboardRR* billboard;
+	Camara* camara;
+
 	ModeloRR* model;
 	ModeloRR* carrito;
 	ModeloRR* barn;
@@ -53,6 +60,8 @@ public:
 	ModeloRR* tronco;
 	ModeloRR* garage;
 	
+	GameModel* Character;
+
 	float izqder;
 	float arriaba;
 	float vel;
@@ -61,13 +70,13 @@ public:
 	vector2 uv2[32];
 	vector2 uv3[32];
 	vector2 uv4[32];
-
-	XACTINDEX cueIndex;
-	CXACT3Util m_XACT3;
+	float prueba = 0.0f;
 
 	bool camaraTipo;
 	float rotCam;
 	
+	ResourceCollection PersonajeTextures;
+
     DXRR(HWND hWnd, int Ancho, int Alto)
 	{
 		breakpoint = false;
@@ -84,26 +93,33 @@ public:
 		izqder = 0;
 		arriaba = 0;
 		billCargaFuego();
-		camara = new Camara(D3DXVECTOR3(0,80,6), D3DXVECTOR3(0,80,0), D3DXVECTOR3(0,1,0), Ancho, Alto);
+
+		PersonajeTextures.reserve(2);
+		PersonajeTextures.emplace_back(0, L"Assets/personaje/personajeColor.png");
+		PersonajeTextures.emplace_back(1, L"Assets/personaje/personajeSpec.png");
+
+		auto eye = D3DXVECTOR3(0, 80, 6);
+		auto target = D3DXVECTOR3(0, 80, 0);
+		auto up = D3DXVECTOR3(0, 1, 0);
+		camara = new Camara(eye, target, up, Ancho, Alto);
+
 		terreno = new TerrenoRR(1200, 1200, d3dDevice, d3dContext);
 		skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD1.png");
-		//skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD2.png");
-		//skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD3.png");
+		Character = new GameModel(d3dDevice, d3dContext, "Assets/personaje/personaje.obj", D3DXVECTOR3(60, 0, 30), PersonajeTextures);
+
 		billboard = new BillboardRR(L"Assets/Billboards/fuego-anim.png",L"Assets/Billboards/fuego-anim-normal.png", d3dDevice, d3dContext, 5);
 		model = new ModeloRR(d3dDevice, d3dContext, "Assets/Cofre/Cofre.obj", L"Assets/Cofre/Cofre-color.png", L"Assets/Cofre/Cofre-spec.png", 0, 0);
-		
 		barn = new ModeloRR(d3dDevice, d3dContext, "Assets/barn/barn.obj", L"Assets/barn/barnColor.png", L"Assets/noSpecMap.jpg", -40, 0);
 		garage = new ModeloRR(d3dDevice, d3dContext, "Assets/garage/garage.obj", L"Assets/garage/garageColor.jpg", L"Assets/noSpecMap.jpg", 40, 20);
-
 		granero = new ModeloRR(d3dDevice, d3dContext, "Assets/granero/granero.obj", L"Assets/granero/graneroColor.png", L"Assets/noSpecMap.jpg", 40, 0);
 		carrito = new ModeloRR(d3dDevice, d3dContext, "Assets/Cheep.obj", L"Assets/Cheep.jpg", L"Assets/imagen1.jpg", 0, 0);
 		gallina = new ModeloRR(d3dDevice, d3dContext, "Assets/gallina/gallina.obj", L"Assets/gallina/gallina.png", L"Assets/noSpecMap.jpg", 10, 0);
 		caballo = new ModeloRR(d3dDevice, d3dContext, "Assets/camioneta/camioneta.obj", L"Assets/camioneta/camionetaColor.jpg", L"Assets/camioneta/camionetaSpec.jpg", 20, 0);
 		heno = new ModeloRR(d3dDevice, d3dContext, "Assets/heno/heno.obj", L"Assets/heno/henoColor.png", L"Assets/noSpecMap.jpg", 60, 0);
-		personaje = new ModeloRR(d3dDevice, d3dContext, "Assets/personaje/personaje.obj", L"Assets/personaje/personajeColor.png", L"Assets/personaje/personajeSpec.png", 60, 10);
+
 		tronco = new ModeloRR(d3dDevice, d3dContext, "Assets/tronco/tronco.obj", L"Assets/tronco/troncoColor.jpg", L"Assets/tronco/TroncoSpec.jpg", 50, 10);
 
-		
+		prueba = Character->getX();
 		camaraTipo = true;
 		rotCam = 0.0f;
 	}
@@ -118,7 +134,6 @@ public:
 	{
 		this->hInstance = hInstance;
 		this->hWnd = hWnd;
-
 		//obtiene el ancho y alto de la ventana donde se dibuja
 		RECT dimensions;
 		GetClientRect(hWnd, &dimensions);
@@ -268,8 +283,39 @@ public:
 		d3dContext = 0;
 		swapChain = 0;
 		backBufferTarget = 0;
+
+		delete terreno;
+		delete skydome;
+		delete billboard;
+		delete camara;
+		delete model;
+		delete carrito;
+		delete barn;
+		delete gallina;
+		delete caballo;
+		delete granero;
+		delete heno;
+		delete personaje;
+		delete tronco;
+		delete garage;
+		delete Character;
+
 	}
 	
+	void Update(void) {
+		if (prueba < 2.f)
+			prueba += 0.1f;
+		else
+			prueba -= 0.1;
+
+		//prueba = prueba < 0.0f ? prueba + 0.01f : 0.0f;
+		//Character->setPos(D3DXVECTOR3(Character->getX() + prueba, terreno->Superficie(Character->getX() + prueba, Character->getZ()), Character->getZ()));
+		float x = Character->getX() + prueba;
+		float z = Character->getZ();
+		float y = terreno->Superficie(x, z);
+		Character->setPos(D3DXVECTOR3(x, y, z));
+	}
+
 	void Render(void)
 	{
 		rotCam += izqder;
@@ -300,24 +346,18 @@ public:
 		//TurnOnAlphaBlending();
 		//billboard->Draw(camara->vista, camara->proyeccion, camara->posCam,
 			//-11, -78, 4, 5, uv1, uv2, uv3, uv4, frameBillboard);
-
 		//TurnOffAlphaBlending();
 		//model->Draw(camara->vista, camara->proyeccion, terreno->Superficie(0, 0), camara->posCam, 10.0f, 0, 'A', 1, camaraTipo, false);		
+		
 		garage->Draw(camara->vista, camara->proyeccion, terreno->Superficie(garage->getPosX(), garage->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		barn->Draw(camara->vista, camara->proyeccion, terreno->Superficie(barn->getPosX(), barn->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		
 		granero->Draw(camara->vista, camara->proyeccion, terreno->Superficie(granero->getPosX(), granero->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		gallina->Draw(camara->vista, camara->proyeccion, terreno->Superficie(gallina->getPosX(), gallina->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		TurnOnAlphaBlending();
 		caballo->Draw(camara->vista, camara->proyeccion, terreno->Superficie(caballo->getPosX(), caballo->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		TurnOffAlphaBlending();
 		heno->Draw(camara->vista, camara->proyeccion, terreno->Superficie(heno->getPosX(), heno->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		personaje->Draw(camara->vista, camara->proyeccion, terreno->Superficie(personaje->getPosX(), personaje->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		tronco->Draw(camara->vista, camara->proyeccion, terreno->Superficie(tronco->getPosX(), tronco->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		
-		//carrito->setPosX(camara->hdveo.x);
-		//carrito->setPosZ(camara->hdveo.z);
-		//carrito->Draw(camara->vista, camara->proyeccion, terreno->Superficie(carrito->getPosX(), carrito->getPosZ()), camara->posCam, 1.0f, rotCam + XM_PI, 'Y', 1, camaraTipo, true);
+		Character->Draw(camara, 'A', 0, 1.0f, 1.0f);
 		swapChain->Present( 1, 0 );
 	}
 
@@ -332,7 +372,6 @@ public:
 		return collition;
 	}
 
-	//Activa el alpha blend para dibujar con transparencias
 	void TurnOnAlphaBlending()
 	{
 		float blendFactor[4];
@@ -363,7 +402,6 @@ public:
 		d3dContext->OMSetBlendState(alphaBlendState, blendFactor, 0xffffffff);
 	}
 
-	//Regresa al blend normal(solido)
 	void TurnOffAlphaBlending()
 	{
 		D3D11_BLEND_DESC descCBSD;

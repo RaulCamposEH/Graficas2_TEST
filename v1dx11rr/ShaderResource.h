@@ -18,14 +18,36 @@ public:
 	ID3D11VertexShader* _VShader;
 	ID3D11PixelShader* _PShader;
 
+	ID3D11Device* _device;
+	ID3D11DeviceContext* _context;
+
 	ID3D11InputLayout* inputLayout;
-private:
-	
 	Shader_info _vsInfo;
 	Shader_info _psInfo;
 
-	ID3D11Device* _device;
-	ID3D11DeviceContext* _context;
+	ShaderClass(wchar_t* vspath, wchar_t* pspath, ID3D11Device* device, ID3D11DeviceContext* context) {
+		this->_device = device;
+		this->_context = context;
+		this->_vsInfo.path = vspath;
+		this->_vsInfo.entry = "VS_Main";
+		this->_vsInfo.version = "vs_4_0";
+
+		this->_psInfo.path = pspath;
+		this->_psInfo.entry = "PS_Main";
+		this->_psInfo.version = "ps_4_0";
+	}
+
+	ShaderClass(wchar_t* path, ID3D11Device* device, ID3D11DeviceContext* context) {
+		this->_device = device;
+		this->_context = context;
+		this->_vsInfo.path = path;
+		this->_vsInfo.entry = "VS_Main";
+		this->_vsInfo.version = "vs_4_0";
+
+		this->_psInfo.path = path;
+		this->_psInfo.entry = "PS_Main";
+		this->_psInfo.version = "ps_4_0";
+	}
 
 	bool CompileShader(Shader_info info, ID3DBlob** buffer) {
 		DWORD shaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -58,7 +80,10 @@ private:
 		//en caso de no poder cargarse ahi muere la cosa
 		if (compileResult == false) return false;
 		
-		result = _device->CreateVertexShader(vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize(), 0, &_VShader);
+		result = _device->CreateVertexShader(
+			vsBuffer->GetBufferPointer(), 
+			vsBuffer->GetBufferSize(), 
+			0, &_VShader);
 		//en caso de falla sale
 		if (FAILED(result))
 		{
@@ -78,11 +103,14 @@ private:
 
 		ID3DBlob* psBuffer = 0;
 
-		bool compileResult = CompileShader(_psInfo, &psBuffer);
+		compileResult = CompileShader(_psInfo, &psBuffer);
 		//en caso de no poder cargarse ahi muere la cosa
 		if (compileResult == false) return false;
 
-		result = _device->CreatePixelShader(psBuffer->GetBufferPointer(), psBuffer->GetBufferSize(), 0, &_PShader);
+		result = _device->CreatePixelShader(
+			psBuffer->GetBufferPointer(), 
+			psBuffer->GetBufferSize(), 
+			0, &_PShader);
 		//en caso de falla sale
 		if (FAILED(result))
 		{
@@ -92,7 +120,14 @@ private:
 		return true;
 	}
 
-	void draw() {
 
+	void Release() {
+		if (_VShader) _VShader->Release();
+		if (_PShader) _PShader->Release();
+		if (inputLayout) inputLayout->Release();
+
+		_VShader = 0;
+		_PShader = 0;
+		inputLayout = 0;
 	}
 };

@@ -73,23 +73,31 @@ private:
 	float posZ;
 
 public:
+
+	float* getSphere(float radio) {
+		float sphere[3];
+		sphere[0] = posX;
+		sphere[1] = posZ;
+		sphere[2] = radio;
+
+
+
+		return sphere;
+	}
+
 	ModeloRR(ID3D11Device* D3DDevice, ID3D11DeviceContext* D3DContext, char* ModelPath, WCHAR* colorTexturePath, WCHAR* specularTexturePath, float _posX, float _posZ)
 	{
-		//copiamos el device y el device context a la clase terreno
 		d3dContext = D3DContext;
 		d3dDevice = D3DDevice;	
 
 		posX = _posX;
 		posZ = _posZ;
 
-		//aqui cargamos las texturas de alturas y el cesped
-		CargaParametros(ModelPath, colorTexturePath, specularTexturePath);//L"Assets/Tent-Tower/tent_diffuse.jpg"
+		CargaParametros(ModelPath, colorTexturePath, specularTexturePath); //L"Assets/Tent-Tower/tent_diffuse.jpg"
 	}
 
 	~ModeloRR()
 	{
-		//libera recursos
-		
 		UnloadContent();
 	}
 
@@ -332,13 +340,11 @@ public:
 			projCB->Release();
 		if (worldCB)
 			worldCB->Release();
-
 		if (cameraPosCB)
 			cameraPosCB->Release();
 		if (specForceCB)
 			specForceCB->Release();
 		
-
 		colorMapSampler = 0;
 		colorMap = 0;
 		specMap = 0;
@@ -361,8 +367,8 @@ public:
 
 	void Draw(D3DXMATRIX vista, D3DXMATRIX proyeccion, float ypos, D3DXVECTOR3 posCam, float specForce, float rot, char angle, float scale, bool tipo, bool movcamara)
 	{
-		static float rotation = 0.0f;
-		rotation += 0.01;
+		//static float rotation = 0.0f;
+		//rotation += 0.01;
 
 		//paso de datos, es decir cuanto es el ancho de la estructura
 		unsigned int stride = sizeof(VertexObj);
@@ -390,13 +396,14 @@ public:
 
 		d3dContext->PSSetSamplers(0, 1, &colorMapSampler);
 
+		//camara tercera persona que no funciona
 		D3DXMATRIX translacionRotCam;
-		if (tipo) {
-			D3DXMatrixTranslation(&translacionRotCam, 0.0, 0.0, -6.4);
-		}
-		else {
-			D3DXMatrixTranslation(&translacionRotCam, 0.0, 0.0, 0.0	);
-		}
+		//if (tipo) {
+		//	D3DXMatrixTranslation(&translacionRotCam, 0.0, 0.0, -6.4);
+		//}
+		//else {
+		D3DXMatrixTranslation(&translacionRotCam, 0.0, 0.0, 0.0	);
+		//}
 
 		//mueve la camara
 		D3DXMATRIX rotationMat;
