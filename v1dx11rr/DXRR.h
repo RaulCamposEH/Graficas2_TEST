@@ -11,6 +11,8 @@
 #include "ModeloRR.h"
 #include "XACT3Util.h"
 #include "GameModel.h"
+#include "Player.h"
+#include "Gallina.h"
 
 class DXRR{	
 
@@ -44,6 +46,8 @@ public:
 
 	int frameBillboard;
 
+#pragma region Scene Stuff
+
 	TerrenoRR* terreno;
 	SkyDome* skydome;
 	BillboardRR* billboard;
@@ -59,8 +63,25 @@ public:
 	ModeloRR* personaje;
 	ModeloRR* tronco;
 	ModeloRR* garage;
-	
+
+	Player* Jugador;
+	Gallina* chickenOne;
+	Gallina* chickenTwo;
+	Gallina* chickenThree;
+	Item* item;
+
+	ResourceCollection CharacterTextures;
 	GameModel* Character;
+	ResourceCollection ChickenTextures;
+	GameModel* Chicken;
+	ResourceCollection FoodTextures;
+	GameModel* ChickenFood;	
+	ResourceCollection FoodBagTextures;
+	GameModel* FoodBag;
+
+	ColArray Colisiones;
+#pragma endregion
+
 
 	float izqder;
 	float arriaba;
@@ -75,7 +96,12 @@ public:
 	bool camaraTipo;
 	float rotCam;
 	
-	ResourceCollection PersonajeTextures;
+	void addTex(ResourceCollection& col, int number, const wchar_t* texture) {
+		col.emplace_back(number, texture);
+	}
+	void addColisionBox(ColArray& arr, fvec3 origin, fvec3 scale) {
+		arr.emplace_back(origin, scale);
+	}
 
     DXRR(HWND hWnd, int Ancho, int Alto)
 	{
@@ -94,18 +120,48 @@ public:
 		arriaba = 0;
 		billCargaFuego();
 
-		PersonajeTextures.reserve(2);
-		PersonajeTextures.emplace_back(0, L"Assets/personaje/personajeColor.png");
-		PersonajeTextures.emplace_back(1, L"Assets/personaje/personajeSpec.png");
-
 		auto eye = D3DXVECTOR3(0, 80, 6);
 		auto target = D3DXVECTOR3(0, 80, 0);
 		auto up = D3DXVECTOR3(0, 1, 0);
 		camara = new Camara(eye, target, up, Ancho, Alto);
 
+		CharacterTextures.reserve(2);
+		addTex(CharacterTextures, 0, L"Assets/personaje/personajeColor.png");
+		addTex(CharacterTextures, 1, L"Assets/personaje/personajeSpec.png");
+
+		Character = new GameModel(d3dDevice, d3dContext, "Assets/personaje/personaje.obj", D3DXVECTOR3(60, 0, 30), CharacterTextures);
+		Jugador = new Player(Character, camara, fvec3(2.0f, 10.0f, 2.0f));
+
+		ChickenTextures.reserve(2);
+		addTex(ChickenTextures, 0, L"Assets/gallina/gallina.png");
+		addTex(ChickenTextures, 1, L"Assets/noSpecMap.jpg");
+
+		Chicken = new GameModel(d3dDevice, d3dContext, "Assets/gallina/gallina.obj", D3DXVECTOR3(0, 0, 0), ChickenTextures);
+		chickenOne   = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
+		chickenTwo   = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
+		chickenThree = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
+		
+		chickenOne->SetPos(fvec3(10.0f, 0.0f, 80.0f));
+		chickenTwo->SetPos(fvec3(40.0f, 0.0f, 80.0f));
+		chickenThree->SetPos(fvec3(80.0f, 0.0f, 80.0f));
+
+		FoodTextures.reserve(2);
+		addTex(FoodTextures, 0, L"Assets/Semillas/SemillasColor.png");
+		addTex(FoodTextures, 1, L"Assets/noSpecMap.jpg");
+
+		ChickenFood = new GameModel(d3dDevice, d3dContext, "Assets/comida/comida.obj", D3DXVECTOR3(0, 0, 0), FoodTextures);
+
+		FoodBagTextures.reserve(2);
+		addTex(FoodBagTextures, 0, L"Assets/Bolsa/BolsaColor.png");
+		addTex(FoodTextures, 1, L"Assets/noSpecMap.jpg");
+
+		FoodBag = new GameModel(d3dDevice, d3dContext, "Assets/Bolsa/Bolsa.obj", D3DXVECTOR3(0, 0, 0), FoodBagTextures);
+
+		item = new Item(ChickenFood, 20.0f);
+		item->SetPos(fvec3(80, 0, 0));
+
 		terreno = new TerrenoRR(1200, 1200, d3dDevice, d3dContext);
 		skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD1.png");
-		Character = new GameModel(d3dDevice, d3dContext, "Assets/personaje/personaje.obj", D3DXVECTOR3(60, 0, 30), PersonajeTextures);
 
 		billboard = new BillboardRR(L"Assets/Billboards/fuego-anim.png",L"Assets/Billboards/fuego-anim-normal.png", d3dDevice, d3dContext, 5);
 		model = new ModeloRR(d3dDevice, d3dContext, "Assets/Cofre/Cofre.obj", L"Assets/Cofre/Cofre-color.png", L"Assets/Cofre/Cofre-spec.png", 0, 0);
@@ -119,7 +175,7 @@ public:
 
 		tronco = new ModeloRR(d3dDevice, d3dContext, "Assets/tronco/tronco.obj", L"Assets/tronco/troncoColor.jpg", L"Assets/tronco/TroncoSpec.jpg", 50, 10);
 
-		prueba = Character->getX();
+		//prueba = Character->getX();
 		camaraTipo = true;
 		rotCam = 0.0f;
 	}
@@ -300,44 +356,61 @@ public:
 		delete garage;
 		delete Character;
 
+		CharacterTextures.clear();
+		ChickenTextures.clear();
+
 	}
 	
 	void Update(void) {
-		if (prueba < 2.f)
-			prueba += 0.1f;
-		else
-			prueba -= 0.1;
+		if (d3dContext == 0)
+			return;
 
-		//prueba = prueba < 0.0f ? prueba + 0.01f : 0.0f;
-		//Character->setPos(D3DXVECTOR3(Character->getX() + prueba, terreno->Superficie(Character->getX() + prueba, Character->getZ()), Character->getZ()));
-		float x = Character->getX() + prueba;
-		float z = Character->getZ();
-		float y = terreno->Superficie(x, z);
-		Character->setPos(D3DXVECTOR3(x, y, z));
-	}
-
-	void Render(void)
-	{
 		rotCam += izqder;
-		float sphere[3] = { 0,0,0 };
+		/*float sphere[3] = { 0,0,0 };
 		float prevPos[3] = { camara->posCam.x, camara->posCam.z, camara->posCam.z };
 		static float angle = 0.0f;
 		angle += 0.005;
-		if (angle >= 360) angle = 0.0f;
-		bool collide = false;
-		if( d3dContext == 0 )
-			return;
+		if (angle >= 360) angle = 0.0f;*/
+		//bool collide = false;
 
 		float clearColor[4] = { 0, 0, 0, 1.0f };
-		d3dContext->ClearRenderTargetView( backBufferTarget, clearColor );
-		d3dContext->ClearDepthStencilView( depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
+		d3dContext->ClearRenderTargetView(backBufferTarget, clearColor);
+		d3dContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
-		camara->posCam.y = terreno->Superficie(camara->posCam.x, camara->posCam.z) + 10 ;
+		camara->posCam.y = terreno->Superficie(camara->posCam.x, camara->posCam.z) + 17;
 		camara->posCam3P.y = terreno->Superficie(camara->posCam3P.x, camara->posCam3P.z) + 17;
 		camara->UpdateCam(vel, arriaba, izqder);
 		skydome->Update(camara->vista, camara->proyeccion);
 
 		float camPosXZ[2] = { camara->posCam.x, camara->posCam.z };
+		//Character->setPos(D3DXVECTOR3(Character->getX() + prueba, terreno->Superficie(Character->getX() + prueba, Character->getZ()), Character->getZ()));
+		float x = camara->posCam.x;
+		float z = camara->posCam.z;
+		float y = camara->posCam.y;
+
+		item->SetAltura(terreno->Superficie(item->getX(), item->getZ()));
+		fvec3 pos = fvec3(x, y, z);
+		Jugador->Update(pos, Colisiones);
+		Jugador->obtenerItem(item);
+		Jugador->SetAltura(terreno->Superficie(pos.x, pos.z));
+
+		//a partir de aqui la variable "pos" se manda por referencia y obtiene las posiciones de las gallinas para poder actualizar su altura posteriormente
+		chickenOne->Update(Jugador, pos);
+		chickenOne->SetAltura(terreno->Superficie(pos.x, pos.z));
+
+		chickenTwo->Update(Jugador, pos);
+		chickenTwo->SetAltura(terreno->Superficie(pos.x, pos.z));
+
+		chickenThree->Update(Jugador, pos);
+		chickenThree->SetAltura(terreno->Superficie(pos.x, pos.z));
+
+		item->Update();
+	}
+
+	void Render(void)
+	{
+		if (d3dContext == 0)
+			return;
 
 		TurnOffDepth();
 		skydome->Render(camara->posCam);
@@ -352,14 +425,41 @@ public:
 		garage->Draw(camara->vista, camara->proyeccion, terreno->Superficie(garage->getPosX(), garage->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		barn->Draw(camara->vista, camara->proyeccion, terreno->Superficie(barn->getPosX(), barn->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		granero->Draw(camara->vista, camara->proyeccion, terreno->Superficie(granero->getPosX(), granero->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		gallina->Draw(camara->vista, camara->proyeccion, terreno->Superficie(gallina->getPosX(), gallina->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
+		//gallina->Draw(camara->vista, camara->proyeccion, terreno->Superficie(gallina->getPosX(), gallina->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		caballo->Draw(camara->vista, camara->proyeccion, terreno->Superficie(caballo->getPosX(), caballo->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		heno->Draw(camara->vista, camara->proyeccion, terreno->Superficie(heno->getPosX(), heno->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		tronco->Draw(camara->vista, camara->proyeccion, terreno->Superficie(tronco->getPosX(), tronco->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
+
+		/*float angulo1 = 0;
+		float angulo2 = 0;
+		float angulo3 = 0;*/
+
+		//giroGallina(angulo1, camara->posCam.z, camara->posCam.x, chickenOne->GetPos().z, chickenOne->GetPos().x);
+		//giroGallina(angulo2, camara->posCam.z, camara->posCam.x, chickenTwo->GetPos().z, chickenTwo->GetPos().x);
+		//giroGallina(angulo3, camara->posCam.z, camara->posCam.x, chickenThree->GetPos().z, chickenThree->GetPos().x);
+
+		//if (camara->posCam.z < chickenOne->GetPos().z) {           // GIRO DEL PRIMER ZOMBIE
+		//	float auxX = chickenOne->GetPos().x - camara->posCam.x;
+		//	float auxz = chickenOne->GetPos().z - camara->posCam.z;
+		//	angulo1 = atan(auxX / auxz) - 3.14159f;
+		//}
+		//if (camara->posCam.z >= chickenOne->GetPos().z) {
+		//	float auxX = camara->posCam.x - chickenOne->GetPos().x;
+		//	float auxz = camara->posCam.z - chickenOne->GetPos().z;
+		//	angulo1 = atan(auxX / auxz);
+		//}
+
+		Jugador->Draw(camara, 'A', 0, 1.0f, 1.0f);
 		
-		Character->Draw(camara, 'A', 0, 1.0f, 1.0f);
+		chickenOne->Draw(camara, 1.0f, 1.0f);
+		chickenTwo->Draw(camara,  1.0f, 1.0f);
+		chickenThree->Draw(camara, 1.0f, 1.0f);
+
+		item->Draw(camara, 1.0f, 1.0f);
+
 		swapChain->Present( 1, 0 );
 	}
+
 
 	bool isPointInsideSphere(float* point, float* sphere) {
 		bool collition = false;

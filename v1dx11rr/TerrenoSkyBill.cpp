@@ -26,23 +26,16 @@ LPDIRECTINPUTDEVICE8 m_pMouseDevice = NULL;
 
 void createMouseDevice(HWND hWnd) {
     m_pDirectInput->CreateDevice(GUID_SysMouse, &m_pMouseDevice, 0);
-
     m_pMouseDevice->SetDataFormat(&c_dfDIMouse);
-
     m_pMouseDevice->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-
     m_pMouseDevice->Acquire();
 }
 
 void createKeyboardDevice(HWND hWnd) {
     m_pDirectInput->CreateDevice(GUID_SysKeyboard, &m_pKeyboardDevice, 0);
-
     m_pKeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
-
     m_pKeyboardDevice->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-
     m_pKeyboardDevice->Acquire();
-
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -60,7 +53,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.lpszClassName = L"DXRR_E1";
     wc.cbSize = sizeof(WNDCLASSEX);
-
 
     RegisterClassEx(&wc);
 

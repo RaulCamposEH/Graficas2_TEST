@@ -80,8 +80,6 @@ public:
 		sphere[1] = posZ;
 		sphere[2] = radio;
 
-
-
 		return sphere;
 	}
 

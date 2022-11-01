@@ -1,5 +1,6 @@
 #pragma once
 #include <d3dx10math.h>
+#include <vector>
 typedef D3DXVECTOR3 fvec3;
 
 class ColBox {
@@ -44,13 +45,17 @@ public:
 		return colX && colY && colZ;
 	}
 
-	bool CheckSphereColission(fvec3 _pos, float _radio) {
-				
+	bool CheckSphereColission(fvec3 _pos, float radio) {
+		float Distance = sqrt( ((mOrigen.x - _pos.x) * (mOrigen.x - _pos.x)) + ((mOrigen.z - _pos.z) * (mOrigen.z - _pos.z)) );
+		bool Colission = Distance < radio;
+		return Colission;
 	}
 
-	void reposBox(ColBox* Caja, fvec3& Camera_pos, fvec3& scale) {
-		ColBox Cajanueva(Camera_pos, scale);
-		Caja->mOrigen = Cajanueva.mOrigen;
-		Caja->mEscala = Cajanueva.mEscala;
+	ColBox* reposBox(fvec3& _pos, fvec3& scale) {
+		return new ColBox(_pos, scale);
 	}
 };
+
+
+typedef std::vector<ColBox> ColArray;
+typedef std::vector<ColBox*> pColArray;

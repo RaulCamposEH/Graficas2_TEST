@@ -109,12 +109,12 @@ public:
 		posCam3P += refFront * vel/10.0;
 
 		//primera persona
-		//hdveo = posCam + refFront;
-		//D3DXMatrixLookAtLH(&vistaPrev, &posCam, &hdveo, &refUp);
+		hdveo = posCam + refFront;
+		D3DXMatrixLookAtLH(&vistaPrev, &posCam, &hdveo, &refUp);
 
 		//tercera persona
-		hdveo = posCam3P + refFront;
-		D3DXMatrixLookAtLH(&vistaPrev, &posCam3P, &hdveo, &refUp);
+		/*hdveo = posCam3P + refFront;
+		D3DXMatrixLookAtLH(&vistaPrev, &posCam3P, &hdveo, &refUp);*/
 
 		D3DXMatrixMultiply(&vista, &vista, &vistaPrev);
 

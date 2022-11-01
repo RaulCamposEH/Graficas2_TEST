@@ -192,6 +192,11 @@ public:
 		specForceCB = 0;
 	}
 
+	void setAltura(float altura)
+	{
+		mPosicion.y = altura;
+	}
+
 private:
 
 	bool LoadModel() {

@@ -46,7 +46,6 @@ struct PS_Input
 
 PS_Input VS_Main(VS_Input vertex)
 {
-	
 	float4 worldPosition;
 
 		PS_Input vsOut = (PS_Input)0;

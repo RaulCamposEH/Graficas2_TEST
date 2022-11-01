@@ -2,6 +2,7 @@
 
 #include "GameModel.h"
 #include "ColBox.h"
+#include "Item.h"
 
 class Player {
 public:
@@ -10,28 +11,75 @@ public:
 	ColBox* CajaDeColision;
 	//Colision del jugador
 
-	bool comida;
+	fvec3 scale;
 	bool itemOnHand;
+	bool itemOnInventory;
+	bool FPC = true;
 
 	Player(GameModel* Model, Camara* Camara, fvec3 ColSize) {
 		mPlayerModel = Model;
 		mCamera = Camara;
-		comida = false;
 		itemOnHand = false;
+		itemOnInventory = false;
 		fvec3 playerpos = mPlayerModel->getPos();
 		playerpos.y += (ColSize.y / 2);
+		scale = ColSize;
 		CajaDeColision = new ColBox(playerpos, ColSize);
 	}
 
 	//cambiar entre primera y tercera persona
-	void toggleView() {}
+	void toggleView() {
+		FPC = !FPC;
+	}
 
 	//en base a una colision obtener el item del juego
-	void obtenerItem() {}
+	void obtenerItem(Item* item) {
+		if (CajaDeColision->CheckSphereColission(GetPos(), item->GetColitionRadio())) {
+			item->TakeItem();
+			itemOnHand = item->getItemState();
+			itemOnInventory = item->getItemState();
+		}
+	}
 
 	//poner item en la mano del jugador o quitarlo
-	void toggleItem() {}
+	void toggleItem() {
+		if (itemOnInventory) {
+			itemOnHand = !itemOnHand;
+		}
+	}
 
-	void Draw() {}
+	void Draw(Camara* camara, char angle, float rot, float scale, float specForce) {
+		if (!FPC)
+			mPlayerModel->Draw(camara, angle, rot, scale, specForce);
+	}
 
+	//ejecutar antes de hacer un draw en render
+	void Update(fvec3 newpos, const ColArray ColeccionColisiones) {
+		//Mover el personaje
+		fvec3 posAnterior = GetPos();
+		//ColBox CajaAnterior = *CajaDeColision;
+		SetPos(newpos);
+		
+		for (auto Colision : ColeccionColisiones)
+		{
+			if (CajaDeColision->CheckColission(Colision)) 
+			{
+				SetPos(posAnterior);
+			}
+		}
+	}
+
+	fvec3 GetPos()
+	{
+		return mPlayerModel->getPos();
+	}
+
+	void SetPos(fvec3 value) {
+		mPlayerModel->setPos(value);
+		CajaDeColision->reposBox(value, scale);
+	}
+
+	void SetAltura(float altura) {
+		this->mPlayerModel->setAltura(altura);
+	}
 };
