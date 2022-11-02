@@ -13,6 +13,10 @@
 #include "GameModel.h"
 #include "Player.h"
 #include "Gallina.h"
+#include "GUI.h"
+#include "ImGui/imgui.h"
+#include "ImGui/imgui_impl_win32.h"
+#include "ImGui/imgui_impl_dx11.h"
 
 class DXRR{	
 
@@ -56,11 +60,8 @@ public:
 	ModeloRR* model;
 	ModeloRR* carrito;
 	ModeloRR* barn;
-	ModeloRR* gallina;
-	ModeloRR* caballo;
-	ModeloRR* granero;
+	//ModeloRR* caballo;
 	ModeloRR* heno;
-	ModeloRR* personaje;
 	ModeloRR* tronco;
 	ModeloRR* garage;
 
@@ -78,10 +79,15 @@ public:
 	GameModel* ChickenFood;	
 	ResourceCollection FoodBagTextures;
 	GameModel* FoodBag;
+	ResourceCollection GraneroTextures;
+	GameModel* Granero;
+	ResourceCollection TrampaTextures;
+	GameModel* Trampa[2];
 
 	ColArray Colisiones;
 #pragma endregion
 
+	GUI* vida;
 
 	float izqder;
 	float arriaba;
@@ -95,13 +101,14 @@ public:
 
 	bool camaraTipo;
 	float rotCam;
-	
+	float posicionGranero[2] = { 40.0f, 20.0f};
 	void addTex(ResourceCollection& col, int number, const wchar_t* texture) {
 		col.emplace_back(number, texture);
 	}
 	void addColisionBox(ColArray& arr, fvec3 origin, fvec3 scale) {
 		arr.emplace_back(origin, scale);
 	}
+
 
     DXRR(HWND hWnd, int Ancho, int Alto)
 	{
@@ -125,59 +132,76 @@ public:
 		auto up = D3DXVECTOR3(0, 1, 0);
 		camara = new Camara(eye, target, up, Ancho, Alto);
 
+#pragma region Modelos Inicializados
+
 		CharacterTextures.reserve(2);
 		addTex(CharacterTextures, 0, L"Assets/personaje/personajeColor.png");
 		addTex(CharacterTextures, 1, L"Assets/personaje/personajeSpec.png");
 
-		Character = new GameModel(d3dDevice, d3dContext, "Assets/personaje/personaje.obj", D3DXVECTOR3(60, 0, 30), CharacterTextures);
-		Jugador = new Player(Character, camara, fvec3(2.0f, 10.0f, 2.0f));
+		Character = new GameModel(d3dDevice, d3dContext, "Assets/personaje/personaje.obj", fvec3(60, 0, 30), CharacterTextures);
 
 		ChickenTextures.reserve(2);
 		addTex(ChickenTextures, 0, L"Assets/gallina/gallina.png");
 		addTex(ChickenTextures, 1, L"Assets/noSpecMap.jpg");
 
-		Chicken = new GameModel(d3dDevice, d3dContext, "Assets/gallina/gallina.obj", D3DXVECTOR3(0, 0, 0), ChickenTextures);
-		chickenOne   = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
-		chickenTwo   = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
-		chickenThree = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
-		
-		chickenOne->SetPos(fvec3(10.0f, 0.0f, 80.0f));
-		chickenTwo->SetPos(fvec3(40.0f, 0.0f, 80.0f));
-		chickenThree->SetPos(fvec3(80.0f, 0.0f, 80.0f));
+		Chicken = new GameModel(d3dDevice, d3dContext, "Assets/gallina/gallina.obj", fvec3(0, 0, 0), ChickenTextures);
 
 		FoodTextures.reserve(2);
 		addTex(FoodTextures, 0, L"Assets/Semillas/SemillasColor.png");
 		addTex(FoodTextures, 1, L"Assets/noSpecMap.jpg");
 
-		ChickenFood = new GameModel(d3dDevice, d3dContext, "Assets/comida/comida.obj", D3DXVECTOR3(0, 0, 0), FoodTextures);
+		ChickenFood = new GameModel(d3dDevice, d3dContext, "Assets/Semillas/Semillas.obj", fvec3(0, 0, 0), FoodTextures);
 
 		FoodBagTextures.reserve(2);
 		addTex(FoodBagTextures, 0, L"Assets/Bolsa/BolsaColor.png");
-		addTex(FoodTextures, 1, L"Assets/noSpecMap.jpg");
+		addTex(FoodBagTextures, 1, L"Assets/noSpecMap.jpg");
 
-		FoodBag = new GameModel(d3dDevice, d3dContext, "Assets/Bolsa/Bolsa.obj", D3DXVECTOR3(0, 0, 0), FoodBagTextures);
+		FoodBag = new GameModel(d3dDevice, d3dContext, "Assets/Bolsa/Bolsa.obj", fvec3(0, 0, 0), FoodBagTextures);
 
-		item = new Item(ChickenFood, 20.0f);
-		item->SetPos(fvec3(80, 0, 0));
+		GraneroTextures.reserve(2);
+		addTex(GraneroTextures, 0, L"Assets/granero/graneroColor.png");
+		addTex(GraneroTextures, 1, L"Assets/noSpecMap.jpg");
+
+		Granero = new GameModel(d3dDevice, d3dContext, "Assets/granero/granero.obj", fvec3(40, 0, 20), GraneroTextures);
+
+		TrampaTextures.reserve(2);
+		addTex(TrampaTextures, 0, L"Assets/noSpecMap.jpg");
+		addTex(TrampaTextures, 1, L"Assets/noSpecMap.jpg");
+
+		Trampa[0] = new GameModel(d3dDevice, d3dContext, "Assets/Trampa/TrampaAbierta.obj", fvec3(0,0,0), TrampaTextures);
+		Trampa[1] = new GameModel(d3dDevice, d3dContext, "Assets/Trampa/TrampaCerrada.obj", fvec3(0,0,0), TrampaTextures);
+
+#pragma endregion
+
+		Jugador = new Player(Character, camara, fvec3(2.0f, 10.0f, 2.0f));
+
+		chickenOne = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
+		chickenTwo = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
+		chickenThree = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
+
+		chickenOne->SetPos(fvec3(10.0f, 0.0f, 80.0f));
+		chickenTwo->SetPos(fvec3(40.0f, 0.0f, 80.0f));
+		chickenThree->SetPos(fvec3(80.0f, 0.0f, 80.0f));
+
+
+		item = new Item(ChickenFood, 5.0f);
+		item->SetPos(fvec3(180.0f, 0, 80.0f));
 
 		terreno = new TerrenoRR(1200, 1200, d3dDevice, d3dContext);
 		skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD1.png");
 
 		billboard = new BillboardRR(L"Assets/Billboards/fuego-anim.png",L"Assets/Billboards/fuego-anim-normal.png", d3dDevice, d3dContext, 5);
-		model = new ModeloRR(d3dDevice, d3dContext, "Assets/Cofre/Cofre.obj", L"Assets/Cofre/Cofre-color.png", L"Assets/Cofre/Cofre-spec.png", 0, 0);
 		barn = new ModeloRR(d3dDevice, d3dContext, "Assets/barn/barn.obj", L"Assets/barn/barnColor.png", L"Assets/noSpecMap.jpg", -40, 0);
 		garage = new ModeloRR(d3dDevice, d3dContext, "Assets/garage/garage.obj", L"Assets/garage/garageColor.jpg", L"Assets/noSpecMap.jpg", 40, 20);
-		granero = new ModeloRR(d3dDevice, d3dContext, "Assets/granero/granero.obj", L"Assets/granero/graneroColor.png", L"Assets/noSpecMap.jpg", 40, 0);
 		carrito = new ModeloRR(d3dDevice, d3dContext, "Assets/Cheep.obj", L"Assets/Cheep.jpg", L"Assets/imagen1.jpg", 0, 0);
-		gallina = new ModeloRR(d3dDevice, d3dContext, "Assets/gallina/gallina.obj", L"Assets/gallina/gallina.png", L"Assets/noSpecMap.jpg", 10, 0);
-		caballo = new ModeloRR(d3dDevice, d3dContext, "Assets/camioneta/camioneta.obj", L"Assets/camioneta/camionetaColor.jpg", L"Assets/camioneta/camionetaSpec.jpg", 20, 0);
+		//caballo = new ModeloRR(d3dDevice, d3dContext, "Assets/camioneta/camioneta.obj", L"Assets/camioneta/camionetaColor.jpg", L"Assets/camioneta/camionetaSpec.jpg", 20, 0);
 		heno = new ModeloRR(d3dDevice, d3dContext, "Assets/heno/heno.obj", L"Assets/heno/henoColor.png", L"Assets/noSpecMap.jpg", 60, 0);
-
 		tronco = new ModeloRR(d3dDevice, d3dContext, "Assets/tronco/tronco.obj", L"Assets/tronco/troncoColor.jpg", L"Assets/tronco/TroncoSpec.jpg", 50, 10);
 
-		//prueba = Character->getX();
 		camaraTipo = true;
 		rotCam = 0.0f;
+
+		vida = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"health_full.png");
 	}
 
 	~DXRR()
@@ -313,6 +337,7 @@ public:
 		}
 
 		d3dContext->OMSetRenderTargets(1, &backBufferTarget, depthStencilView);
+		initIMGUI(hWnd);
 
 		return true;			
 		
@@ -347,11 +372,11 @@ public:
 		delete model;
 		delete carrito;
 		delete barn;
-		delete gallina;
-		delete caballo;
-		delete granero;
+		//delete gallina;
+		//delete caballo;
+		//delete granero;
 		delete heno;
-		delete personaje;
+		//delete personaje;
 		delete tronco;
 		delete garage;
 		delete Character;
@@ -366,12 +391,8 @@ public:
 			return;
 
 		rotCam += izqder;
-		/*float sphere[3] = { 0,0,0 };
-		float prevPos[3] = { camara->posCam.x, camara->posCam.z, camara->posCam.z };
-		static float angle = 0.0f;
-		angle += 0.005;
-		if (angle >= 360) angle = 0.0f;*/
-		//bool collide = false;
+		
+		//posCh = fvec3(posChx, terreno->Superficie(posChx, posChz), posChz);
 
 		float clearColor[4] = { 0, 0, 0, 1.0f };
 		d3dContext->ClearRenderTargetView(backBufferTarget, clearColor);
@@ -386,13 +407,13 @@ public:
 		//Character->setPos(D3DXVECTOR3(Character->getX() + prueba, terreno->Superficie(Character->getX() + prueba, Character->getZ()), Character->getZ()));
 		float x = camara->posCam.x;
 		float z = camara->posCam.z;
-		float y = camara->posCam.y;
+		float y = terreno->Superficie(x, z);
 
 		item->SetAltura(terreno->Superficie(item->getX(), item->getZ()));
 		fvec3 pos = fvec3(x, y, z);
 		Jugador->Update(pos, Colisiones);
 		Jugador->obtenerItem(item);
-		Jugador->SetAltura(terreno->Superficie(pos.x, pos.z));
+		//Jugador->SetAltura(terreno->Superficie(pos.x, pos.z));
 
 		//a partir de aqui la variable "pos" se manda por referencia y obtiene las posiciones de las gallinas para poder actualizar su altura posteriormente
 		chickenOne->Update(Jugador, pos);
@@ -403,6 +424,8 @@ public:
 
 		chickenThree->Update(Jugador, pos);
 		chickenThree->SetAltura(terreno->Superficie(pos.x, pos.z));
+
+		Granero->setPos(fvec3(posicionGranero[0], terreno->Superficie(posicionGranero[0], posicionGranero[1]), posicionGranero[1]));
 
 		item->Update();
 	}
@@ -420,46 +443,37 @@ public:
 		//billboard->Draw(camara->vista, camara->proyeccion, camara->posCam,
 			//-11, -78, 4, 5, uv1, uv2, uv3, uv4, frameBillboard);
 		//TurnOffAlphaBlending();
-		//model->Draw(camara->vista, camara->proyeccion, terreno->Superficie(0, 0), camara->posCam, 10.0f, 0, 'A', 1, camaraTipo, false);		
-		
 		garage->Draw(camara->vista, camara->proyeccion, terreno->Superficie(garage->getPosX(), garage->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		barn->Draw(camara->vista, camara->proyeccion, terreno->Superficie(barn->getPosX(), barn->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		granero->Draw(camara->vista, camara->proyeccion, terreno->Superficie(granero->getPosX(), granero->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		//gallina->Draw(camara->vista, camara->proyeccion, terreno->Superficie(gallina->getPosX(), gallina->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
-		caballo->Draw(camara->vista, camara->proyeccion, terreno->Superficie(caballo->getPosX(), caballo->getPosX()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		heno->Draw(camara->vista, camara->proyeccion, terreno->Superficie(heno->getPosX(), heno->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 		tronco->Draw(camara->vista, camara->proyeccion, terreno->Superficie(tronco->getPosX(), tronco->getPosZ()), camara->posCam, 1.0f, 0, 'A', 1, camaraTipo, false);
 
-		/*float angulo1 = 0;
-		float angulo2 = 0;
-		float angulo3 = 0;*/
-
-		//giroGallina(angulo1, camara->posCam.z, camara->posCam.x, chickenOne->GetPos().z, chickenOne->GetPos().x);
-		//giroGallina(angulo2, camara->posCam.z, camara->posCam.x, chickenTwo->GetPos().z, chickenTwo->GetPos().x);
-		//giroGallina(angulo3, camara->posCam.z, camara->posCam.x, chickenThree->GetPos().z, chickenThree->GetPos().x);
-
-		//if (camara->posCam.z < chickenOne->GetPos().z) {           // GIRO DEL PRIMER ZOMBIE
-		//	float auxX = chickenOne->GetPos().x - camara->posCam.x;
-		//	float auxz = chickenOne->GetPos().z - camara->posCam.z;
-		//	angulo1 = atan(auxX / auxz) - 3.14159f;
-		//}
-		//if (camara->posCam.z >= chickenOne->GetPos().z) {
-		//	float auxX = camara->posCam.x - chickenOne->GetPos().x;
-		//	float auxz = camara->posCam.z - chickenOne->GetPos().z;
-		//	angulo1 = atan(auxX / auxz);
-		//}
-
+		Granero->Draw(camara, 'A', 0, 1.0f, 1.0f);
 		Jugador->Draw(camara, 'A', 0, 1.0f, 1.0f);
-		
 		chickenOne->Draw(camara, 1.0f, 1.0f);
 		chickenTwo->Draw(camara,  1.0f, 1.0f);
 		chickenThree->Draw(camara, 1.0f, 1.0f);
-
 		item->Draw(camara, 1.0f, 1.0f);
+
+#pragma region UI
+		vida->Draw(0.75, -0.75);
+
+#pragma endregion
+
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+		ImGui::NewFrame();
+
+		ImGui::Begin("Hola Mundo!");
+		ImGui::Text("Hola Mundo!!!!");
+		ImGui::DragFloat2("Translation X / Z", posicionGranero, 5.0f, -500.0f, 500.0f);
+		ImGui::End();
+
+		ImGui::Render();
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 		swapChain->Present( 1, 0 );
 	}
-
 
 	bool isPointInsideSphere(float* point, float* sphere) {
 		bool collition = false;
@@ -634,5 +648,14 @@ public:
 		}
 	}
 
+private:
+	void initIMGUI(HWND hwnd) {
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO();
+		ImGui_ImplWin32_Init(hwnd);
+		ImGui_ImplDX11_Init(d3dDevice, d3dContext);
+		ImGui::StyleColorsDark();
+	}
 };
 #endif

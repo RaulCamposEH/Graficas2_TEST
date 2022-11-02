@@ -70,11 +70,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Set the position of the window to the top left corner.
     posX = posY = 0;
 
-    //RECT wr = {0, 0, SCREEN_X, SCREEN_Y};
-    //AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+    RECT wr = {0, 0, SCREEN_X, SCREEN_Y};
+    AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
     hWnd = CreateWindowEx(
-        WS_EX_APPWINDOW, L"DXRR_E1", L"PLANTILLA PROYECTO", 
-        WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP, 
+        WS_EX_APPWINDOW, 
+        L"DXRR_E1", 
+        L"PLANTILLA PROYECTO", 
+        WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
         posX, posY, SCREEN_X, SCREEN_Y,
         NULL, NULL, hInstance, NULL);
 
@@ -127,8 +129,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return msg.wParam;
 }
 
+extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+        //return true;
+
     float xPos = 0;
     float yPos = 0;
 
@@ -178,6 +184,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 return 0;
             }
 
+            if (keyboardData[DIK_UP] & 0x80) {
+                dxrr->posicionGranero[0] += 5.0f;
+            }
+
+            if (keyboardData[DIK_DOWN] & 0x80) {
+                dxrr->posicionGranero[0] -= 5.0f;
+            }
+
             DIMOUSESTATE mouseData;
             m_pMouseDevice->GetDeviceState(sizeof(mouseData), (void*)&mouseData);
 
@@ -194,7 +208,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
                 grados = (float)gamePad->GetState().Gamepad.sThumbRY / 32767.0;
 
-                if (grados > 0.19 || grados < -0.19)dxrr->arriaba = grados / 15;
+                if (grados > 0.19 || grados < -0.19) dxrr->arriaba = grados / 15;
 
 
                 float velocidad = (float)gamePad->GetState().Gamepad.sThumbLY / 32767.0;
