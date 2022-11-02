@@ -16,6 +16,12 @@
     <Filter Include="Archivos de código fuente\Shaders">
       <UniqueIdentifier>{3e1eec91-42f4-42d4-b17e-94368fa6cc59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\ImGui">
+      <UniqueIdentifier>{0c691c42-c68c-45fc-a202-b576056a7b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\ImGui">
+      <UniqueIdentifier>{49b23374-546c-4879-9502-a5b9352096aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXRR.h">
@@ -63,6 +69,33 @@
     <ClInclude Include="ColBox.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TerrenoSkyBill.cpp">
@@ -76,6 +109,24 @@
     </ClCompile>
     <ClCompile Include="GameResource.cpp">
       <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="SkyDome.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
+    <Text Include="GUI.fx">
       <Filter>Archivos de código fuente\Shaders</Filter>
     </Text>
   </ItemGroup>
