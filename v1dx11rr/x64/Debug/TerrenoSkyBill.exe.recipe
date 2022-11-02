@@ -2,15 +2,15 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\Raul\source\repos\Graficas2_TEST\x64\Debug\TerrenoSkyBill.exe</FullPath>
+      <FullPath>A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\x64\Debug\TerrenoSkyBill.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\Raul\source\repos\Graficas2_TEST\x64\Debug\Billboard.cso</FullPath>
+      <FullPath>A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\x64\Debug\Billboard.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\Raul\source\repos\Graficas2_TEST\x64\Debug\Modelo.cso</FullPath>
+      <FullPath>A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\x64\Debug\Modelo.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

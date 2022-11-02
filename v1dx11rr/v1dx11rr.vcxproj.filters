@@ -22,6 +22,12 @@
     <Filter Include="Archivos de código fuente\ImGui">
       <UniqueIdentifier>{49b23374-546c-4879-9502-a5b9352096aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\MisClases">
+      <UniqueIdentifier>{0490ed8f-4d46-44f3-a430-12fb84598190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Genericas">
+      <UniqueIdentifier>{70108156-ddab-4f4a-b9a6-c1dcc0c271b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DXRR.h">
@@ -30,46 +36,10 @@
     <ClInclude Include="TerrenoRR.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="GamePadRR.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="Camara.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="SkyDome.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Billboard.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ModeloRR.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="loadModel.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="XACT3Util.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="GameResource.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderResource.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="GameModel.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Gallina.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="ColBox.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="ImGui\imconfig.h">
@@ -95,6 +65,42 @@
     </ClInclude>
     <ClInclude Include="ImGui\imgui_impl_win32.h">
       <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gallina.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModel.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderResource.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="GameResource.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="ColBox.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="Billboard.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePadRR.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="ModeloRR.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="loadModel.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="XACT3Util.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
