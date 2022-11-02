@@ -78,7 +78,7 @@ public:
 
 
 	void giroGallina(float& angulo, float jugadorZ, float jugadorX, float gallinaZ, float gallinaX) {
-		if (jugadorZ < gallinaZ) {           // GIRO DEL PRIMER ZOMBIE
+		if (jugadorZ < gallinaZ) {
 			float auxX = gallinaX - jugadorX;
 
 			float auxz = gallinaZ - jugadorZ;
