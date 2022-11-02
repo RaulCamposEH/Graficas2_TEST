@@ -51,7 +51,7 @@ public:
 		//crea la matriz de vista
 		D3DXMatrixLookAtLH(&vista, &posCam, &hdveo, &refUp);
 		//la de proyeccion
-		D3DXMatrixPerspectiveFovLH( &proyeccion, D3DX_PI/4.0, ancho / alto, 0.01f, 1000.0f );
+		D3DXMatrixPerspectiveFovLH( &proyeccion, D3DX_PI/3, ancho / alto, 0.01f, 1000.0f );
 		//las transpone para acelerar la multiplicacion
 		D3DXMatrixTranspose( &vista, &vista );
 		D3DXMatrixTranspose( &proyeccion, &proyeccion );
