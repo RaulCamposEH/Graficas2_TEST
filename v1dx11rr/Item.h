@@ -14,6 +14,8 @@ public:
 
 	Item(GameModel* model, float radio) {
 		this->mItemModel = model;
+		position = model->getPos();
+
 		ColitionRadio = radio;
 		scale = fvec3(0,0,0);
 		tomado = false;
@@ -27,9 +29,9 @@ public:
 
 	}
 
-	void Draw(Camara* camara, float scale, float specForce) {
+	void Draw(Camara* camara, float _scale, float specForce) {
 		if (!tomado) {
-			this->mItemModel->Draw(camara, 'A', 0, scale, specForce);
+			this->mItemModel->Draw(camara, 'A', 0, _scale, specForce);
 		}
 	}
 
@@ -54,6 +56,7 @@ public:
 	}
 
 	void SetPos(fvec3 pos) {
+		position = pos;
 		mItemModel->setPos(pos);
 	}
 
@@ -67,10 +70,15 @@ public:
 	float getZ() {
 		return mItemModel->getZ();
 	}
+
+	fvec3 getPos() {
+		return position;
+	}
 private:
 	GameModel* mItemModel;
 	fvec3 scale;
 	ColBox* BoxColision;
 	float ColitionRadio;
 	bool tomado;
+	fvec3 position;
 };
