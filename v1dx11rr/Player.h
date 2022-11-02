@@ -34,10 +34,14 @@ public:
 
 	//en base a una colision obtener el item del juego
 	void obtenerItem(Item* item) {
-		if (CajaDeColision->CheckSphereColission(GetPos(), item->GetColitionRadio())) {
-			item->TakeItem();
-			itemOnHand = item->getItemState();
-			itemOnInventory = item->getItemState();
+		if (!item->getItemState()) 
+		{
+			if (CajaDeColision->CheckSphereColission(item->getPos(), item->GetColitionRadio())) {
+				item->TakeItem();
+				itemOnHand = item->getItemState();
+				itemOnInventory = item->getItemState();
+			}
+
 		}
 	}
 
@@ -76,7 +80,7 @@ public:
 
 	void SetPos(fvec3 value) {
 		mPlayerModel->setPos(value);
-		CajaDeColision->reposBox(value, scale);
+		CajaDeColision = CajaDeColision->reposBox(value, scale);
 	}
 
 	void SetAltura(float altura) {
