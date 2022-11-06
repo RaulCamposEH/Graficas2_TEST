@@ -1,6 +1,7 @@
 #pragma once
 #include <d3dx10math.h>
 #include <vector>
+
 typedef D3DXVECTOR3 fvec3;
 
 class ColBox {
@@ -12,6 +13,17 @@ public:
 		mOrigen.x = _o.x;
 		mOrigen.y = _o.y;
 		mOrigen.z = _o.z;
+
+		mEscala.x = _s.x;
+		mEscala.y = _s.y;
+		mEscala.z = _s.z;
+	}
+
+	ColBox(fvec3 _o, fvec3 _s, float angleY) {
+		angleY = 
+		mOrigen.x = (_o.x * cosf(angleY) - _o.z * sinf(angleY));
+		mOrigen.y = _o.y;
+		mOrigen.z = (_o.x * sinf(angleY) + _o.z * cosf(angleY));
 
 		mEscala.x = _s.x;
 		mEscala.y = _s.y;
@@ -37,6 +49,7 @@ public:
 		return colX && colY && colZ;
 	}
 
+
 	bool CheckPointColission(fvec3 _point) {
 		bool colX = _point.x <= mOrigen.x + (mEscala.x/2) && _point.x >= mOrigen.x - (mEscala.x / 2);
 		bool colY = _point.z <= mOrigen.z + (mEscala.z/2) && _point.z >= mOrigen.z - (mEscala.z / 2);
@@ -53,6 +66,10 @@ public:
 
 	ColBox* reposBox(fvec3& _pos, fvec3& scale) {
 		return new ColBox(_pos, scale);
+	}
+
+	ColBox* reposBox(fvec3& _pos, fvec3& scale, float angle) {
+		return new ColBox(_pos, scale, angle);
 	}
 };
 

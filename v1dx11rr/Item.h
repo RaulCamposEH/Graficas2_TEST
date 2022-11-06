@@ -31,7 +31,7 @@ public:
 
 	void Draw(Camara* camara, float _scale, float specForce) {
 		if (!tomado) {
-			this->mItemModel->Draw(camara, 'A', 0, _scale, specForce);
+			this->mItemModel->Draw(camara, _scale, specForce);
 		}
 	}
 

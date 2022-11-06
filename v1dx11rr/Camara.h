@@ -121,6 +121,40 @@ public:
 		D3DXMatrixTranspose( &vista, &vista );
 		return vista;
 	}
+
+	D3DXMATRIX UpdateCam2(float vel, float arriaba, float izqder, D3DXVECTOR3 objcar)
+	{
+		pastPostCam = posCam;
+		D3DXMATRIX vistaPrev = vista;
+		D3DXMatrixTranslation(&vista, 0, 0, 0);
+
+		D3DXVECTOR4 tempo;
+		D3DXQUATERNION quatern; //quaternion temporal para la camara
+		D3DXMATRIX giraUp, giraRight; //matrices temporales para los giros
+
+		D3DXVECTOR3 refFront2 = D3DXVECTOR3(0, 0, 0);
+		D3DXVec3Normalize(&refFront2, &refFront2);
+
+		static float ang = -90;
+
+		ang -= izqder * 5;
+
+		float x = objcar.x + (30 * (cos(ang * 3.1416 / 180)));
+		float z = objcar.z + (30 * (sin(ang * 3.1416 / 180)));
+
+		posCam.x = x;
+		posCam.z = z;
+		posCam.y = objcar.y + 4.0f;
+
+		//ajustamos la matriz de vista con lo obtenido
+		posCam += refFront2 * vel / 10.0;
+		hdveo = posCam + refFront;
+		D3DXMatrixLookAtLH(&vista, &posCam, &objcar, &refUp);
+
+		D3DXMatrixTranspose(&vista, &vista);
+		return vista;
+	}
+
 	~Camara()
 	{
 	}

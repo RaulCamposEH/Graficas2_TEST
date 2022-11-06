@@ -183,10 +183,12 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="loadModel.h" />
     <ClInclude Include="ModeloRR.h" />
+    <ClInclude Include="myTypes.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="TerrenoRR.h" />
+    <ClInclude Include="Trampa.h" />
     <ClInclude Include="XACT3Util.h" />
   </ItemGroup>
   <ItemGroup>

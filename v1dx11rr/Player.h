@@ -52,9 +52,9 @@ public:
 		}
 	}
 
-	void Draw(Camara* camara, char angle, float rot, float scale, float specForce) {
+	void Draw(Camara* camara, float scale, float specForce) {
 		if (!FPC)
-			mPlayerModel->Draw(camara, angle, rot, scale, specForce);
+			mPlayerModel->Draw(camara, scale, specForce);
 	}
 
 	//ejecutar antes de hacer un draw en render

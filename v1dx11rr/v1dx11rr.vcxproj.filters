@@ -102,6 +102,12 @@
     <ClInclude Include="XACT3Util.h">
       <Filter>Archivos de encabezado\Genericas</Filter>
     </ClInclude>
+    <ClInclude Include="Trampa.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="myTypes.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TerrenoSkyBill.cpp">

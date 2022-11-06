@@ -55,7 +55,8 @@ public:
 	void Draw(Camara* camara, float scale, float specForce) {
 		mChickenModel->setPos(position);
 		mChickenModel->setAltura(altura);
-		mChickenModel->Draw(camara, 'Y', anguloMira, scale, specForce);
+
+		mChickenModel->Draw(camara, scale, specForce);
 	}
 
 	void SetAltura(float altura) {

@@ -168,29 +168,54 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
             if (keyboardData[DIK_S] & 0x80) {
                 dxrr->vel = -5.f;
+                dxrr->vel = -15.f;
             }
-
             if (keyboardData[DIK_W] & 0x80) {
                 dxrr->vel = 5.f;
+                dxrr->vel = 15.f;
             }
-
+            if (keyboardData[DIK_A] & 0x80) {
+                dxrr->rotatecar = -5.f;
+            }
+            if (keyboardData[DIK_D] & 0x80) {
+                dxrr->rotatecar = 5.f;
+            }
+            if (keyboardData[DIK_Z] & 0x80) {
+                dxrr->first = true;
+            }
+            if (keyboardData[DIK_X] & 0x80) {
+                dxrr->first = false;
+            }
             if (keyboardData[DIK_B] & 0x80) {
                 dxrr->breakpoint = true;
             }
-
             if (keyboardData[DIK_ESCAPE] & 0x80) {
                 KillTimer(hWnd, 100);
                 PostQuitMessage(0);
                 return 0;
             }
-
             if (keyboardData[DIK_UP] & 0x80) {
-                dxrr->posicionGranero[0] += 5.0f;
+                dxrr->posiciones[0] += 5.0f;
+            }
+            if (keyboardData[DIK_DOWN] & 0x80) {
+                dxrr->posiciones[0] -= 5.0f;
+            }
+            if (keyboardData[DIK_LEFT] & 0x80) {
+                dxrr->posiciones[1] += 5.0f;
+            }
+            if (keyboardData[DIK_RIGHT] & 0x80) {
+                dxrr->posiciones[1] -= 5.0f;
             }
 
-            if (keyboardData[DIK_DOWN] & 0x80) {
-                dxrr->posicionGranero[0] -= 5.0f;
+            if (keyboardData[DIK_ADD] & 0x80) {
+                dxrr->rotationModel += 5.0f;
             }
+
+            if (keyboardData[DIK_SUBTRACT] & 0x80) {
+                dxrr->rotationModel -= 5.0f;
+            }
+
+            
 
             DIMOUSESTATE mouseData;
             m_pMouseDevice->GetDeviceState(sizeof(mouseData), (void*)&mouseData);
@@ -201,7 +226,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
             if (gamePad->IsConnected())
             {
-
                 float grados = (float)gamePad->GetState().Gamepad.sThumbRX / 32767.0;
 
                 if (grados > 0.19 || grados < -0.19) dxrr->izqder = grados / 15;

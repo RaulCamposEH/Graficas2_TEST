@@ -13,6 +13,7 @@
 #include <xnamath.h>
 #include <stdlib.h>
 #include "Camara.h"
+#include "ColBox.h"
 
 using namespace std;
 typedef vector<GameResource> ResourceCollection;
@@ -45,6 +46,9 @@ public:
 
 
 	CObjParser ObjParser;
+	float rotaY;
+	float rotaX;
+	float rotaZ;
 
 	GameModel(
 		ID3D11Device* D3DDevice, ID3D11DeviceContext* D3DContext, char* path, D3DXVECTOR3 Posicion, ResourceCollection Textures)
@@ -62,7 +66,7 @@ public:
 
 	}
 
-	void Draw(Camara* camara, char angle, float rot, /*float altura,*/ float scale, float specForce) {
+	void Draw(Camara* camara, float scale, float specForce) {
 
 		unsigned int stride = sizeof(VertexObj);
 		unsigned int offset = 0;
@@ -88,12 +92,8 @@ public:
 		D3DXMATRIX rotationMat;
 		D3DXMatrixRotationYawPitchRoll(&rotationMat, 0.0f, 0.0f, 0.0f);
 
-		if (angle == 'X')
-			D3DXMatrixRotationX(&rotationMat, rot);
-		else if (angle == 'Y')
-			D3DXMatrixRotationY(&rotationMat, rot);
-		else if (angle == 'Z')
-			D3DXMatrixRotationZ(&rotationMat, rot);
+		D3DXMatrixRotationY(&rotationMat, (rotaY*(D3DX_PI/180)));
+
 		viewMatrix *= rotationMat;
 
 		D3DXMATRIX translationMat;
@@ -123,21 +123,14 @@ public:
 		mContext->Draw(ObjParser.m_nVertexCount, 0);
 	}
 
-	float getX() {
-		return this->mPosicion.x;
-	}
+	float getX() { return this->mPosicion.x; }
+	float getZ() { return this->mPosicion.z; }
+	fvec3 getPos() { return this->mPosicion; }
 
-	float getZ() {
-		return this->mPosicion.z;
-	}
+	void setPos(fvec3 pos) { this->mPosicion = pos; }
+	void setYRot(float y) { rotaY = y; }
+	void setAltura(float altura) { mPosicion.y = altura; }
 
-	D3DXVECTOR3 getPos() {
-		return this->mPosicion;
-	}
-
-	void setPos(D3DXVECTOR3 pos) {
-		this->mPosicion = pos;
-	}
 
 	bool Init() {
 		Shader = new ShaderClass(L"Modelo.fx", mDevice, mContext);
@@ -190,11 +183,6 @@ public:
 		worldCB = 0;
 		cameraPosCB = 0;
 		specForceCB = 0;
-	}
-
-	void setAltura(float altura)
-	{
-		mPosicion.y = altura;
 	}
 
 private:
