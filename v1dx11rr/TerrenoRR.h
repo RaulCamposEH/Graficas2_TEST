@@ -9,6 +9,7 @@
 #include <D3Dcompiler.h>
 #include <d3dx10math.h>
 
+
 class TerrenoRR{
 private:
 	struct VertexComponent

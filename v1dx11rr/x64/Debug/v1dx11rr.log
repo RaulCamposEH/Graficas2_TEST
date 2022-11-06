@@ -164,9 +164,9 @@ A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\DXRR.h(756,2
 A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\DXRR.h(757,29): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
   A:\dev\DX11\Include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\TerrenoSkyBill.cpp(129,15): warning C4244: 'return': conversión de 'WPARAM' a 'int'; posible pérdida de datos
-A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\TerrenoSkyBill.cpp(229,30): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\TerrenoSkyBill.cpp(233,70): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\TerrenoSkyBill.cpp(238,33): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\GameModel.h(152): warning C4715: 'GameModel::Init': no todas las rutas de acceso de control devuelven un valor
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\TerrenoSkyBill.cpp(227,30): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\TerrenoSkyBill.cpp(231,70): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\TerrenoSkyBill.cpp(236,33): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
 A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\GUI.h(160): warning C4715: 'GUI::InitScene': no todas las rutas de acceso de control devuelven un valor
+A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\v1dx11rr\GameModel.h(152): warning C4715: 'GameModel::Init': no todas las rutas de acceso de control devuelven un valor
   v1dx11rr.vcxproj -> A:\Raul\Bibliotecas\Repositorio\C PLUS PLUS\Graficas2_TEST\x64\Debug\TerrenoSkyBill.exe

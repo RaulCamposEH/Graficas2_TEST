@@ -525,9 +525,9 @@ public:
 
 		#pragma endregion
 
-		if (false) {
+		if (true) {
 			Tronco->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
-			Tronco->setYRot(rotationModel);
+			Camioneta->setYRot(rotationModel);
 		}
 
 	}
