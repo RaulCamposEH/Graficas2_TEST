@@ -215,8 +215,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 dxrr->rotationModel -= 5.0f;
             }
 
-            
-
             DIMOUSESTATE mouseData;
             m_pMouseDevice->GetDeviceState(sizeof(mouseData), (void*)&mouseData);
 
