@@ -238,7 +238,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                     if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
                         velocidad *= 14.5;
                     else if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) velocidad /= 3;
-                    else velocidad *= 2.5;
+                    else velocidad *= 5.5;
                     if (velocidad > 0.19) dxrr->vel = velocidad;
                     else if (velocidad < -0.19) dxrr->vel = velocidad;
                 }

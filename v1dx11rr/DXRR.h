@@ -4,20 +4,25 @@
 #include <d3dx11.h>
 #include <d3dx10.h>
 #include <d3dx10math.h>
+#include <string>
+
 #include "TerrenoRR.h"
 #include "Camara.h"
 #include "SkyDome.h"
 #include "Billboard.h"
 #include "ModeloRR.h"
 #include "XACT3Util.h"
+#include "GUI.h"
+#include "Text.h"
+
 #include "GameModel.h"
 #include "Player.h"
 #include "Gallina.h"
-#include "GUI.h"
+#include "Trampa.h"
+
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
-#include <string>
 
 class DXRR{	
 
@@ -67,6 +72,7 @@ public:
 	Gallina* chickenTwo;
 	Gallina* chickenThree;
 	Item* item;
+	Trampa* trap;
 
 	ResourceCollection CharacterTextures;
 	GameModel* Character;
@@ -87,7 +93,7 @@ public:
 	GameModel* Granero;
 
 	ResourceCollection TrampaTextures;
-	GameModel* Trampa[2];
+	GameModel* Trampas[2];
 
 	ResourceCollection CamionetaTextures;
 	GameModel* Camioneta;
@@ -102,10 +108,17 @@ public:
 	GameModel* Tronco;
 
 	ColArray Colisiones;
+
 #pragma endregion
 
-	GUI* vida;
+	GUI* vida[3];
+	int vidas = 3;
+	int puntos = 0;
+	bool invulnerable = false;
+	float tiempo_inv = 0.0f;
+	bool colisionando = false;
 
+	Text* texto;
 	float izqder;
 	float arriaba;
 	float vel;
@@ -124,6 +137,8 @@ public:
 
 	float rotatecar;
 	bool first = true;
+
+	float segundos = 301;
 
 	void addTex(ResourceCollection& col, int number, const wchar_t* texture) {
 		col.emplace_back(number, texture);
@@ -226,16 +241,21 @@ public:
 		addTex(TrampaTextures, 0, L"Assets/noSpecMap.jpg");
 		addTex(TrampaTextures, 1, L"Assets/noSpecMap.jpg");
 
-		Trampa[0] = new GameModel(d3dDevice, d3dContext, "Assets/Trampa/TrampaAbierta.obj", fvec3(0,0,0), TrampaTextures);
-		Trampa[1] = new GameModel(d3dDevice, d3dContext, "Assets/Trampa/TrampaCerrada.obj", fvec3(0,0,0), TrampaTextures);
+		Trampas[0] = new GameModel(d3dDevice, d3dContext, "Assets/Trampa/TrampaAbierta.obj", fvec3(0,0,0), TrampaTextures);
+		Trampas[1] = new GameModel(d3dDevice, d3dContext, "Assets/Trampa/TrampaCerrada.obj", fvec3(0,0,0), TrampaTextures);
 
 		#pragma endregion
 
 		#pragma region Inizializacion de Elementos de Gameplay
 
+		std::vector<Trampa*> trampas;
+
+		//trampas.reserve(10);
+		//trampas.emplace_back(Trampas, camara, fvec3(10.0f, 0.0f, 10.0f), 10.0f);
+
 		Jugador = new Player(Character, camara, fvec3(2.0f, 10.0f, 2.0f));
 
-		chickenOne = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
+		chickenOne = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 10.0f);
 		chickenTwo = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
 		chickenThree = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 50.0f);
 
@@ -243,19 +263,22 @@ public:
 		chickenTwo->SetPos(fvec3(40.0f, 0.0f, 80.0f));
 		chickenThree->SetPos(fvec3(80.0f, 0.0f, 80.0f));
 
-		item = new Item(ChickenFood, 5.0f);
+		item = new Item(ChickenFood, 10.0f);
 		item->SetPos(fvec3(187.0f, 0, 300.0f));
 
 		#pragma endregion
 
 		//billboard = new BillboardRR(L"Assets/Billboards/fuego-anim.png",L"Assets/Billboards/fuego-anim-normal.png", d3dDevice, d3dContext, 5);
 		
-
 		camaraTipo = true;
 		rotCam = 0.0f;
 
-		vida = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"health_full.png");
+		vida[0] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_full.png");
+		vida[1] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_2.png");
+		vida[2] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_1.png");
 		
+		texto = new Text(d3dDevice, d3dContext, 3.6, 1.2, L"Assets/UI/font.jpg", XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
+
 		Granero->setPos(fvec3(320.0f, 0.0f, 380.0f));
 		Granero->setYRot(180.0f);
 		Granero->setAltura(terreno->Superficie(Granero->getX(), Granero->getZ()));
@@ -428,8 +451,8 @@ public:
 		delete FoodBag;
 		delete Silo;
 		delete Granero;
-		delete Trampa[0];
-		delete Trampa[1];
+		//delete Trampa[0];
+		//delete Trampa[1];
 		delete Camioneta;
 		delete Garage;
 		delete Heno;
@@ -496,7 +519,7 @@ public:
 		float z = Camioneta->getZ();
 		float y = terreno->Superficie(x, z);
 		
-		if (first)camara->UpdateCam(vel, arriaba, izqder);
+		if (first) camara->UpdateCam(vel, arriaba, izqder);
 		else camara->UpdateCam2(vel, arriaba, izqder, D3DXVECTOR3(x, y, z));
 
 		float camPosXZ[2] = { camara->posCam.x, camara->posCam.z };
@@ -511,21 +534,49 @@ public:
 		fvec3 pos = fvec3(x, y, z);
 		Jugador->Update(pos, Colisiones);
 		Jugador->obtenerItem(item);
+		
+		if (puntos < 5) {
+			bool colision = Jugador->CajaDeColision->CheckSphereColission(item->getPos(), item->GetColitionRadio());
+			if (colision) {
+				if (!colisionando) puntos += 1;
+				colisionando = colision;
+			}
+			else {
+				colisionando = colision;
+			}
+		}
 
-		chickenOne->Update(Jugador, pos);
-		chickenOne->SetAltura(terreno->Superficie(pos.x, pos.z));
+		chickenOne->Update(Jugador, chickenOne->GetPos());
+		chickenOne->SetAltura(terreno->Superficie(chickenOne->GetPos().x, chickenOne->GetPos().z));
+		if (vidas != 0) {
+			bool colision = Jugador->CajaDeColision->CheckSphereColission(chickenOne->GetPos(), chickenOne->GetRadio());
+			bool recibirdamage = !invulnerable;
 
-		chickenTwo->Update(Jugador, pos);
-		chickenTwo->SetAltura(terreno->Superficie(pos.x, pos.z));
+			if (colision && recibirdamage) {
+				vidas -= 1;
+				invulnerable = !invulnerable;
+				tiempo_inv = 10.0f;
+			}
+			if (!recibirdamage) {
+				tiempo_inv -= 0.08f;
+			}
+			if (tiempo_inv <= 0.0f) {
+				invulnerable = false;
+				tiempo_inv = 0.0f;
+			}
+		}
 
-		chickenThree->Update(Jugador, pos);
-		chickenThree->SetAltura(terreno->Superficie(pos.x, pos.z));
+		chickenTwo->Update(Jugador, chickenTwo->GetPos());
+		chickenTwo->SetAltura(terreno->Superficie(chickenTwo->GetPos().x, chickenTwo->GetPos().z), true);
+
+		chickenThree->Update(Jugador, chickenThree->GetPos());
+		chickenThree->SetAltura(terreno->Superficie(chickenThree->GetPos().x, chickenThree->GetPos().z), true);
 
 		item->Update();
 
 		#pragma endregion
 
-		if (true) {
+		if (false) {
 			Tronco->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
 			Camioneta->setYRot(rotationModel);
 		}
@@ -554,25 +605,37 @@ public:
 		chickenOne->Draw(camara, 1.0f, 1.0f);
 		chickenTwo->Draw(camara,  1.0f, 1.0f);
 		chickenThree->Draw(camara, 1.0f, 1.0f);
+		TurnOnAlphaBlending();
 		item->Draw(camara, 1.0f, 1.0f);
-
+		TurnOffAlphaBlending();
 		//Models
+
+		Granero->Draw(camara, 1.0f, 1.0f);
 		Heno->Draw(camara, 1.0f, 1.0f);
 		Tronco->Draw(camara, 1.0f, 1.0f);
 		Garage->Draw(camara, 1.0f, 1.0f);
 		Camioneta->Draw(camara, 1.0f, 1.0f);
-		Granero->Draw(camara, 1.0f, 1.0f);
 		Silo->Draw(camara, 1.0f, 1.0f);
 
 		#pragma endregion
 
 		#pragma region UI Stuff
 
-		vida->Draw(0.75, -0.75);
+		if (vidas == 3) vida[0]->Draw(0.75, -0.75);
+		else if (vidas == 2) vida[1]->Draw(0.75, -0.75);
+		else if (vidas == 1) vida[2]->Draw(0.75, -0.75);
+		else if (vidas == 0) texto->DrawText(-0.2, 0, "Game Over", 0.025);
+		
+		texto->DrawText(-0.95, 0.90, "Hola Mundo", 0.025);
+		texto->DrawText(-0.95, 0.75, "Tiempo: " + texto->Time(segundos), 0.01);
+		std::string pts = "Puntos: " + std::to_string(puntos);
+		texto->DrawText(-0.95, 0.65, pts.c_str(), 0.025);
+		segundos -= 0.02;
+
+		if (puntos > 4) texto->DrawText(-0.2, 0, "Haz Ganado", 0.025);
 
 		#pragma endregion
 
-		#pragma region ImGui Debug Stuff
 
 		if (rotationModel > 360.0f) {
 			rotationModel = 0.0f;
@@ -581,21 +644,29 @@ public:
 			rotationModel = 360.0f;
 		}
 
-		ImGui_ImplDX11_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
-		ImGui::Begin("Ventana de pruebas!");
-		ImGui::Text("Configuracion del posiciones");
-		ImGui::DragFloat2("Translation X / Z", posiciones, 5.0f, -500.0f, 500.0f);
-		ImGui::DragFloat("Rotacion Objeto", &rotationModel, 1.0f, 0, 36.0f);
-		std::string playerPositionMsg = "Posicion del personaje X, Y, Z\n" + std::to_string(Jugador->GetPos().x) + ", " + std::to_string(Jugador->GetPos().y) + ", " + std::to_string(Jugador->GetPos().z);
-		ImGui::Text(playerPositionMsg.c_str());
-		ImGui::End();
+
+		#pragma region ImGui Debug Stuff
+
+		if (false) {
+
+			ImGui_ImplDX11_NewFrame();
+			ImGui_ImplWin32_NewFrame();
+			ImGui::NewFrame();
+			ImGui::Begin("Ventana de pruebas!");
+			std::string col = "puntos: " + std::to_string(puntos);
+			ImGui::Text(col.c_str());
+			ImGui::Text("Configuracion del posiciones");
+			ImGui::DragFloat2("Translation X / Z", posiciones, 5.0f, -500.0f, 500.0f);
+			ImGui::DragFloat("Rotacion Objeto", &rotationModel, 1.0f, 0, 36.0f);
+			std::string playerPositionMsg = "Posicion del personaje X, Y, Z\n" + std::to_string(Jugador->GetPos().x) + ", " + std::to_string(Jugador->GetPos().y) + ", " + std::to_string(Jugador->GetPos().z);
+			ImGui::Text(playerPositionMsg.c_str());
+			ImGui::End();
 
 
-		ImGui::Render();
-		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+			ImGui::Render();
+			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
+		}
 		#pragma endregion
 
 		swapChain->Present( 1, 0 );

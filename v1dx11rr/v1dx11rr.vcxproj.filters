@@ -108,6 +108,9 @@
     <ClInclude Include="myTypes.h">
       <Filter>Archivos de encabezado\MisClases</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TerrenoSkyBill.cpp">
@@ -159,6 +162,9 @@
       <Filter>Archivos de código fuente\Shaders</Filter>
     </Text>
     <Text Include="GUI.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
+    <Text Include="Text.fx">
       <Filter>Archivos de código fuente\Shaders</Filter>
     </Text>
   </ItemGroup>

@@ -188,6 +188,7 @@
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="TerrenoRR.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="Trampa.h" />
     <ClInclude Include="XACT3Util.h" />
   </ItemGroup>
@@ -199,6 +200,9 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Billboard.hlsl" />
+    <Text Include="Text.fx">
+      <FileType>Document</FileType>
+    </Text>
     <Text Include="GUI.fx">
       <FileType>Document</FileType>
     </Text>

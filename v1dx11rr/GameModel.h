@@ -50,8 +50,7 @@ public:
 	float rotaX;
 	float rotaZ;
 
-	GameModel(
-		ID3D11Device* D3DDevice, ID3D11DeviceContext* D3DContext, char* path, D3DXVECTOR3 Posicion, ResourceCollection Textures)
+	GameModel(ID3D11Device* D3DDevice, ID3D11DeviceContext* D3DContext, char* path, D3DXVECTOR3 Posicion, ResourceCollection Textures)
 		: mDevice(D3DDevice), mContext(D3DContext), mModel_path(path), mTextureCollection(Textures)
 	{
 		this->mPosicion = Posicion;

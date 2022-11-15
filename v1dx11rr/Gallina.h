@@ -2,18 +2,27 @@
 #include "Player.h"
 
 class Gallina {
+private:
+	GameModel* mChickenModel;
+	fvec3 scale;
+	float radioDetection;
+
+	fvec3 position;
+	
+	ColBox* CajaDeColision;
+	float anguloMira;
+	bool traped = false;
+
 public:
 	Gallina(GameModel* model, fvec3 escala, float radio) {
-		altura = 0.0f;
-		anguloMira = 0.0f;
-
 		mChickenModel = model;
-		radioDetection = radio;
-		fvec3 pos = model->getPos();
-		pos.y += (escala.y / 2);
-		position = pos;
 		scale = escala;
-		CajaDeColision = new ColBox(position, scale);
+		radioDetection = radio;
+
+		position = mChickenModel->getPos();
+		
+		CajaDeColision = 0;
+		anguloMira = 0.0f;
 	}	
 
 	~Gallina() {
@@ -54,29 +63,9 @@ public:
 
 	void Draw(Camara* camara, float scale, float specForce) {
 		mChickenModel->setPos(position);
-		mChickenModel->setAltura(altura);
-
+		mChickenModel->setAltura(position.y);
 		mChickenModel->Draw(camara, scale, specForce);
 	}
-
-	void SetAltura(float altura) {
-		this->altura = altura;
-		mChickenModel->setAltura(altura);
-	}
-
-	void SetPos(fvec3 pos) {
-		position = pos;
-		CajaDeColision->reposBox(position, scale);
-	}
-
-	fvec3 GetPos() {
-		return this->position;
-	}
-
-	void GetPos(fvec3& pos) {
-		pos = position;
-	}
-
 
 	void giroGallina(float& angulo, float jugadorZ, float jugadorX, float gallinaZ, float gallinaX) {
 		if (jugadorZ < gallinaZ) {
@@ -96,13 +85,22 @@ public:
 		}
 
 	}
-private:
+	
+	void SetAltura(float altura, bool repos = false) {
+		position.y = altura;
+		mChickenModel->setAltura(position.y);
+		//CajaDeColision->reposBox(position, scale);
+	}
+	void SetPos(fvec3 pos, bool repos = false) {
+		position = pos;
+		//mChickenModel->setPos(position);
+		//CajaDeColision->reposBox(position, scale); 
+	}
 
-	GameModel* mChickenModel;
-	ColBox* CajaDeColision;
-	fvec3 position;
-	fvec3 scale;
-	float altura;
-	float anguloMira;
-	float radioDetection;
+	void SetFallInTrap() { traped = true; }
+
+	fvec3 GetPos() { return this->position; }
+	ColBox* GetColBox() { return CajaDeColision; }
+	void GetPos(fvec3& pos) { pos = position; }
+	float GetRadio() { return radioDetection; }
 };
