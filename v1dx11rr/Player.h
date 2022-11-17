@@ -12,6 +12,8 @@ public:
 	//Colision del jugador
 
 	fvec3 scale;
+
+	fvec3 position;
 	bool itemOnHand;
 	bool itemOnInventory;
 	bool FPC = true;
@@ -21,10 +23,9 @@ public:
 		mCamera = Camara;
 		itemOnHand = false;
 		itemOnInventory = false;
-		fvec3 playerpos = mPlayerModel->getPos();
-		playerpos.y += (ColSize.y / 2);
+		position = mPlayerModel->getPos();
 		scale = ColSize;
-		CajaDeColision = new ColBox(playerpos, ColSize);
+		CajaDeColision = new ColBox(position, ColSize);
 	}
 
 	//cambiar entre primera y tercera persona
@@ -34,14 +35,12 @@ public:
 
 	//en base a una colision obtener el item del juego
 	void obtenerItem(Item* item) {
-		if (!item->getItemState()) 
-		{
+		if (!item->getItemState()) {
 			if (CajaDeColision->CheckSphereColission(item->getPos(), item->GetColitionRadio())) {
 				item->TakeItem();
 				itemOnHand = item->getItemState();
 				itemOnInventory = item->getItemState();
 			}
-
 		}
 	}
 
@@ -53,8 +52,12 @@ public:
 	}
 
 	void Draw(Camara* camara, float scale, float specForce) {
-		if (!FPC)
+		if (!FPC) {
+			mPlayerModel->setPos(position);
+			mPlayerModel->setAltura(position.y);
+			CajaDeColision = CajaDeColision->reposBox(position, this->scale);
 			mPlayerModel->Draw(camara, scale, specForce);
+		}
 	}
 
 	//ejecutar antes de hacer un draw en render
@@ -64,6 +67,10 @@ public:
 		//ColBox CajaAnterior = *CajaDeColision;
 		SetPos(newpos);
 		
+		mPlayerModel->setPos(position);
+		mPlayerModel->setAltura(position.y);
+		CajaDeColision = CajaDeColision->reposBox(position, this->scale);
+
 		for (auto Colision : ColeccionColisiones)
 		{
 			if (CajaDeColision->CheckColission(Colision)) 
@@ -75,15 +82,15 @@ public:
 
 	fvec3 GetPos()
 	{
-		return mPlayerModel->getPos();
+		return position;
 	}
 
 	void SetPos(fvec3 value) {
-		mPlayerModel->setPos(value);
-		CajaDeColision = CajaDeColision->reposBox(value, scale);
+		position = value;
 	}
 
 	void SetAltura(float altura) {
-		this->mPlayerModel->setAltura(altura);
+		position.y = altura;
+		mPlayerModel->setAltura(altura);
 	}
 };
