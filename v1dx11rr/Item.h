@@ -4,6 +4,8 @@
 #include "ColBox.h"
 
 class Item {
+	float onda = 0.0f;
+	float dezplazamientoItem = 0.0f;
 public:
 	Item(GameModel* model, fvec3 _scale) {
 		this->mItemModel = model;
@@ -25,13 +27,20 @@ public:
 	
 	}
 
-	void Update() {
+	void Desplazamiento()
+	{
+		dezplazamientoItem = (sin(onda += 0.01) + 1) / 2.0f;
+	}
 
+	void Update() {
+		Desplazamiento();
 	}
 
 	void Draw(Camara* camara, float _scale, float specForce) {
-		if (true) {
-			this->mItemModel->Draw(camara, _scale, specForce);
+		if (!tomado) {
+			mItemModel->setPos(position);
+			mItemModel->setAltura(position.y + (dezplazamientoItem * 4.0f));
+			mItemModel->Draw(camara, _scale, specForce);
 		}
 	}
 
@@ -57,11 +66,10 @@ public:
 
 	void SetPos(fvec3 pos) {
 		position = pos;
-		mItemModel->setPos(pos);
 	}
 
 	void SetAltura(float altura) {
-		mItemModel->setAltura(altura);
+		position.y = altura;
 	}
 
 	float getX() {
