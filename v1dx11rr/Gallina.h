@@ -14,14 +14,15 @@ private:
 	bool traped = false;
 
 public:
-	Gallina(GameModel* model, fvec3 escala, float radio) {
+	Gallina(GameModel* model, fvec3 escala, float radio) 
+	{
 		mChickenModel = model;
 		scale = escala;
 		radioDetection = radio;
 
 		position = mChickenModel->getPos();
 		
-		CajaDeColision = 0;
+		CajaDeColision = CajaDeColision->reposBox(position, fvec3(5.0f, 5.0f, 5.0f));
 		anguloMira = 0.0f;
 	}	
 
@@ -33,24 +34,28 @@ public:
 		fvec3 player_pos = jugador->GetPos();
 		fvec3 actual_pos = position;
 		bool enRango = sqrt(pow((actual_pos.x - player_pos.x), 2) + pow((actual_pos.z - player_pos.z), 2)) < radioDetection;
-		if (enRango)
+		if (!traped) 
 		{
-			if (jugador->itemOnHand) {
-				giroGallina(anguloMira, player_pos.z, player_pos.x, GetPos().z, GetPos().x);
-				//seguir al jugador
-				float Vx = player_pos.x - actual_pos.x;
-				float Vz = player_pos.z - actual_pos.z;
-				float mag = sqrt(pow(Vx, 2) + pow(Vz, 2));
-				if (mag == 0) {
-					mag = 0.1;
-				}
-				Vx /= mag;
-				Vz /= mag;
+			if (enRango)
+			{
+				if (jugador->itemOnHand) 
+				{
+					giroGallina(anguloMira, player_pos.z, player_pos.x, position.z, position.x);
+					//seguir al jugador
+					float Vx = player_pos.x - actual_pos.x;
+					float Vz = player_pos.z - actual_pos.z;
+					float mag = sqrt(pow(Vx, 2) + pow(Vz, 2));
+					if (mag == 0) {
+						mag = 0.1;
+					}
+					Vx /= mag;
+					Vz /= mag;
 
-				fvec3 newpos = actual_pos;
-				newpos.x += Vx / 4;
-				newpos.z += Vz / 4;
-				return newpos;
+					fvec3 newpos = actual_pos;
+					newpos.x += Vx / 4;
+					newpos.z += Vz / 4;
+					return newpos;
+				}
 			}
 		}
 		return actual_pos;
@@ -64,6 +69,8 @@ public:
 	void Draw(Camara* camara, float scale, float specForce) {
 		mChickenModel->setPos(position);
 		mChickenModel->setAltura(position.y);
+		CajaDeColision = CajaDeColision->reposBox(position, fvec3(5.0f, 5.0f, 5.0f));
+		mChickenModel->setYRot(anguloMira);
 		mChickenModel->Draw(camara, scale, specForce);
 	}
 
@@ -89,12 +96,9 @@ public:
 	void SetAltura(float altura, bool repos = false) {
 		position.y = altura;
 		mChickenModel->setAltura(position.y);
-		//CajaDeColision->reposBox(position, scale);
 	}
 	void SetPos(fvec3 pos, bool repos = false) {
 		position = pos;
-		//mChickenModel->setPos(position);
-		//CajaDeColision->reposBox(position, scale); 
 	}
 
 	void SetFallInTrap() { traped = true; }
