@@ -160,6 +160,7 @@
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="loadModel.cpp" />
+    <ClCompile Include="Saver.cpp" />
     <ClCompile Include="TerrenoSkyBill.cpp" />
     <ClCompile Include="XACT3Util.cpp" />
   </ItemGroup>
@@ -181,10 +182,12 @@
     <ClInclude Include="ImGui\imstb_rectpack.h" />
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="loadModel.h" />
     <ClInclude Include="ModeloRR.h" />
     <ClInclude Include="myTypes.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Saver.h" />
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyDome.h" />
     <ClInclude Include="TerrenoRR.h" />

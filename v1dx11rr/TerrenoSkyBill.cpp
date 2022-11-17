@@ -23,6 +23,7 @@ tagPOINT actualPoint;
 LPDIRECTINPUT8 m_pDirectInput = NULL;
 LPDIRECTINPUTDEVICE8 m_pKeyboardDevice = NULL;
 LPDIRECTINPUTDEVICE8 m_pMouseDevice = NULL;
+bool stillpressed = false;
 
 void createMouseDevice(HWND hWnd) {
     m_pDirectInput->CreateDevice(GUID_SysMouse, &m_pMouseDevice, 0);
@@ -141,16 +142,36 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     switch(message)
     {
         case WM_DESTROY:
-            {
-				KillTimer(hWnd, 100);
-                PostQuitMessage(0);
-                return 0;
-            } break;
+        {
+			KillTimer(hWnd, 100);
+            PostQuitMessage(0);
+            return 0;
+            break;
+        } 
 
 		case WM_TIMER:
-			{
+		{
 
-			} break;
+            break;
+		} 
+
+        case WM_KEYUP: 
+        {
+            switch (wParam)
+            {
+                case VK_F1:
+                {
+                    dxrr->SavePosition();
+                    break;
+                }
+                case VK_F2:
+                {
+                    dxrr->actualizarPosiciones = true;
+                    break;
+                }
+            }
+            break;
+        } 
         
         case WM_MOUSEMOVE: {
 
@@ -168,11 +189,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
             if (keyboardData[DIK_S] & 0x80) {
                 dxrr->vel = -5.f;
-                dxrr->vel = -15.f;
+                dxrr->vel = -10.f;
             }
             if (keyboardData[DIK_W] & 0x80) {
                 dxrr->vel = 5.f;
-                dxrr->vel = 15.f;
+                dxrr->vel = 10.f;
             }
             if (keyboardData[DIK_A] & 0x80) {
                 dxrr->rotatecar = -5.f;
@@ -206,11 +227,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             if (keyboardData[DIK_RIGHT] & 0x80) {
                 dxrr->posiciones[1] -= 5.0f;
             }
-
             if (keyboardData[DIK_ADD] & 0x80) {
                 dxrr->rotationModel += 5.0f;
             }
-
             if (keyboardData[DIK_SUBTRACT] & 0x80) {
                 dxrr->rotationModel -= 5.0f;
             }
@@ -225,24 +244,22 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             if (gamePad->IsConnected())
             {
                 float grados = (float)gamePad->GetState().Gamepad.sThumbRX / 32767.0;
-
                 if (grados > 0.19 || grados < -0.19) dxrr->izqder = grados / 15;
-
                 grados = (float)gamePad->GetState().Gamepad.sThumbRY / 32767.0;
-
                 if (grados > 0.19 || grados < -0.19) dxrr->arriaba = grados / 15;
-
-
                 float velocidad = (float)gamePad->GetState().Gamepad.sThumbLY / 32767.0;
                 if (velocidad > 0.19 || velocidad < -0.19) {
-                    if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER)
-                        velocidad *= 14.5;
+                    if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) velocidad *= 14.5;
                     else if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) velocidad /= 3;
                     else velocidad *= 5.5;
                     if (velocidad > 0.19) dxrr->vel = velocidad;
                     else if (velocidad < -0.19) dxrr->vel = velocidad;
                 }
-
+                if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A && !stillpressed) {
+                    if (!stillpressed) dxrr->SavePosition();
+                    stillpressed = true;
+                }
+                else stillpressed = false;
             }
 
         }break;

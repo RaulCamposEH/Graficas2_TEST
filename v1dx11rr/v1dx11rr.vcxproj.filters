@@ -111,6 +111,12 @@
     <ClInclude Include="Text.h">
       <Filter>Archivos de encabezado\Genericas</Filter>
     </ClInclude>
+    <ClInclude Include="Saver.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TerrenoSkyBill.cpp">
@@ -142,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="ImGui\imgui_impl_win32.cpp">
       <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Saver.cpp">
+      <Filter>Archivos de código fuente</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
