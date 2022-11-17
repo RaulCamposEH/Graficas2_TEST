@@ -90,8 +90,8 @@ public:
 		D3DXMatrixTranslation(&translacionRotCam, 0.0, 0.0, 0.0);
 		D3DXMATRIX rotationMat;
 		D3DXMatrixRotationYawPitchRoll(&rotationMat, 0.0f, 0.0f, 0.0f);
-
-		D3DXMatrixRotationY(&rotationMat, (rotaY*(D3DX_PI/180)));
+		//(rotaY*(D3DX_PI/180))
+		D3DXMatrixRotationY(&rotationMat, rotaY);
 
 		viewMatrix *= rotationMat;
 
