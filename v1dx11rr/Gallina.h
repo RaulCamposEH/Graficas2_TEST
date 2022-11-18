@@ -107,4 +107,8 @@ public:
 	ColBox* GetColBox() { return CajaDeColision; }
 	void GetPos(fvec3& pos) { pos = position; }
 	float GetRadio() { return radioDetection; }
+
+	bool GetFallInTrap() { return traped; }
+
+
 };

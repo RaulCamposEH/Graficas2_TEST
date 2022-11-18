@@ -125,6 +125,15 @@ public:
 	float tiempo_inv = 0.0f;
 	bool colisionando = false;
 
+	GUI* gallinasHUD[4];
+
+
+	GUI* itemSemillas;
+
+	GUI* gameOver;
+
+	GUI* victory;
+
 	Text* texto;
 	float izqder;
 	float arriaba;
@@ -317,6 +326,17 @@ public:
 		vida[1] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_2.png");
 		vida[2] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_1.png");
 		
+		gallinasHUD[0] = new GUI(d3dDevice, d3dContext, 0.65, 0.46, L"Assets/UI/gallinas_0.png");
+		gallinasHUD[1] = new GUI(d3dDevice, d3dContext, 0.65, 0.46, L"Assets/UI/gallinas_1.png");
+		gallinasHUD[2] = new GUI(d3dDevice, d3dContext, 0.65, 0.46, L"Assets/UI/gallinas_2.png");
+		gallinasHUD[3] = new GUI(d3dDevice, d3dContext, 0.65, 0.46, L"Assets/UI/gallinas_3.png");
+
+		itemSemillas = new GUI(d3dDevice, d3dContext, 0.45, 0.25, L"Assets/UI/item_inactivo.png");
+
+		gameOver = new GUI(d3dDevice, d3dContext, 0.55, 0.55, L"Assets/UI/game_over.png");
+
+		victory = new GUI(d3dDevice, d3dContext, 0.65, 0.75, L"Assets/UI/you_win.png");
+
 		texto = new Text(d3dDevice, d3dContext, 3.6, 1.2, L"Assets/UI/font.jpg", XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
 
 		Granero->setPos(fvec3(320.0f, 0.0f, 380.0f));
@@ -650,16 +670,25 @@ public:
 
 		#pragma region UI Stuff
 
+		gallinasHUD[3]->Draw(-0.75, -0.75);
+
+		itemSemillas->Draw(0.85, 0.75);
+
+
 		if (vidas == 3) vida[0]->Draw(0.75, -0.75);
 		else if (vidas == 2) vida[1]->Draw(0.75, -0.75);
 		else if (vidas == 1) vida[2]->Draw(0.75, -0.75);
-		else if (vidas == 0) texto->DrawText(-0.2, 0, "Game Over", 0.025);
+		else if (vidas == 0) gameOver->Draw(0.0, 0.0);
 		
+		if(chickenOne->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
+		if(chickenTwo->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
+		if(chickenThree->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
+
 		std::string pts = "Puntos: " + std::to_string(puntos);
 		texto->DrawText(-0.95, 0.65, pts.c_str(), 0.025);
 		segundos -= 0.02;
 
-		if (puntos > 4) texto->DrawText(-0.2, 0, "Haz Ganado", 0.025);
+		if (puntos > 4) victory->Draw(0.0, 0.0);
 
 		#pragma endregion
 
