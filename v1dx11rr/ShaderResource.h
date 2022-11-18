@@ -80,10 +80,7 @@ public:
 		//en caso de no poder cargarse ahi muere la cosa
 		if (compileResult == false) return false;
 		
-		result = _device->CreateVertexShader(
-			vsBuffer->GetBufferPointer(), 
-			vsBuffer->GetBufferSize(), 
-			0, &_VShader);
+		result = _device->CreateVertexShader(vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize(), 0, &_VShader);
 		//en caso de falla sale
 		if (FAILED(result))
 		{
@@ -91,8 +88,7 @@ public:
 			return false;
 		}
 
-		result = _device->CreateInputLayout(layout, layout_size,
-			vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize(), &inputLayout);
+		result = _device->CreateInputLayout(layout, layout_size, vsBuffer->GetBufferPointer(), vsBuffer->GetBufferSize(), &inputLayout);
 
 		vsBuffer->Release();
 
@@ -107,10 +103,8 @@ public:
 		//en caso de no poder cargarse ahi muere la cosa
 		if (compileResult == false) return false;
 
-		result = _device->CreatePixelShader(
-			psBuffer->GetBufferPointer(), 
-			psBuffer->GetBufferSize(), 
-			0, &_PShader);
+		result = _device->CreatePixelShader(psBuffer->GetBufferPointer(), psBuffer->GetBufferSize(), 0, &_PShader);
+
 		//en caso de falla sale
 		if (FAILED(result))
 		{

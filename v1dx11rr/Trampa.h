@@ -50,6 +50,7 @@ public:
 	void SetPos(fvec3 pos) {
 		position = pos; 
 	}
+
 	void SetAltura(float altura) {
 		position.y = altura;
 	}

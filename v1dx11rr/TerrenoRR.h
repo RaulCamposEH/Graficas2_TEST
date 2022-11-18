@@ -316,7 +316,7 @@ public:
 		//crea la matriz de vista
 		D3DXMatrixLookAtLH(&viewMatrix, &eye, &target, &up);
 		//la de proyeccion
-		D3DXMatrixPerspectiveFovLH( &projMatrix, D3DX_PI/4.0, ancho / alto, 0.01f, 1000.0f );
+		D3DXMatrixPerspectiveFovLH( &projMatrix, D3DX_PI/4.0, ancho / alto, 0.01f, 2000.0f );
 		//las transpone para acelerar la multiplicacion
 		D3DXMatrixTranspose( &viewMatrix, &viewMatrix );
 		D3DXMatrixTranspose( &projMatrix, &projMatrix );

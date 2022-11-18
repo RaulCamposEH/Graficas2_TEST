@@ -171,6 +171,7 @@
     <ClInclude Include="DXRR.h" />
     <ClInclude Include="GameModel.h" />
     <ClInclude Include="GamePadRR.h" />
+    <ClInclude Include="GamePrimitive.h" />
     <ClInclude Include="GameResource.h" />
     <ClInclude Include="Gallina.h" />
     <ClInclude Include="GUI.h" />
@@ -207,6 +208,9 @@
       <FileType>Document</FileType>
     </Text>
     <Text Include="GUI.fx">
+      <FileType>Document</FileType>
+    </Text>
+    <Text Include="Primitive.fx">
       <FileType>Document</FileType>
     </Text>
     <FxCompile Include="Modelo.fx" />

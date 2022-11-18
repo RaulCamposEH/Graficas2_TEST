@@ -1,5 +1,4 @@
-#ifndef _gamemodel
-#define _gamemodel
+#pragma once
 
 #include <d3d11.h>
 #include <d3dx11.h>
@@ -21,11 +20,14 @@ typedef vector<GameResource> ResourceCollection;
 class GameModel {
 public:
 	D3DXVECTOR3 mPosicion;
+
 	ID3D11Device* mDevice;
 	ID3D11DeviceContext* mContext;
+
 	Shader_info mVsinfo;
 	Shader_info mPsinfo;
 	ShaderClass* Shader;
+
 	char* mModel_path;
 	ResourceCollection mTextureCollection;
 
@@ -42,15 +44,12 @@ public:
 
 	ID3D11Buffer* cameraPosCB;
 	XMFLOAT3 camPos;
-	ID3D11Buffer* specForceCB;
 
 	CObjParser ObjParser;
 	float rotaY;
-	float rotaX;
-	float rotaZ;
 
 	GameModel(ID3D11Device* dev, ID3D11DeviceContext* cont, char* path, D3DXVECTOR3 Posicion, ResourceCollection Textures)
-		: mDevice(dev), mContext(cont), mModel_path(path), mTextureCollection(Textures) 
+		: mDevice(dev), mContext(cont), mModel_path(path), mTextureCollection(Textures)
 	{
 		this->mPosicion = Posicion;
 		this->Init();
@@ -80,9 +79,10 @@ public:
 		//Establece el vertex y pixel shader que utilizara
 		mContext->VSSetShader(Shader->_VShader, 0, 0);
 		mContext->PSSetShader(Shader->_PShader, 0, 0);
-		for (auto textura : mTextureCollection) {
+
+		/*for (auto textura : mTextureCollection) {
 			mContext->PSSetShaderResources(textura.bufferpos, 1, &textura.Resource);
-		}
+		}*/
 		mContext->PSSetSamplers(0, 1, &colorMapSampler);
 
 		D3DXMATRIX translacionRotCam;
@@ -110,13 +110,11 @@ public:
 		mContext->UpdateSubresource(viewCB, 0, 0, &camara->vista, 0, 0);
 		mContext->UpdateSubresource(projCB, 0, 0, &camara->proyeccion, 0, 0);
 		mContext->UpdateSubresource(cameraPosCB, 0, 0, &camPos, 0, 0);
-		mContext->UpdateSubresource(specForceCB, 0, 0, &specForce, 0, 0);
 		//le pasa al shader los buffers
 		mContext->VSSetConstantBuffers(0, 1, &worldCB);
 		mContext->VSSetConstantBuffers(1, 1, &viewCB);
 		mContext->VSSetConstantBuffers(2, 1, &projCB);
 		mContext->VSSetConstantBuffers(3, 1, &cameraPosCB);
-		mContext->VSSetConstantBuffers(4, 1, &specForceCB);
 
 		mContext->Draw(ObjParser.m_nVertexCount, 0);
 	}
@@ -131,7 +129,7 @@ public:
 
 
 	bool Init() {
-		Shader = new ShaderClass(L"Modelo.fx", mDevice, mContext);
+		Shader = new ShaderClass(L"Primitive.fx", mDevice, mContext);
 		ID3DBlob* vsBuffer = 0;
 		ID3DBlob* psBuffer = 0;
 
@@ -151,11 +149,6 @@ public:
 
 	void Unload() {
 
-		for (auto &tex : mTextureCollection) {
-			tex.Resource->Release();
-			tex.Resource = 0;
-		}
-
 		if (Shader)
 			Shader->Release();
 		if (colorMapSampler)
@@ -170,8 +163,6 @@ public:
 			worldCB->Release();
 		if (cameraPosCB)
 			cameraPosCB->Release();
-		if (specForceCB)
-			specForceCB->Release();
 
 		colorMapSampler = 0;
 		vertexBuffer = 0;
@@ -180,7 +171,6 @@ public:
 		projCB = 0;
 		worldCB = 0;
 		cameraPosCB = 0;
-		specForceCB = 0;
 	}
 
 private:
@@ -206,7 +196,7 @@ private:
 			return false;
 		}
 
-		if (!CreateShaderResourceView()) return false;
+		//if (!CreateShaderResourceView()) return false;
 		if (!CreateSampler()) return false;
 		if (!CreateBuffers()) return false;
 
@@ -215,7 +205,6 @@ private:
 		D3DXVECTOR3 target = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		D3DXVECTOR3 up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		D3DXMatrixLookAtLH(&viewMatrix, &eye, &target, &up);
-		//D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI / 4.0, ancho / alto, 0.01f, 1000.0f);
 		D3DXMatrixPerspectiveFovLH(&projMatrix, D3DX_PI / 4.0, 16 / 9, 0.0001f, 2000.0f);
 		D3DXMatrixTranspose(&viewMatrix, &viewMatrix);
 		D3DXMatrixTranspose(&projMatrix, &projMatrix);
@@ -223,15 +212,15 @@ private:
 		return true;
 	}
 
-	bool CreateShaderResourceView() {
-		for (auto &texture : mTextureCollection)
+	/*bool CreateShaderResourceView() {
+		for (auto& texture : mTextureCollection)
 		{
-			ID3D11ShaderResourceView* resource;	
+			ID3D11ShaderResourceView* resource;
 			if (FAILED(D3DX11CreateShaderResourceViewFromFile(mDevice, texture.path, 0, 0, &resource, 0))) return false;
 			texture.Resource = resource;
 		}
 		return true;
-	}
+	}*/
 
 	bool CreateSampler() {
 		D3D11_SAMPLER_DESC colorMapDesc;
@@ -260,13 +249,11 @@ private:
 		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &viewCB))) return false;
 		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &projCB))) return false;
 		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &worldCB))) return false;
-		
+
 		constDesc.ByteWidth = sizeof(XMFLOAT4);
 
 		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &cameraPosCB))) return false;
-		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &specForceCB))) return false;
 		return true;
 	}
 
 };
-#endif

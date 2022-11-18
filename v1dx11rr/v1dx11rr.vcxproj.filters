@@ -117,6 +117,9 @@
     <ClInclude Include="Item.h">
       <Filter>Archivos de encabezado\MisClases</Filter>
     </ClInclude>
+    <ClInclude Include="GamePrimitive.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TerrenoSkyBill.cpp">
@@ -174,6 +177,9 @@
       <Filter>Archivos de código fuente\Shaders</Filter>
     </Text>
     <Text Include="Text.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
+    <Text Include="Primitive.fx">
       <Filter>Archivos de código fuente\Shaders</Filter>
     </Text>
   </ItemGroup>

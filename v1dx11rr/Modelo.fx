@@ -1,6 +1,5 @@
 Texture2D colorMap : register(t0);
 Texture2D specMap : register(t1);
-
 SamplerState colorSampler : register(s0);
 
 cbuffer cbChangerEveryFrame : register(b0)
@@ -23,7 +22,7 @@ cbuffer cbChangesOccasionally : register(b3)
 	float3 cameraPos;
 };
 
-cbuffer cbChangesOccasionally : register(b4)
+cbuffer cbSpecForce : register(b4)
 {
 	float specForce;
 };

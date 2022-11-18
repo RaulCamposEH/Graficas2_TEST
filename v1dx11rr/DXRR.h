@@ -173,16 +173,8 @@ public:
 		
 		saved = true;
 
-		/*string mesge =
-			"X: " + std::to_string(pos.x) + " "
-			"Y: " + std::to_string(pos.y) + " "
-			"Z: " + std::to_string(pos.z) + "\n" +
-			"----------------------------\n";*/
 		saveinFile(CUSTOMFILENAME, pos);
 		savedmsgtimer = 10.0f;
-		/*int result = MessageBoxA(hWnd, (LPCSTR)mesge.c_str(), (LPCSTR)"GUARDAR COORDENADAS?", MB_YESNO);
-		if (result == IDYES) {
-		}*/
 	}
 
 	void GetPositions() {
