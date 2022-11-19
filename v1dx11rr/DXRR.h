@@ -13,6 +13,7 @@
 #include "ModeloRR.h"
 #include "XACT3Util.h"
 #include "GUI.h"
+#include "Agua.h"
 #include "Text.h"
 
 #include "GameModel.h"
@@ -65,6 +66,8 @@ public:
 	BillboardRR* billboard;
 	Camara* camara;
 
+	AguaRR* Aguita;
+
 	Player* Jugador;
 	Gallina* chickenOne;
 	Gallina* chickenTwo;
@@ -109,6 +112,10 @@ public:
 	ColArray Colisiones;
 
 #pragma endregion
+
+	float movetext = 0;
+	bool first = false;
+	bool drive = false;
 
 	std::vector<ObjectPositions> trampasPosiciones;
 	bool saved = false;
@@ -215,6 +222,7 @@ public:
 		camara = new Camara(eye, target, up, Ancho, Alto);
 		terreno = new TerrenoRR(1200, 1200, d3dDevice, d3dContext);
 		skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD1.png");
+		Aguita = new AguaRR(2000, 2000, d3dDevice, d3dContext);
 
 		#pragma endregion
 		#pragma region Modelos Inicializados
@@ -619,8 +627,15 @@ public:
 		#pragma endregion
 
 		if (false) {
-			WinTarget->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
+			//WinTarget->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
 			//Camioneta->setYRot(rotationModel);
+		}
+
+		if (drive == true) {
+			Camioneta->setYRot(-camara->ang2 + 90);
+			Camioneta->mPosicion.x = camara->Camaracontra().x;
+			Camioneta->mPosicion.z = camara->Camaracontra().z;
+			Camioneta->mPosicion.y = terreno->Superficie(camara->Camaracontra().x, camara->Camaracontra().z);
 		}
 
 	}
@@ -634,7 +649,11 @@ public:
 		skydome->Render(camara->posCam);
 		TurnOnDepth();
 		terreno->Draw(camara->vista, camara->proyeccion);
-		
+		movetext += 0.0025;
+
+		static float wave = 0;
+		wave += 0.01f;
+		float valorw = 0.5f * (5 + sin(wave));
 		//TurnOnAlphaBlending();
 		//billboard->Draw(camara->vista, camara->proyeccion, camara->posCam,
 			//-11, -78, 4, 5, uv1, uv2, uv3, uv4, frameBillboard);
@@ -658,7 +677,7 @@ public:
 		Heno->Draw(camara, 1.0f, 1.0f);
 		Tronco->Draw(camara, 1.0f, 1.0f);
 		Garage->Draw(camara, 1.0f, 1.0f);
-		Camioneta->Draw(camara, 1.0f, 1.0f);
+		Camioneta->Draw2(camara, 1.0f, 1.0f);
 		Silo->Draw(camara, 1.0f, 1.0f);
 
 		TurnOnAlphaBlending();
@@ -668,6 +687,13 @@ public:
 			trampa->Draw(camara, 1.0f, 1.0f);
 		}
 
+		XMFLOAT3 m_camPos;
+		m_camPos.x = camara->posCam.x;
+		m_camPos.y = camara->posCam.y;
+		m_camPos.z = camara->posCam.z;
+		TurnOnAlphaBlending();
+		Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_camPos);
+		TurnOffAlphaBlending();
 		#pragma endregion
 
 		#pragma region UI Stuff
