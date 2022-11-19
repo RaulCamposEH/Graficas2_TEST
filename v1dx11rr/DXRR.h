@@ -722,7 +722,7 @@ public:
 		std::string pts = "Puntos: " + std::to_string(Jugador->puntos);
 		texto->DrawText(-0.95, 0.65, pts.c_str(), 0.025);
 		std::string montar = "Presiona E para manejar";
-		if (rangoCamioneta) texto->DrawText(-0.15, -0.5, montar.c_str(), 0.025);
+		if (rangoCamioneta) texto->DrawText(-0.35, -0.6, montar.c_str(), 0.025);
 		segundos -= 0.02;
 
 		if (Jugador->puntos == 0) gallinasHUD[0]->Draw(-0.75, -0.75);
