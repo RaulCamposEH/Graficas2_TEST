@@ -215,7 +215,7 @@ public:
 
 				 // Se calculan los vertices 'x' y 'z'. 'Y' se saca del mapa de normales
 				 vertcol[indiceArreglo].pos.x = vertices[indiceArreglo].pos.x = deltax * y - anchof;
-				 vertcol[indiceArreglo].pos.y = vertices[indiceArreglo].pos.y = alturaData[x][y]*0.5;
+				 vertcol[indiceArreglo].pos.y = vertices[indiceArreglo].pos.y = alturaData[x][y]-13.0f;
 				 vertcol[indiceArreglo].pos.z = vertices[indiceArreglo].pos.z = deltay * x - altof;
 				 vertices[indiceArreglo].UV.x = y * du;
 				 vertices[indiceArreglo].UV.y = x * dv;

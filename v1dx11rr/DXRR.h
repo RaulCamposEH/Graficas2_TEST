@@ -115,7 +115,6 @@ public:
 
 	float movetext = 0;
 
-
 	std::vector<ObjectPositions> trampasPosiciones;
 	bool saved = false;
 	float savedmsgtimer = 0.0f;
@@ -155,8 +154,9 @@ public:
 	float rotationModel = 0.0f;
 
 	float rotatecar;
-	bool first = false;
+	bool first = true;
 	bool drive = false;
+	bool rangoCamioneta = false;
 
 	float segundos = 301;
 
@@ -195,6 +195,10 @@ public:
 
 	float GetRadians(float a) {
 		return (a * (D3DX_PI / 180));
+	}
+
+	void MontarVehiculo() {
+		if(rangoCamioneta || !first) first = !first;
 	}
 
     DXRR(HWND hWnd, int Ancho, int Alto)
@@ -321,7 +325,8 @@ public:
 
 		#pragma region Inizializacion de Elementos de Interfaz
 
-		WinTarget = new Primitive(d3dDevice, d3dContext, "Assets/Primitives/Cylinder.obj", D3DXVECTOR3(0, 0, 0), 5.0f, XMFLOAT4(0.2, 0.7, 0.2, 0.5));
+		XMFLOAT4 verde = XMFLOAT4(0.2, 0.7, 0.2, 0.5);
+		WinTarget = new Primitive(d3dDevice, d3dContext, "Assets/Primitives/Cylinder.obj", D3DXVECTOR3(0, 0, 0), 5.0f, verde);
 
 		vida[0] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_full.png");
 		vida[1] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_2.png");
@@ -600,6 +605,10 @@ public:
 		fvec3 pos = fvec3(x, y, z);
 		Jugador->Update(pos, Colisiones);
 		Jugador->obtenerItem(item);
+		if (Jugador->CajaDeColision->CheckSphereColission(Camioneta->getPos(), 25.0f))
+			rangoCamioneta = true;
+		else 
+			rangoCamioneta = false;
 		
 		chickenOne->Update(Jugador, chickenOne->GetPos());
 		chickenOne->SetAltura(terreno->Superficie(chickenOne->GetPos().x, chickenOne->GetPos().z));
@@ -683,6 +692,7 @@ public:
 		TurnOnAlphaBlending();
 			WinTarget->Draw(camara, 1.0f);
 		TurnOffAlphaBlending();
+
 		for (auto trampa : trampas) {
 			trampa->Draw(camara, 1.0f, 1.0f);
 		}
@@ -692,7 +702,7 @@ public:
 		m_camPos.y = camara->posCam.y;
 		m_camPos.z = camara->posCam.z;
 		TurnOnAlphaBlending();
-		Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_camPos);
+			Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_camPos);
 		TurnOffAlphaBlending();
 		#pragma endregion
 
@@ -711,6 +721,8 @@ public:
 
 		std::string pts = "Puntos: " + std::to_string(Jugador->puntos);
 		texto->DrawText(-0.95, 0.65, pts.c_str(), 0.025);
+		std::string montar = "Presiona E para manejar";
+		if (rangoCamioneta) texto->DrawText(-0.15, -0.5, montar.c_str(), 0.025);
 		segundos -= 0.02;
 
 		if (Jugador->puntos == 0) gallinasHUD[0]->Draw(-0.75, -0.75);
@@ -736,7 +748,7 @@ public:
 		}
 		#pragma region ImGui Debug Stuff
 
-		if (true) {
+		if (false) {
 
 			ImGui_ImplDX11_NewFrame();
 			ImGui_ImplWin32_NewFrame();

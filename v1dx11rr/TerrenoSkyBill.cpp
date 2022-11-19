@@ -130,6 +130,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return msg.wParam;
 }
 
+char keyboardData[256];
+bool init = false;
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -139,8 +141,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     float xPos = 0;
     float yPos = 0;
 
+    if (init) {
+        m_pKeyboardDevice->GetDeviceState(sizeof(keyboardData), (void*)&keyboardData);
+    }
+
     switch(message)
     {
+
         case WM_DESTROY:
         {
 			KillTimer(hWnd, 100);
@@ -155,8 +162,16 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             break;
 		} 
 
+        case WM_KEYDOWN:
+        {
+            if (keyboardData[DIK_E]) {
+                dxrr->MontarVehiculo();
+            }
+            break;
+        }
         case WM_KEYUP: 
         {
+
             switch (wParam)
             {
                 case VK_F1:
@@ -184,10 +199,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             dxrr->arriaba = 0;
             dxrr->vel = 0;
 
-            char keyboardData[256];
-            m_pKeyboardDevice->GetDeviceState(sizeof(keyboardData), (void*)&keyboardData);
+            if(!init) init = true;
+   
 
-            if (keyboardData[DIK_P] & 0x80) {
+            if (keyboardData[DIK_SPACE] & 0x80) {
                 dxrr->vel = 15.f;
                 dxrr->drive = true;
             }
@@ -195,6 +210,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 dxrr->drive = false;
             }
 
+           
             if (keyboardData[DIK_S] & 0x80) {
                 dxrr->vel = -5.f;
                 dxrr->vel = -10.f;
