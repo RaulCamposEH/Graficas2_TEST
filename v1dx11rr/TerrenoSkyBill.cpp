@@ -187,6 +187,14 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             char keyboardData[256];
             m_pKeyboardDevice->GetDeviceState(sizeof(keyboardData), (void*)&keyboardData);
 
+            if (keyboardData[DIK_P] & 0x80) {
+                dxrr->vel = 15.f;
+                dxrr->drive = true;
+            }
+            else {
+                dxrr->drive = false;
+            }
+
             if (keyboardData[DIK_S] & 0x80) {
                 dxrr->vel = -5.f;
                 dxrr->vel = -10.f;
@@ -215,24 +223,32 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 PostQuitMessage(0);
                 return 0;
             }
+
             if (keyboardData[DIK_UP] & 0x80) {
-                dxrr->posiciones[0] += 5.0f;
+                dxrr->posiciones[1] += 2.0f;
+                dxrr->rotationModel = 0.0f;
             }
             if (keyboardData[DIK_DOWN] & 0x80) {
-                dxrr->posiciones[0] -= 5.0f;
+                dxrr->posiciones[1] -= 2.0f;
+                dxrr->rotationModel = 180.0f;
             }
             if (keyboardData[DIK_LEFT] & 0x80) {
-                dxrr->posiciones[1] += 5.0f;
+                dxrr->posiciones[0] -= 2.0f;
+                dxrr->rotationModel = 270.0f;
             }
             if (keyboardData[DIK_RIGHT] & 0x80) {
-                dxrr->posiciones[1] -= 5.0f;
+                dxrr->posiciones[0] += 2.0f;
+                dxrr->rotationModel = 90.0f;
             }
+
             if (keyboardData[DIK_ADD] & 0x80) {
                 dxrr->rotationModel += 5.0f;
             }
             if (keyboardData[DIK_SUBTRACT] & 0x80) {
                 dxrr->rotationModel -= 5.0f;
             }
+
+
 
             DIMOUSESTATE mouseData;
             m_pMouseDevice->GetDeviceState(sizeof(mouseData), (void*)&mouseData);
