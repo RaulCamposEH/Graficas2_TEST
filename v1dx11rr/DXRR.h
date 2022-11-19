@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Gallina.h"
 #include "GUI.h"
+#include "Agua.h"
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
 #include "ImGui/imgui_impl_dx11.h"
@@ -57,6 +58,7 @@ public:
 	SkyDome* skydome;
 	BillboardRR* billboard;
 	Camara* camara;
+	AguaRR* Aguita;
 
 	//ModeloRR* heno;
 	//ModeloRR* tronco;
@@ -102,10 +104,11 @@ public:
 	GameModel* Tronco;
 
 	ColArray Colisiones;
-#pragma endregion
 
 	GUI* vida;
+#pragma endregion
 
+	float movetext = 0;
 	float izqder;
 	float arriaba;
 	float vel;
@@ -123,7 +126,9 @@ public:
 	float rotationModel = 0.0f;
 
 	float rotatecar;
-	bool first = true;
+	bool first = false;
+
+	bool drive = false;
 
 	void addTex(ResourceCollection& col, int number, const wchar_t* texture) {
 		col.emplace_back(number, texture);
@@ -157,6 +162,7 @@ public:
 		camara = new Camara(eye, target, up, Ancho, Alto);
 		terreno = new TerrenoRR(1200, 1200, d3dDevice, d3dContext);
 		skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD1.png");
+		Aguita = new AguaRR(2000, 2000, d3dDevice, d3dContext);
 
 		#pragma endregion
 
@@ -250,7 +256,6 @@ public:
 
 		//billboard = new BillboardRR(L"Assets/Billboards/fuego-anim.png",L"Assets/Billboards/fuego-anim-normal.png", d3dDevice, d3dContext, 5);
 		
-
 		camaraTipo = true;
 		rotCam = 0.0f;
 
@@ -279,6 +284,7 @@ public:
 		Tronco->setPos(fvec3(190.0f, 0.0f, -35.0f));
 		Tronco->setYRot(295.0f);
 		Tronco->setAltura(terreno->Superficie(Tronco->getX(), Tronco->getZ()));
+
 	}
 
 	~DXRR()
@@ -489,6 +495,7 @@ public:
 		camara->posCam.y = terreno->Superficie(camara->posCam.x, camara->posCam.z) + 17;
 		camara->posCam3P.y = terreno->Superficie(camara->posCam3P.x, camara->posCam3P.z) + 17;
 		//camara->UpdateCam(vel, arriaba, izqder);
+
 		skydome->Update(camara->vista, camara->proyeccion);
 
 		//float camPosXZ[2] = { camara->posCam.x, camara->posCam.z };
@@ -505,7 +512,6 @@ public:
 		y = terreno->Superficie(x, z);
 
 		#pragma region Gameplay Stuff
-
 		item->SetAltura(terreno->Superficie(item->getX(), item->getZ()));
 		
 		fvec3 pos = fvec3(x, y, z);
@@ -522,14 +528,22 @@ public:
 		chickenThree->SetAltura(terreno->Superficie(pos.x, pos.z));
 
 		item->Update();
-
 		#pragma endregion
-
+		
 		if (true) {
-			Tronco->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
-			Camioneta->setYRot(rotationModel);
+			//Camioneta->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
+			//Camioneta->setYRot(-camara->ang2 + 90);
+		}
+		
+		if (drive == true) {
+			Camioneta->setYRot(-camara->ang2 + 90);
+			Camioneta->mPosicion.x = camara->Camaracontra().x;
+			Camioneta->mPosicion.z = camara->Camaracontra().z;
+			Camioneta->mPosicion.y = terreno->Superficie(camara->Camaracontra().x, camara->Camaracontra().z);
 		}
 
+		//Tronco->mPosicion = camara->Camaracontra();
+		
 	}
 
 	void Render(void)
@@ -541,6 +555,12 @@ public:
 		skydome->Render(camara->posCam);
 		TurnOnDepth();
 		terreno->Draw(camara->vista, camara->proyeccion);
+
+		movetext = movetext + 0.0025;
+			
+		static float wave = 0;
+		wave += .01;
+		float valorw = .5 * (5 + sin(wave));
 		
 		//TurnOnAlphaBlending();
 		//billboard->Draw(camara->vista, camara->proyeccion, camara->posCam,
@@ -560,7 +580,9 @@ public:
 		Heno->Draw(camara, 1.0f, 1.0f);
 		Tronco->Draw(camara, 1.0f, 1.0f);
 		Garage->Draw(camara, 1.0f, 1.0f);
-		Camioneta->Draw(camara, 1.0f, 1.0f);
+
+		Camioneta->Draw2(camara, 1.0f, 1.0f);
+
 		Granero->Draw(camara, 1.0f, 1.0f);
 		Silo->Draw(camara, 1.0f, 1.0f);
 
@@ -580,6 +602,14 @@ public:
 		else if (rotationModel < 0.0f) {
 			rotationModel = 360.0f;
 		}
+
+		XMFLOAT3 m_CamPos;
+		m_CamPos.x = camara->posCam.x;
+		m_CamPos.y = camara->posCam.y;
+		m_CamPos.z = camara->posCam.z;
+		TurnOnAlphaBlending();
+		Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_CamPos);
+		TurnOffAlphaBlending();
 
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
