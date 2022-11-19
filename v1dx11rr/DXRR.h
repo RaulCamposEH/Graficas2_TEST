@@ -114,8 +114,7 @@ public:
 #pragma endregion
 
 	float movetext = 0;
-	bool first = false;
-	bool drive = false;
+
 
 	std::vector<ObjectPositions> trampasPosiciones;
 	bool saved = false;
@@ -156,7 +155,8 @@ public:
 	float rotationModel = 0.0f;
 
 	float rotatecar;
-	bool first = true;
+	bool first = false;
+	bool drive = false;
 
 	float segundos = 301;
 
