@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Archivos de código fuente">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Archivos de encabezado">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Archivos de recursos">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Shaders">
+      <UniqueIdentifier>{3e1eec91-42f4-42d4-b17e-94368fa6cc59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\ImGui">
+      <UniqueIdentifier>{0c691c42-c68c-45fc-a202-b576056a7b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\ImGui">
+      <UniqueIdentifier>{49b23374-546c-4879-9502-a5b9352096aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\MisClases">
+      <UniqueIdentifier>{0490ed8f-4d46-44f3-a430-12fb84598190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Genericas">
+      <UniqueIdentifier>{70108156-ddab-4f4a-b9a6-c1dcc0c271b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DXRR.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrenoRR.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Camara.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyDome.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imconfig.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_dx11.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_internal.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_rectpack.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_textedit.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imstb_truetype.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGui\imgui_impl_win32.h">
+      <Filter>Archivos de encabezado\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gallina.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModel.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderResource.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="GameResource.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="ColBox.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="Billboard.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePadRR.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="ModeloRR.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="loadModel.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="XACT3Util.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="Trampa.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="myTypes.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Archivos de encabezado\Genericas</Filter>
+    </ClInclude>
+    <ClInclude Include="Saver.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePrimitive.h">
+      <Filter>Archivos de encabezado\MisClases</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TerrenoSkyBill.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="loadModel.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="XACT3Util.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="GameResource.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_draw.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_dx11.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_tables.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_widgets.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
+      <Filter>Archivos de código fuente\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Saver.cpp">
+      <Filter>Archivos de código fuente</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Billboard.hlsl">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Modelo.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SkyDome.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
+    <Text Include="GUI.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
+    <Text Include="Text.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
+    <Text Include="Primitive.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
