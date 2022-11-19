@@ -40,6 +40,8 @@ public:
 	D3DXMATRIX viewMatrix;
 	D3DXMATRIX projMatrix;
 
+	D3DXMATRIX matrixobj;
+
 	ID3D11Buffer* cameraPosCB;
 	XMFLOAT3 camPos;
 	ID3D11Buffer* specForceCB;
@@ -54,6 +56,7 @@ public:
 	{
 		this->mPosicion = Posicion;
 		this->Init();
+		D3DXMatrixTranslation(&matrixobj, 0, 0, 0);
 	}
 
 	~GameModel() {
@@ -100,7 +103,7 @@ public:
 		D3DXMATRIX scaleMat;
 		D3DXMatrixScaling(&scaleMat, scale, scale * 1.5, scale);
 
-		D3DXMATRIX worldMat = rotationMat * scaleMat * translationMat;
+		D3DXMATRIX worldMat;
 
 		worldMat = scaleMat * rotationMat * translationMat;
 
@@ -119,6 +122,93 @@ public:
 		mContext->VSSetConstantBuffers(4, 1, &specForceCB);
 
 		mContext->Draw(ObjParser.m_nVertexCount, 0);
+	}
+
+	void Draw2(Camara* camara, float scale, float specForce) {
+
+		unsigned int stride = sizeof(VertexObj);
+		unsigned int offset = 0;
+
+		camPos.x = camara->posCam.x;
+		camPos.y = camara->posCam.y;
+		camPos.z = camara->posCam.z;
+
+		D3DXVECTOR3 campostra;
+		campostra.x = camara->posCam.x;
+
+		mContext->IASetInputLayout(Shader->inputLayout);
+		mContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		//Establece el vertex y pixel shader que utilizara
+		mContext->VSSetShader(Shader->_VShader, 0, 0);
+		mContext->PSSetShader(Shader->_PShader, 0, 0);
+		for (auto textura : mTextureCollection) {
+			mContext->PSSetShaderResources(textura.bufferpos, 1, &textura.Resource);
+		}
+		mContext->PSSetSamplers(0, 1, &colorMapSampler);
+
+		/*
+		D3DXMATRIX translacionRotCam;
+		D3DXMatrixTranslation(&translacionRotCam, 0.0, 0.0, 0.0);
+		D3DXMATRIX rotationMat;
+		D3DXMatrixRotationYawPitchRoll(&rotationMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixRotationY(&rotationMat, (rotaY * (D3DX_PI / 180)));
+
+		viewMatrix *= rotationMat;
+
+		D3DXMATRIX translationMat;
+		D3DXMatrixTranslation(&translationMat, mPosicion.x, mPosicion.y, mPosicion.z);
+
+		static float move = 0;
+		move += 0.1;
+
+		D3DXMATRIX translationMat2;
+		D3DXMatrixTranslation(&translationMat2, 0, 0, move);
+
+		D3DXMATRIX scaleMat;
+		D3DXMatrixScaling(&scaleMat, scale, scale * 1.5, scale);
+
+		D3DXMATRIX worldMat;// = rotationMat * scaleMat * translationMat;
+
+		worldMat = rotationMat;
+
+		worldMat *= scaleMat * translationMat;
+
+		*/
+
+		D3DXMATRIX translationMat;
+		D3DXMatrixTranslation(&translationMat, mPosicion.x, mPosicion.y, mPosicion.z);
+
+		D3DXMATRIX rotationMat;
+
+		D3DXMatrixRotationY(&rotationMat, (rotaY * (D3DX_PI / 180)));
+
+		D3DXMATRIX worldMat = rotationMat * translationMat;
+
+		//		worldMat = matrixobj * worldMat;
+
+		D3DXMatrixTranspose(&worldMat, &worldMat);
+		//actualiza los buffers del shader
+		mContext->UpdateSubresource(worldCB, 0, 0, &worldMat, 0, 0);
+		mContext->UpdateSubresource(viewCB, 0, 0, &camara->vista, 0, 0);
+		mContext->UpdateSubresource(projCB, 0, 0, &camara->proyeccion, 0, 0);
+		mContext->UpdateSubresource(cameraPosCB, 0, 0, &camPos, 0, 0);
+		mContext->UpdateSubresource(specForceCB, 0, 0, &specForce, 0, 0);
+		//le pasa al shader los buffers
+		mContext->VSSetConstantBuffers(0, 1, &worldCB);
+		mContext->VSSetConstantBuffers(1, 1, &viewCB);
+		mContext->VSSetConstantBuffers(2, 1, &projCB);
+		mContext->VSSetConstantBuffers(3, 1, &cameraPosCB);
+		mContext->VSSetConstantBuffers(4, 1, &specForceCB);
+
+		mContext->Draw(ObjParser.m_nVertexCount, 0);
+	}
+
+	void drive() {
+		D3DXMATRIX translationMat;
+		D3DXMatrixRotationY(&translationMat, (rotaY * (D3DX_PI / 180)));
+		matrixobj = matrixobj * translationMat;
 	}
 
 	float getX() { return this->mPosicion.x; }
