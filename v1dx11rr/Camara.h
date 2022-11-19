@@ -25,6 +25,12 @@ public:
 	D3DXVECTOR3 pastPostCam;
 	D3DXMATRIX rotacion;
 
+	float ang = 180;
+	float ang2 = 0;
+
+	float objetivex = 0;
+	float objetivez = 0;
+
 	float* getPos() {
 		float pos[2];
 		pos[0] = posCam.x;
@@ -112,9 +118,6 @@ public:
 		hdveo = posCam + refFront;
 		D3DXMatrixLookAtLH(&vistaPrev, &posCam, &hdveo, &refUp);
 
-		//tercera persona
-		/*hdveo = posCam3P + refFront;
-		D3DXMatrixLookAtLH(&vistaPrev, &posCam3P, &hdveo, &refUp);*/
 
 		D3DXMatrixMultiply(&vista, &vista, &vistaPrev);
 
@@ -128,31 +131,37 @@ public:
 		D3DXMATRIX vistaPrev = vista;
 		D3DXMatrixTranslation(&vista, 0, 0, 0);
 
-		D3DXVECTOR4 tempo;
-		D3DXQUATERNION quatern; //quaternion temporal para la camara
-		D3DXMATRIX giraUp, giraRight; //matrices temporales para los giros
-
 		D3DXVECTOR3 refFront2 = D3DXVECTOR3(0, 0, 0);
 		D3DXVec3Normalize(&refFront2, &refFront2);
 
-		static float ang = -90;
+		ang -= izqder * 10;
+		ang2 -= izqder * 10;
 
-		ang -= izqder * 5;
+		objetivex = objcar.x + (2 * (cos((ang2) * 3.1416 / 180)));
+		objetivez = objcar.z + (2 * (sin((ang2) * 3.1416 / 180)));
 
 		float x = objcar.x + (30 * (cos(ang * 3.1416 / 180)));
 		float z = objcar.z + (30 * (sin(ang * 3.1416 / 180)));
 
-		posCam.x = x;
-		posCam.z = z;
-		posCam.y = objcar.y + 4.0f;
+		objcar.y += 15;
 
 		//ajustamos la matriz de vista con lo obtenido
-		posCam += refFront2 * vel / 10.0;
-		hdveo = posCam + refFront;
+		//posCam += refFront2 * vel / 10.0;
 		D3DXMatrixLookAtLH(&vista, &posCam, &objcar, &refUp);
-
 		D3DXMatrixTranspose(&vista, &vista);
+
+		posCam.x = x;
+		posCam.z = z;
+		posCam.y = objcar.y + 25.0f;
 		return vista;
+	}
+
+	D3DXVECTOR3 Camaracontra() {
+		D3DXVECTOR3 returnpos;
+		returnpos.x = objetivex;
+		returnpos.z = objetivez;
+		returnpos.y = posCam.y;
+		return returnpos;
 	}
 
 	~Camara()
