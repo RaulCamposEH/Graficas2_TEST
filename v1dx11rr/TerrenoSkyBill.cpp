@@ -133,6 +133,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 char keyboardData[256];
 bool init = false;
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
@@ -155,13 +156,11 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             return 0;
             break;
         } 
-
 		case WM_TIMER:
 		{
 
             break;
 		} 
-
         case WM_KEYDOWN:
         {
             if (keyboardData[DIK_E]) {
@@ -187,9 +186,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             }
             break;
         } 
-        
-        case WM_MOUSEMOVE: {
-
+        case WM_MOUSEMOVE: 
+        {
             SetCursorPos(actualPoint.x, actualPoint.y);
             dxrr->frameBillboard++;
             if (dxrr->frameBillboard == 32)
@@ -294,7 +292,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 else stillpressed = false;
             }
 
-        }break;
+            break;
+        }
 
     }
 
