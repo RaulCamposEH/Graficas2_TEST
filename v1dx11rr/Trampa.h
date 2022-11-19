@@ -4,6 +4,7 @@
 #include "Gallina.h"
 #include "ColBox.h"
 #include "Item.h"
+#include "Player.h"
 
 class Trampa {
 public:

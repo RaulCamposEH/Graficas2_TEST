@@ -19,6 +19,7 @@
 #include "Player.h"
 #include "Gallina.h"
 #include "Trampa.h"
+#include "GamePrimitive.h"
 
 #include "ImGui/imgui.h"
 #include "ImGui/imgui_impl_win32.h"
@@ -64,16 +65,13 @@ public:
 	BillboardRR* billboard;
 	Camara* camara;
 
-	//ModeloRR* heno;
-	//ModeloRR* tronco;
-	//ModeloRR* garage;
-
 	Player* Jugador;
 	Gallina* chickenOne;
 	Gallina* chickenTwo;
 	Gallina* chickenThree;
 	Item* item;
 	Trampa* trap;
+	Primitive* WinTarget;
 
 	ResourceCollection CharacterTextures;
 	GameModel* Character;
@@ -126,7 +124,6 @@ public:
 	bool colisionando = false;
 
 	GUI* gallinasHUD[4];
-
 
 	GUI* itemSemillas;
 
@@ -314,6 +311,10 @@ public:
 		camaraTipo = true;
 		rotCam = 0.0f;
 
+		#pragma region Inizializacion de Elementos de Interfaz
+
+		WinTarget = new Primitive(d3dDevice, d3dContext, "Assets/Primitives/Cylinder.obj", D3DXVECTOR3(0, 0, 0), 5.0f, XMFLOAT4(0.2, 0.7, 0.2, 0.5));
+
 		vida[0] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_full.png");
 		vida[1] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_2.png");
 		vida[2] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_1.png");
@@ -330,6 +331,8 @@ public:
 		victory = new GUI(d3dDevice, d3dContext, 0.65, 0.75, L"Assets/UI/you_win.png");
 
 		texto = new Text(d3dDevice, d3dContext, 3.6, 1.2, L"Assets/UI/font.jpg", XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f));
+
+		#pragma endregion
 
 		Granero->setPos(fvec3(320.0f, 0.0f, 380.0f));
 		Granero->setYRot(GetRadians(180.0f));
@@ -354,6 +357,9 @@ public:
 		Tronco->setPos(fvec3(190.0f, 0.0f, -35.0f));
 		Tronco->setYRot(GetRadians(295.0f));
 		Tronco->setAltura(terreno->Superficie(Tronco->getX(), Tronco->getZ()));
+
+		WinTarget->setPos(fvec3(320.0f, 0.0f, 335.0f));
+		WinTarget->setAltura(terreno->Superficie(WinTarget->getX(), WinTarget->getZ()));
 	}
 
 	~DXRR()
@@ -503,8 +509,8 @@ public:
 		delete FoodBag;
 		delete Silo;
 		delete Granero;
-		//delete Trampa[0];
-		//delete Trampa[1];
+		delete Trampas[0];
+		delete Trampas[1];
 		delete Camioneta;
 		delete Garage;
 		delete Heno;
@@ -546,9 +552,6 @@ public:
 		delete skydome;
 		delete billboard;
 		delete camara;
-
-		//delete heno;
-		//delete tronco;
 	}
 	
 	void Update(void) {
@@ -609,13 +612,15 @@ public:
 			trampa->Update(gallinas, Jugador);
 		}
 
+		WinTarget->Update(gallinas, Jugador);
+
 		item->Update();
 
 		#pragma endregion
 
 		if (false) {
-			Tronco->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
-			Camioneta->setYRot(rotationModel);
+			WinTarget->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
+			//Camioneta->setYRot(rotationModel);
 		}
 
 	}
@@ -638,6 +643,8 @@ public:
 		#pragma region My Drawing Stuff
 
 		//Gameplay Elements
+
+
 		Jugador->Draw(camara, 1.0f, 1.0f);
 		chickenOne->Draw(camara, 1.0f, 1.0f);
 		chickenTwo->Draw(camara,  1.0f, 1.0f);
@@ -654,6 +661,9 @@ public:
 		Camioneta->Draw(camara, 1.0f, 1.0f);
 		Silo->Draw(camara, 1.0f, 1.0f);
 
+		TurnOnAlphaBlending();
+			WinTarget->Draw(camara, 1.0f);
+		TurnOffAlphaBlending();
 		for (auto trampa : trampas) {
 			trampa->Draw(camara, 1.0f, 1.0f);
 		}
@@ -662,10 +672,7 @@ public:
 
 		#pragma region UI Stuff
 
-		gallinasHUD[3]->Draw(-0.75, -0.75);
-
 		itemSemillas->Draw(0.85, 0.75);
-
 
 		if (vidas == 3) vida[0]->Draw(0.75, -0.75);
 		else if (vidas == 2) vida[1]->Draw(0.75, -0.75);
@@ -676,11 +683,17 @@ public:
 		if(chickenTwo->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
 		if(chickenThree->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
 
-		std::string pts = "Puntos: " + std::to_string(puntos);
+		std::string pts = "Puntos: " + std::to_string(Jugador->puntos);
 		texto->DrawText(-0.95, 0.65, pts.c_str(), 0.025);
 		segundos -= 0.02;
 
-		if (puntos > 4) victory->Draw(0.0, 0.0);
+		if (Jugador->puntos == 0) gallinasHUD[0]->Draw(-0.75, -0.75);
+		if (Jugador->puntos == 1) gallinasHUD[1]->Draw(-0.75, -0.75);
+		if (Jugador->puntos == 2) gallinasHUD[2]->Draw(-0.75, -0.75);
+		if (Jugador->puntos == 3) {
+			gallinasHUD[3]->Draw(-0.75, -0.75);
+			victory->Draw(0.0, 0.0);
+		}
 
 		#pragma endregion
 
@@ -704,7 +717,7 @@ public:
 			ImGui::NewFrame();
 			ImGui::Begin("Ventana de pruebas!");
 			if (saved) ImGui::Text("Saved");
-			std::string col = "puntos: " + std::to_string(puntos);
+			std::string col = "puntos: " + std::to_string(Jugador->puntos);
 			ImGui::Text(col.c_str());
 			ImGui::Text("Configuracion del posiciones");
 			ImGui::DragFloat2("Translation X / Z", posiciones, 5.0f, -500.0f, 500.0f);

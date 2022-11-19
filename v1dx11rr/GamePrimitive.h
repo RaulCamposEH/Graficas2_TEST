@@ -13,13 +13,15 @@
 #include <stdlib.h>
 #include "Camara.h"
 #include "ColBox.h"
+#include "Gallina.h"
+#include "Player.h"
 
 using namespace std;
-typedef vector<GameResource> ResourceCollection;
 
-class GameModel {
+class Primitive {
 public:
 	D3DXVECTOR3 mPosicion;
+	float mRadio;
 
 	ID3D11Device* mDevice;
 	ID3D11DeviceContext* mContext;
@@ -29,7 +31,6 @@ public:
 	ShaderClass* Shader;
 
 	char* mModel_path;
-	ResourceCollection mTextureCollection;
 
 	ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
@@ -42,35 +43,44 @@ public:
 	D3DXMATRIX viewMatrix;
 	D3DXMATRIX projMatrix;
 
-	ID3D11Buffer* cameraPosCB;
-	XMFLOAT3 camPos;
-
 	CObjParser ObjParser;
 	float rotaY;
 
-	GameModel(ID3D11Device* dev, ID3D11DeviceContext* cont, char* path, D3DXVECTOR3 Posicion, ResourceCollection Textures)
-		: mDevice(dev), mContext(cont), mModel_path(path), mTextureCollection(Textures)
+	ID3D11Buffer* mColorCB;
+	XMFLOAT4 mColor;
+
+	Primitive(ID3D11Device* dev, ID3D11DeviceContext* cont, char* path, D3DXVECTOR3 Posicion, float radio, XMFLOAT4 color)
+		: mDevice(dev), mContext(cont), mModel_path(path), mColor(color)
 	{
 		this->mPosicion = Posicion;
+		this->mRadio = radio;
 		this->Init();
 	}
 
-	~GameModel() {
+	~Primitive() {
 		Unload();
 	}
 
-	void Update(float dt) {
+	void Update(Gallina* gallina[], Player* Jugador) {
+		for (int i = 0; i < 3; i++) {
+			bool col = gallina[i]->GetColBox()->CheckSphereColission(mPosicion, mRadio);
+			if (col) {
+				bool alreadySaved = gallina[i]->GetSavedState();
+				if (!alreadySaved)
+				{
+					gallina[i]->SetSaved();
+					Jugador->SumPoint();
+				}
+			}
+		}
 
 	}
 
-	void Draw(Camara* camara, float scale, float specForce) {
+	void Draw(Camara* camara, float scale) {
 
 		unsigned int stride = sizeof(VertexObj);
 		unsigned int offset = 0;
 
-		camPos.x = camara->posCam.x;
-		camPos.y = camara->posCam.y;
-		camPos.z = camara->posCam.z;
 
 		mContext->IASetInputLayout(Shader->inputLayout);
 		mContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
@@ -79,11 +89,6 @@ public:
 		//Establece el vertex y pixel shader que utilizara
 		mContext->VSSetShader(Shader->_VShader, 0, 0);
 		mContext->PSSetShader(Shader->_PShader, 0, 0);
-
-		/*for (auto textura : mTextureCollection) {
-			mContext->PSSetShaderResources(textura.bufferpos, 1, &textura.Resource);
-		}*/
-		mContext->PSSetSamplers(0, 1, &colorMapSampler);
 
 		D3DXMATRIX translacionRotCam;
 		D3DXMatrixTranslation(&translacionRotCam, 0.0, 0.0, 0.0);
@@ -109,12 +114,15 @@ public:
 		mContext->UpdateSubresource(worldCB, 0, 0, &worldMat, 0, 0);
 		mContext->UpdateSubresource(viewCB, 0, 0, &camara->vista, 0, 0);
 		mContext->UpdateSubresource(projCB, 0, 0, &camara->proyeccion, 0, 0);
-		mContext->UpdateSubresource(cameraPosCB, 0, 0, &camPos, 0, 0);
+		mContext->UpdateSubresource(mColorCB, 0, 0, &mColor, 0, 0);
+
+		//mContext->UpdateSubresource(cameraPosCB, 0, 0, &camPos, 0, 0);
 		//le pasa al shader los buffers
 		mContext->VSSetConstantBuffers(0, 1, &worldCB);
 		mContext->VSSetConstantBuffers(1, 1, &viewCB);
 		mContext->VSSetConstantBuffers(2, 1, &projCB);
-		mContext->VSSetConstantBuffers(3, 1, &cameraPosCB);
+		mContext->PSSetConstantBuffers(0, 1, &mColorCB);
+
 
 		mContext->Draw(ObjParser.m_nVertexCount, 0);
 	}
@@ -161,8 +169,8 @@ public:
 			projCB->Release();
 		if (worldCB)
 			worldCB->Release();
-		if (cameraPosCB)
-			cameraPosCB->Release();
+		/*if (cameraPosCB)
+			cameraPosCB->Release();*/
 
 		colorMapSampler = 0;
 		vertexBuffer = 0;
@@ -170,7 +178,7 @@ public:
 		viewCB = 0;
 		projCB = 0;
 		worldCB = 0;
-		cameraPosCB = 0;
+		//cameraPosCB = 0;
 	}
 
 private:
@@ -197,7 +205,7 @@ private:
 		}
 
 		//if (!CreateShaderResourceView()) return false;
-		if (!CreateSampler()) return false;
+		//if (!CreateSampler()) return false;
 		if (!CreateBuffers()) return false;
 
 		//quizas ocupe el ojo el target y el up de la camara??
@@ -220,7 +228,7 @@ private:
 			texture.Resource = resource;
 		}
 		return true;
-	}*/
+	}
 
 	bool CreateSampler() {
 		D3D11_SAMPLER_DESC colorMapDesc;
@@ -236,7 +244,7 @@ private:
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	bool CreateBuffers() {
 		//creamos los buffers para el shader para poder pasarle las matrices
@@ -252,7 +260,7 @@ private:
 
 		constDesc.ByteWidth = sizeof(XMFLOAT4);
 
-		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &cameraPosCB))) return false;
+		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &mColorCB))) return false;
 		return true;
 	}
 

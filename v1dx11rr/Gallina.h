@@ -13,6 +13,8 @@ private:
 	float anguloMira;
 	bool traped = false;
 
+	bool saved = false;
+
 public:
 	Gallina(GameModel* model, fvec3 escala, float radio) 
 	{
@@ -34,14 +36,13 @@ public:
 		fvec3 player_pos = jugador->GetPos();
 		fvec3 actual_pos = position;
 		bool enRango = sqrt(pow((actual_pos.x - player_pos.x), 2) + pow((actual_pos.z - player_pos.z), 2)) < radioDetection;
-		if (!traped) 
+		if (!traped && !saved) 
 		{
 			if (enRango)
 			{
 				if (jugador->itemOnHand) 
 				{
 					giroGallina(anguloMira, player_pos.z, player_pos.x, position.z, position.x);
-					//seguir al jugador
 					float Vx = player_pos.x - actual_pos.x;
 					float Vz = player_pos.z - actual_pos.z;
 					float mag = sqrt(pow(Vx, 2) + pow(Vz, 2));
@@ -71,7 +72,7 @@ public:
 		mChickenModel->setAltura(position.y);
 		CajaDeColision = CajaDeColision->reposBox(position, fvec3(5.0f, 5.0f, 5.0f));
 		mChickenModel->setYRot(anguloMira);
-		mChickenModel->Draw(camara, scale, specForce);
+		if (!saved) mChickenModel->Draw(camara, scale, specForce);
 	}
 
 	void giroGallina(float& angulo, float jugadorZ, float jugadorX, float gallinaZ, float gallinaX) {
@@ -102,6 +103,9 @@ public:
 	}
 
 	void SetFallInTrap() { traped = true; }
+
+	void SetSaved() { saved = true; }
+	bool GetSavedState() { return saved; }
 
 	fvec3 GetPos() { return this->position; }
 	ColBox* GetColBox() { return CajaDeColision; }

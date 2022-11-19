@@ -5,3 +5,5 @@
 .suo
 *.log
 v1dx11rr/x64/Debug/v1dx11rr.log
+v1dx11rr/v1dx11rr.vcxproj
+v1dx11rr/v1dx11rr.vcxproj.filters

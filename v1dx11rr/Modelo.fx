@@ -1,5 +1,6 @@
 Texture2D colorMap : register(t0);
 Texture2D specMap : register(t1);
+
 SamplerState colorSampler : register(s0);
 
 cbuffer cbChangerEveryFrame : register(b0)

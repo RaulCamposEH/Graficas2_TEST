@@ -17,6 +17,7 @@ public:
 	bool itemOnHand;
 	bool itemOnInventory;
 	bool FPC = true;
+	int puntos = 0;
 
 	Player(GameModel* Model, Camara* Camara, fvec3 ColSize) {
 		mPlayerModel = Model;
@@ -92,5 +93,9 @@ public:
 	void SetAltura(float altura) {
 		position.y = altura;
 		mPlayerModel->setAltura(altura);
+	}
+
+	void SumPoint() {
+		puntos += 1;
 	}
 };
