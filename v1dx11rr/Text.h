@@ -206,8 +206,8 @@ public:
 		d3d11Device->CreateTexture2D(&textureDesc, NULL, &texturaDescText);
 
 
-		Height = Height / 100.0f;
-		Width = Width / 100.0f;
+		Height = Height / 200.0f;
+		Width = Width / 200.0f;
 		//Create the vertex buffer
 		setVertex(0.0f, 0.03125f, 0.34f, 0.68f);
 
@@ -338,7 +338,7 @@ public:
 		d3dContext->DrawIndexed(numIndex, 0, 0);
 	}
 
-	void DrawText(float posX, float posY, string texto, float adjustment) {
+	void DrawsText(float posX, float posY, string texto, float adjustment) {
 		float uStep = 0.03125;
 		float vStep = 0.33334;
 
