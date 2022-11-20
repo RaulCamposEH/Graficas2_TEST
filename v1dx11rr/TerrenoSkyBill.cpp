@@ -133,7 +133,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 char keyboardData[256];
 bool init = false;
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-unsigned long anterior;
+unsigned long anterior = 0;
+unsigned long actual = 0;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -213,14 +214,16 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
             else {
                 dxrr->drive = false;
             }
-
-            if (keyboardData[DIK_S] & 0x80) {
-                dxrr->vel = -5.f;
-                dxrr->vel = -10.f;
-            }
-            if (keyboardData[DIK_W] & 0x80) {
-                dxrr->vel = 5.f;
-                dxrr->vel = 10.f;
+            
+            if (!dxrr->mount) {
+                if (keyboardData[DIK_S] & 0x80) {
+                    dxrr->vel = -5.f;
+                    dxrr->vel = -10.f;
+                }
+                if (keyboardData[DIK_W] & 0x80) {
+                    dxrr->vel = 5.f;
+                    dxrr->vel = 10.f;
+                }
             }
 
             if (keyboardData[DIK_A] & 0x80) {
@@ -292,20 +295,37 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                     if (velocidad > 0.19) dxrr->vel = velocidad;
                     else if (velocidad < -0.19) dxrr->vel = velocidad;
                 }
-                /*
-                if (anterior == gamePad->GetState().dwPacketNumber) {
-                    dxrr->packnumber = 1;
+                actual = gamePad->GetState().dwPacketNumber;
+                if (actual != anterior) {
                     if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_X) {
                         dxrr->alternarItem();
                     }
+                    if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
+                        dxrr->MontarVehiculo();
+                    }
                 }
-                
-                else dxrr->packnumber = 0;
-                anterior = gamePad->GetState().dwPacketNumber;
-                */
+                else {
+                    float rT = gamePad->GetState().Gamepad.bRightTrigger;
+                    if (rT <= XINPUT_GAMEPAD_TRIGGER_THRESHOLD)
+                    {
+                        rT = 0.0f;
+                    }
+                    else
+                    {
+                        rT = rT - XINPUT_GAMEPAD_TRIGGER_THRESHOLD;
+                        rT = rT / (255.0f - XINPUT_GAMEPAD_TRIGGER_THRESHOLD);
+                    }
+                    dxrr->packnumber = rT;
+                    if (rT > 0) {
+                        dxrr->vel = 15.f;
+                        dxrr->drive = true;
+                    }
+                    else {
+                        dxrr->drive = false;
+                    }
+                }
+                anterior = actual;
             }
-
-
             break;
         }
 
