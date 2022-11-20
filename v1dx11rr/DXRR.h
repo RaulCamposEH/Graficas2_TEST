@@ -130,7 +130,7 @@ public:
 
 	GUI* gallinasHUD[4];
 
-	GUI* itemSemillas;
+	GUI* itemSemillas[2];
 
 	GUI* gameOver;
 
@@ -307,9 +307,9 @@ public:
 
 		Jugador = new Player(Character, camara, fvec3(2.0f, 10.0f, 2.0f));
 
-		chickenOne = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f);
-		chickenTwo = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f);
-		chickenThree = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f);
+		chickenOne = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f, 1);
+		chickenTwo = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f, 2);
+		chickenThree = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f, 3);
 
 		chickenOne->SetPos(fvec3(10.0f, 0.0f, 80.0f));
 		chickenTwo->SetPos(fvec3(40.0f, 0.0f, 80.0f));
@@ -337,7 +337,8 @@ public:
 		gallinasHUD[2] = new GUI(d3dDevice, d3dContext, 0.65, 0.46, L"Assets/UI/gallinas_2.png");
 		gallinasHUD[3] = new GUI(d3dDevice, d3dContext, 0.65, 0.46, L"Assets/UI/gallinas_3.png");
 
-		itemSemillas = new GUI(d3dDevice, d3dContext, 0.45, 0.25, L"Assets/UI/item_inactivo.png");
+		itemSemillas[0] = new GUI(d3dDevice, d3dContext, 0.45, 0.25, L"Assets/UI/item_inactivo.png");
+		itemSemillas[1] = new GUI(d3dDevice, d3dContext, 0.45, 0.25, L"Assets/UI/item_activo.png");
 
 		gameOver = new GUI(d3dDevice, d3dContext, 0.55, 0.55, L"Assets/UI/game_over.png");
 
@@ -510,8 +511,55 @@ public:
 		d3dContext->OMSetRenderTargets(1, &backBufferTarget, depthStencilView);
 		initIMGUI(hWnd);
 
+		bool res = m_XACT3.Initialize();
+		if (!res) return false;
+		res = m_XACT3.LoadWaveBank(L"Assets\\Sonido\\gamebank.xwb");
+		if (!res) return false;
+		res = m_XACT3.LoadSoundBank(L"Assets\\Sonido\\soundbank.xsb");
+		if (!res) return false;
+
+		cueIndex = m_XACT3.m_pSoundBank->GetCueIndex("birds_background");
+		m_XACT3.m_pSoundBank->Play(cueIndex, 0, 0, 0);
 		return true;			
 		
+	}
+	bool walking = false;
+	bool chickenIsFollowing = false;
+
+	void startWalkingSfx() {
+		if (!walking) {
+			cueIndex = m_XACT3.m_pSoundBank->GetCueIndex("walk_sound");
+			m_XACT3.m_pSoundBank->Play(cueIndex, 0, 0, 0);
+			walking = true;
+		}
+	}
+
+	void stopWalkingSfx() {
+		if (walking) {
+			cueIndex = m_XACT3.m_pSoundBank->GetCueIndex("walk_sound");
+			m_XACT3.m_pSoundBank->Stop(cueIndex, 0);
+			walking = false;
+		}
+	}
+
+	void startChickenSfx() {
+		if (!chickenIsFollowing) {
+			cueIndex = m_XACT3.m_pSoundBank->GetCueIndex("chicken_sound");
+			m_XACT3.m_pSoundBank->Play(cueIndex, 0, 0, 0);
+			chickenIsFollowing = true;
+		}
+	}
+
+	void stopChickenSfx() {
+		if (chickenIsFollowing) {
+			cueIndex = m_XACT3.m_pSoundBank->GetCueIndex("chicken_sound");
+			m_XACT3.m_pSoundBank->Stop(cueIndex, 0);
+			chickenIsFollowing = false;
+		}
+	}
+
+	void alternarItem() {
+		Jugador->toggleItem();
 	}
 
 	void LiberaD3D(void)
@@ -568,6 +616,9 @@ public:
 	}
 	
 	void Update(void) {
+		if (vel > 0 || vel < 0) startWalkingSfx();
+		else stopWalkingSfx();
+
 		if (actualizarPosiciones) GetPositions();
 
 		if (d3dContext == 0)
@@ -604,20 +655,32 @@ public:
 		
 		fvec3 pos = fvec3(x, y, z);
 		Jugador->Update(pos, Colisiones);
-		Jugador->obtenerItem(item);
+		bool obtenido = false;
+		Jugador->obtenerItem(item, obtenido);
+		if (obtenido)
+		{
+			cueIndex = m_XACT3.m_pSoundBank->GetCueIndex("pickup_sound");
+			m_XACT3.m_pSoundBank->Play(cueIndex, 0, 0, 0);
+		}
 		if (Jugador->CajaDeColision->CheckSphereColission(Camioneta->getPos(), 25.0f))
 			rangoCamioneta = true;
 		else 
 			rangoCamioneta = false;
-		
-		chickenOne->Update(Jugador, chickenOne->GetPos());
+
+		bool siguiendo1 = false;
+		chickenOne->Update(Jugador, chickenOne->GetPos(), siguiendo1);
 		chickenOne->SetAltura(terreno->Superficie(chickenOne->GetPos().x, chickenOne->GetPos().z));
 
-		chickenTwo->Update(Jugador, chickenTwo->GetPos());
+		bool siguiendo2 = false;
+		chickenTwo->Update(Jugador, chickenTwo->GetPos(), siguiendo2);
 		chickenTwo->SetAltura(terreno->Superficie(chickenTwo->GetPos().x, chickenTwo->GetPos().z));
 
-		chickenThree->Update(Jugador, chickenThree->GetPos());
+		bool siguiendo3 = false;
+		chickenThree->Update(Jugador, chickenThree->GetPos(), siguiendo3);
 		chickenThree->SetAltura(terreno->Superficie(chickenThree->GetPos().x, chickenThree->GetPos().z));
+
+		if (siguiendo1 || siguiendo2 || siguiendo3) startChickenSfx();
+		else stopChickenSfx();
 
 		Gallina* gallinas[3];
 		gallinas[0] = chickenOne;
@@ -629,9 +692,9 @@ public:
 			trampa->Update(gallinas, Jugador);
 		}
 
-		WinTarget->Update(gallinas, Jugador);
-
 		item->Update();
+
+		WinTarget->Update(gallinas, Jugador, item);
 
 		#pragma endregion
 
@@ -649,6 +712,7 @@ public:
 
 	}
 
+	int packnumber = 0;
 	void Render(void)
 	{
 		if (d3dContext == 0)
@@ -669,10 +733,15 @@ public:
 		//TurnOffAlphaBlending();
 
 		#pragma region My Drawing Stuff
+		//Models
+		Granero->Draw(camara, 1.0f, 1.0f);
+		Heno->Draw(camara, 1.0f, 1.0f);
+		Tronco->Draw(camara, 1.0f, 1.0f);
+		Garage->Draw(camara, 1.0f, 1.0f);
+		Camioneta->Draw2(camara, 1.0f, 1.0f);
+		Silo->Draw(camara, 1.0f, 1.0f);
 
 		//Gameplay Elements
-
-
 		Jugador->Draw(camara, 1.0f, 1.0f);
 		chickenOne->Draw(camara, 1.0f, 1.0f);
 		chickenTwo->Draw(camara,  1.0f, 1.0f);
@@ -680,14 +749,7 @@ public:
 		TurnOnAlphaBlending();
 		item->Draw(camara, 1.0f, 1.0f);
 		TurnOffAlphaBlending();
-		//Models
 
-		Granero->Draw(camara, 1.0f, 1.0f);
-		Heno->Draw(camara, 1.0f, 1.0f);
-		Tronco->Draw(camara, 1.0f, 1.0f);
-		Garage->Draw(camara, 1.0f, 1.0f);
-		Camioneta->Draw2(camara, 1.0f, 1.0f);
-		Silo->Draw(camara, 1.0f, 1.0f);
 
 		TurnOnAlphaBlending();
 			WinTarget->Draw(camara, 1.0f);
@@ -708,7 +770,8 @@ public:
 
 		#pragma region UI Stuff
 
-		itemSemillas->Draw(0.85, 0.75);
+		if (Jugador->itemOnHand) itemSemillas[1]->Draw(0.85, 0.75);
+		else itemSemillas[0]->Draw(0.85, 0.75);
 
 		if (vidas == 3) vida[0]->Draw(0.75, -0.75);
 		else if (vidas == 2) vida[1]->Draw(0.75, -0.75);
@@ -719,10 +782,16 @@ public:
 		if(chickenTwo->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
 		if(chickenThree->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
 
+		std::string num = "Number: " + std::to_string(packnumber);
+		texto->DrawsText(-0.10, 0, num.c_str(), 0.005);
 		std::string pts = "Puntos: " + std::to_string(Jugador->puntos);
-		texto->DrawText(-0.95, 0.65, pts.c_str(), 0.025);
-		std::string montar = "Presiona E para manejar";
-		if (rangoCamioneta) texto->DrawText(-0.35, -0.6, montar.c_str(), 0.025);
+		texto->DrawsText(-0.80, -0.55, pts.c_str(), 0.005);
+		std::string montar = "Presiona \"E\" para Manejar";
+		if (rangoCamioneta) texto->DrawsText(-0.15, -0.6, montar.c_str(), 0.005);
+		if (Jugador->itemOnInventory) {
+			std::string textocontrol = "Presiona \"Q\" o \"X\" para Alternar Semillas";
+			texto->DrawsText(-0.35, -0.6, textocontrol.c_str(), 0.005);
+		}
 		segundos -= 0.02;
 
 		if (Jugador->puntos == 0) gallinasHUD[0]->Draw(-0.75, -0.75);
