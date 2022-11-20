@@ -14,10 +14,11 @@ private:
 	bool traped = false;
 
 	bool saved = false;
-
+	int mId;
 public:
-	Gallina(GameModel* model, fvec3 escala, float radio) 
+	Gallina(GameModel* model, fvec3 escala, float radio, int id) 
 	{
+		mId = id;
 		mChickenModel = model;
 		scale = escala;
 		radioDetection = radio;
@@ -32,16 +33,21 @@ public:
 		
 	}
 
-	fvec3 Seguir(Player* jugador) {
+	fvec3 Seguir(Player* jugador, bool& result) {
 		fvec3 player_pos = jugador->GetPos();
 		fvec3 actual_pos = position;
 		bool enRango = sqrt(pow((actual_pos.x - player_pos.x), 2) + pow((actual_pos.z - player_pos.z), 2)) < radioDetection;
+		
 		if (!traped && !saved) 
 		{
-			if (enRango)
+			int seguidopor = jugador->GetSeguimientoGallina();
+
+			if (enRango && (seguidopor == 0 || seguidopor == mId))
 			{
+				if (seguidopor == 0) jugador->SetGallina(mId);
 				if (jugador->itemOnHand) 
 				{
+					result = true;
 					giroGallina(anguloMira, player_pos.z, player_pos.x, position.z, position.x);
 					float Vx = player_pos.x - actual_pos.x;
 					float Vz = player_pos.z - actual_pos.z;
@@ -58,12 +64,15 @@ public:
 					return newpos;
 				}
 			}
+			else {
+				jugador->SetGallina(0);
+			}
 		}
 		return actual_pos;
 	}
 
-	void Update(Player* jugador, fvec3& pos) {
-		pos = Seguir(jugador);
+	void Update(Player* jugador, fvec3& pos, bool& result) {
+		pos = Seguir(jugador, result);
 		SetPos(pos);
 	}
 
