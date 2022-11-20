@@ -108,5 +108,5 @@ float4 PS_Main(PS_Input pix) : SV_TARGET
 
 	color = saturate(color + finalSpec);
 
-    return float4(color.rgb, 0.5);
+    return float4(color.rgb, 0.8);
 }
