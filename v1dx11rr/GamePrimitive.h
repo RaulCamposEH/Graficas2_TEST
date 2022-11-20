@@ -15,11 +15,12 @@
 #include "ColBox.h"
 #include "Gallina.h"
 #include "Player.h"
-
+#include "Item.h"
 using namespace std;
 
 class Primitive {
 public:
+#pragma region stuff
 	D3DXVECTOR3 mPosicion;
 	float mRadio;
 
@@ -48,7 +49,7 @@ public:
 
 	ID3D11Buffer* mColorCB;
 	XMFLOAT4 mColor;
-
+#pragma endregion
 	Primitive(ID3D11Device* dev, ID3D11DeviceContext* cont, char* path, D3DXVECTOR3 Posicion, float radio, XMFLOAT4 color)
 		: mDevice(dev), mContext(cont), mModel_path(path), mColor(color)
 	{
@@ -61,7 +62,7 @@ public:
 		Unload();
 	}
 
-	void Update(Gallina* gallina[], Player* Jugador) {
+	void Update(Gallina* gallina[], Player* Jugador, Item* item) {
 		for (int i = 0; i < 3; i++) {
 			bool col = gallina[i]->GetColBox()->CheckSphereColission(mPosicion, mRadio);
 			if (col) {
@@ -70,6 +71,9 @@ public:
 				{
 					gallina[i]->SetSaved();
 					Jugador->SumPoint();
+					Jugador->itemOnInventory = false;
+					Jugador->itemOnHand = false;
+					item->RespawnItem();
 				}
 			}
 		}
