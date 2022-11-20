@@ -6,6 +6,8 @@
 #include <DxErr.h>
 #include <D3Dcompiler.h>
 #include <d3dx10math.h>
+#include <xnamath.h>
+
 
 struct SkyComponent
 {
@@ -33,7 +35,12 @@ private:
 	ID3D11Buffer* vertexBuffer;
 	ID3D11Buffer* indexBuffer;
 
-	ID3D11ShaderResourceView* textura;
+	ID3D11ShaderResourceView* Blend1;
+	ID3D11ShaderResourceView* Blend2;
+	ID3D11ShaderResourceView* Blend3;
+
+	ID3D11Buffer* DayBuffer;
+
 	ID3D11SamplerState* texSampler;
 
 	ID3D11Buffer* matrixBufferCB;
@@ -48,7 +55,7 @@ private:
 
 public:
 	SkyDome(int slices, int stacks, float radio, ID3D11Device** d3dDevice,
-		ID3D11DeviceContext** d3dContext, WCHAR* diffuseTex)
+		ID3D11DeviceContext** d3dContext, WCHAR* diffuseTex, WCHAR* diffuseTex2, WCHAR* diffuseTex3)
 	{
 		this->slices = slices;
 		this->stacks = stacks;
@@ -57,7 +64,7 @@ public:
 		vertices = NULL;
 		this->d3dDevice = d3dDevice;
 		this->d3dContext = d3dContext;
-		LoadContent(diffuseTex);
+		LoadContent(diffuseTex, diffuseTex2, diffuseTex3);
 	}
 
 	~SkyDome()
@@ -91,7 +98,7 @@ public:
 		return true;
 	}
 
-	bool LoadContent(WCHAR* diffuseTex)
+	bool LoadContent(WCHAR* diffuseTex, WCHAR* diffuseTex2, WCHAR* diffuseTex3)
 	{
 		HRESULT d3dResult;
 
@@ -197,7 +204,9 @@ public:
 
 		creaIndices();
 
-		d3dResult = D3DX11CreateShaderResourceViewFromFile((*d3dDevice), diffuseTex, 0, 0, &textura, 0);
+		d3dResult = D3DX11CreateShaderResourceViewFromFile((*d3dDevice), diffuseTex, 0, 0, &Blend1, 0);
+		d3dResult = D3DX11CreateShaderResourceViewFromFile((*d3dDevice), diffuseTex2, 0, 0, &Blend2, 0);
+		d3dResult = D3DX11CreateShaderResourceViewFromFile((*d3dDevice), diffuseTex3, 0, 0, &Blend3, 0);
 
 		if (FAILED(d3dResult))
 		{
@@ -236,6 +245,16 @@ public:
 		}
 		matrices = new MatrixType;
 
+		constDesc.ByteWidth = sizeof(XMFLOAT4);
+
+		d3dResult = (*d3dDevice)->CreateBuffer(&constDesc, 0, &DayBuffer);
+
+		if (FAILED(d3dResult))
+		{
+			return false;
+		}
+
+
 		return true;
 	}
 
@@ -243,8 +262,12 @@ public:
 	{
 		if (texSampler)
 			texSampler->Release();
-		if (textura)
-			textura->Release();
+		if (Blend1)
+			Blend1->Release();
+		if (Blend2)
+			Blend2->Release();
+		if (Blend3)
+			Blend3->Release();
 		if (solidColorVS)
 			solidColorVS->Release();
 		if (solidColorPS)
@@ -257,15 +280,20 @@ public:
 			indexBuffer->Release();
 		if (matrixBufferCB)
 			matrixBufferCB->Release();
+		if (DayBuffer)
+			DayBuffer->Release();
 
 		texSampler = 0;
-		textura = 0;
+		Blend1 = 0;
+		Blend2 = 0;
+		Blend3 = 0;
 		solidColorVS = 0;
 		solidColorPS = 0;
 		inputLayout = 0;
 		vertexBuffer = 0;
 		indexBuffer = 0;
 		matrixBufferCB = 0;
+		DayBuffer = 0;
 
 		return true;
 	}
@@ -276,10 +304,8 @@ public:
 		matrices->projMatrix = projection;
 	}
 
-	void Render(D3DXVECTOR3 trans)
+	void Render(D3DXVECTOR3 trans, int DayCase, float DayLerp)
 	{
-		if (d3dContext == 0)
-			return;
 
 		unsigned int stride = sizeof(SkyComponent);
 		unsigned int offset = 0;
@@ -291,7 +317,36 @@ public:
 
 		(*d3dContext)->VSSetShader(solidColorVS, 0, 0);
 		(*d3dContext)->PSSetShader(solidColorPS, 0, 0);
-		(*d3dContext)->PSSetShaderResources(0, 1, &textura);
+
+		switch (DayCase)
+		{
+		case 0:
+			(*d3dContext)->PSSetShaderResources(0, 1, &Blend1);
+			(*d3dContext)->PSSetShaderResources(1, 1, &Blend1);
+			break;
+		case 1:
+			(*d3dContext)->PSSetShaderResources(0, 1, &Blend1);
+			(*d3dContext)->PSSetShaderResources(1, 1, &Blend2);
+			break;
+		case 2:
+			(*d3dContext)->PSSetShaderResources(0, 1, &Blend2);
+			(*d3dContext)->PSSetShaderResources(1, 1, &Blend3);
+			break;
+		case 3:
+			(*d3dContext)->PSSetShaderResources(0, 1, &Blend3);
+			(*d3dContext)->PSSetShaderResources(1, 1, &Blend3);
+			break;
+		case 4:
+			(*d3dContext)->PSSetShaderResources(0, 1, &Blend3);
+			(*d3dContext)->PSSetShaderResources(1, 1, &Blend2);
+			break;
+		case 5:
+			(*d3dContext)->PSSetShaderResources(0, 1, &Blend2);
+			(*d3dContext)->PSSetShaderResources(1, 1, &Blend1);
+			break;
+		}
+
+
 		(*d3dContext)->PSSetSamplers(0, 1, &texSampler);
 
 		D3DXMATRIX worldMat;
@@ -300,7 +355,10 @@ public:
 		matrices->worldMatrix = worldMat;
 
 		(*d3dContext)->UpdateSubresource(matrixBufferCB, 0, 0, matrices, sizeof(MatrixType), 0);
+		(*d3dContext)->UpdateSubresource(DayBuffer, 0, 0, &DayLerp, sizeof(XMFLOAT4), 0);
+
 		(*d3dContext)->VSSetConstantBuffers(0, 1, &matrixBufferCB);
+		(*d3dContext)->PSSetConstantBuffers(1, 1, &DayBuffer);
 
 		(*d3dContext)->DrawIndexed(cantIndex, 0, 0);
 	}
@@ -346,6 +404,7 @@ private:
 		{
 			return;
 		}
+
 		delete indices;
 	}
 };
