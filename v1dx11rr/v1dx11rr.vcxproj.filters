@@ -120,6 +120,9 @@
     <ClInclude Include="GamePrimitive.h">
       <Filter>Archivos de encabezado\MisClases</Filter>
     </ClInclude>
+    <ClInclude Include="Agua.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TerrenoSkyBill.cpp">
@@ -161,6 +164,9 @@
       <Filter>Archivos de código fuente\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Modelo.fx">
+      <Filter>Archivos de código fuente\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Agua.fx">
       <Filter>Archivos de código fuente\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

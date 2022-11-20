@@ -223,9 +223,10 @@ public:
 		auto eye = D3DXVECTOR3(0, 80, 6);
 		auto target = D3DXVECTOR3(0, 80, 0);
 		auto up = D3DXVECTOR3(0, 1, 0);
+
 		camara = new Camara(eye, target, up, Ancho, Alto);
 		terreno = new TerrenoRR(1200, 1200, d3dDevice, d3dContext);
-		skydome = new SkyDome(32, 32, 100.0f, &d3dDevice, &d3dContext, L"SKYD1.png");
+		skydome = new SkyDome(32, 32, 800.0f, &d3dDevice, &d3dContext, L"SKYD1.png", L"SKYD2.png", L"SKYD3.png");
 		Aguita = new AguaRR(2000, 2000, d3dDevice, d3dContext);
 
 		#pragma endregion
@@ -605,6 +606,7 @@ public:
 		fvec3 pos = fvec3(x, y, z);
 		Jugador->Update(pos, Colisiones);
 		Jugador->obtenerItem(item);
+
 		if (Jugador->CajaDeColision->CheckSphereColission(Camioneta->getPos(), 25.0f))
 			rangoCamioneta = true;
 		else 
@@ -639,13 +641,30 @@ public:
 			//WinTarget->setPos(fvec3(posiciones[0], terreno->Superficie(posiciones[0], posiciones[1]), posiciones[1]));
 			//Camioneta->setYRot(rotationModel);
 		}
+		static float angbuff = -camara->ang2 + 90;
 
 		if (drive == true) {
-			Camioneta->setYRot(-camara->ang2 + 90);
+			if (angbuff < -camara->ang2 + 91) {
+				Camioneta->setYRot(angbuff);
+				angbuff += 2;
+			}
+
+			if (angbuff > -camara->ang2 + 89) {
+				Camioneta->setYRot(angbuff);
+				angbuff -= 2;
+			}
+
+			if (angbuff == -camara->ang2 + 90) Camioneta->setYRot(angbuff);
 			Camioneta->mPosicion.x = camara->Camaracontra().x;
 			Camioneta->mPosicion.z = camara->Camaracontra().z;
 			Camioneta->mPosicion.y = terreno->Superficie(camara->Camaracontra().x, camara->Camaracontra().z);
 		}
+
+		/*
+		Tronco->mPosicion.x = xc;
+		Tronco->mPosicion.z = 0;
+		Tronco->mPosicion.y = yc + terreno->Superficie(xc, 0);
+		*/
 
 	}
 
@@ -654,10 +673,41 @@ public:
 		if (d3dContext == 0)
 			return;
 
+		static float lerpDay = 5.0f;
+		static int DayFase = 0;
+						
+	    lerpDay += 0.003;
+		if (lerpDay >= 1.0f) {
+			lerpDay = 0.0f;
+			DayFase++;
+		}
+
+		if (DayFase > 5) DayFase = 0;
+
 		TurnOffDepth();
-		skydome->Render(camara->posCam);
+		skydome->Render(camara->posCam, DayFase, lerpDay);
 		TurnOnDepth();
-		terreno->Draw(camara->vista, camara->proyeccion);
+
+		XMFLOAT3 m_camPos;
+		m_camPos.x = camara->posCam.x;
+		m_camPos.y = camara->posCam.y;
+		m_camPos.z = camara->posCam.z;
+
+		static float ang = 90;
+		ang += 0.18;
+
+		float xc = (500 * (cos(ang * 3.1416 / 180)));
+		float yc = (500 * (sin(ang * 3.1416 / 180)));
+
+		if (ang >= 360) ang = 0;
+
+		XMFLOAT3 m_lightPos;
+		m_lightPos.x = xc;
+		m_lightPos.y = yc + terreno->Superficie(xc,0.0f);
+		m_lightPos.z = 0.0f;
+
+		terreno->Draw(camara->vista, camara->proyeccion, m_camPos, m_lightPos);
+
 		movetext += 0.0025;
 
 		static float wave = 0;
@@ -677,6 +727,7 @@ public:
 		chickenOne->Draw(camara, 1.0f, 1.0f);
 		chickenTwo->Draw(camara,  1.0f, 1.0f);
 		chickenThree->Draw(camara, 1.0f, 1.0f);
+
 		TurnOnAlphaBlending();
 		item->Draw(camara, 1.0f, 1.0f);
 		TurnOffAlphaBlending();
@@ -684,7 +735,7 @@ public:
 
 		Granero->Draw(camara, 1.0f, 1.0f);
 		Heno->Draw(camara, 1.0f, 1.0f);
-		Tronco->Draw(camara, 1.0f, 1.0f);
+		Tronco->Draw(camara, 7.0f, 1.0f);
 		Garage->Draw(camara, 1.0f, 1.0f);
 		Camioneta->Draw2(camara, 1.0f, 1.0f);
 		Silo->Draw(camara, 1.0f, 1.0f);
@@ -697,12 +748,8 @@ public:
 			trampa->Draw(camara, 1.0f, 1.0f);
 		}
 
-		XMFLOAT3 m_camPos;
-		m_camPos.x = camara->posCam.x;
-		m_camPos.y = camara->posCam.y;
-		m_camPos.z = camara->posCam.z;
 		TurnOnAlphaBlending();
-			Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_camPos);
+	    Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_camPos, m_lightPos);
 		TurnOffAlphaBlending();
 		#pragma endregion
 

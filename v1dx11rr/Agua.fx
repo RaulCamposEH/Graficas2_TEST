@@ -22,7 +22,6 @@ cbuffer cbChangeOnResize : register(b2)
 	matrix projMatrix;
 };
 
-
 cbuffer cbChangesTextLocation : register(b3)
 {
     float MoveText;
@@ -31,6 +30,11 @@ cbuffer cbChangesTextLocation : register(b3)
 cbuffer cbChangesTextLocation : register(b4)
 {
     float3 cameraPos;
+};
+
+cbuffer cbChangesTextLocation : register(b5)
+{
+    float3 sunPos;
 };
 
 
@@ -64,8 +68,9 @@ PS_Input VS_Main(VS_Input vertex)
 	vsOut.pos = mul(vsOut.pos, projMatrix);
 
 	//uv
-	vsOut.tex0 = vertex.tex0;
-	
+    vsOut.tex0 = vertex.tex0;
+    
+    
 	//normal
     vsOut.normal = mul(vertex.normal, (float3x3) worldMatrix);
     vsOut.normal = normalize(vsOut.normal);
@@ -88,12 +93,9 @@ PS_Input VS_Main(VS_Input vertex)
     float3 binormal;
     binormal = cross(vsOut.normal, vsOut.tangent);
     vsOut.binorm = normalize(binormal);
-		
-    // Set light position
-    float3 lightPos = float3(10.0f, 100.0f, -100.0f);
 
     // Calculate light vector
-    vsOut.lightVec = normalize(lightPos - worldPos);
+    vsOut.lightVec = normalize(-sunPos - worldPos);
     
     // Calculate camera vector
     vsOut.cameraVec = normalize(cameraPos - worldPos);
@@ -112,7 +114,6 @@ float4 PS_Main(PS_Input pix) : SV_TARGET
     pix.tex0.y += MoveText;
 	
 	//luces
-	float4 fColor = float4(0,0,0,0);
 	float3 ambient = float3(0.1f, 0.1f, 0.1f);
     float3 DiffuseDirection = float3(0.5f, -1.0f, 0.0f);	
     float3 diffuseColor = float3(1.0f, 1.0f, 1.0f);	
@@ -122,6 +123,8 @@ float4 PS_Main(PS_Input pix) : SV_TARGET
 	float4 text1 = colorMap.Sample(colorSampler, pix.tex0);	
 	float4 text2 = colorMap2.Sample(colorSampler, pix.tex0);	
 	float4 text3 = colorMap3.Sample(colorSampler, pix.tex0);
+    
+    text3 = saturate(text3);
 	
 	// Normalizacion
     float3 normal = normalize(pix.normal);
@@ -137,19 +140,17 @@ float4 PS_Main(PS_Input pix) : SV_TARGET
 	
 	//diffuse basada en el bump map
     float3 diffuseTerm = saturate(dot(bumpnormal, lightVec));
-    diffuseTerm = normalize(diffuseTerm);	
+    diffuseTerm = normalize(diffuseTerm); //light intensity
 	
     //especular
     float3 R = normalize(lightVec + cameraVec);
     float specularTerm = pow(saturate(dot(normal, R)), 100); // puntito de luz
-	
-	
+		
 	// Luzes que multiplicaaran por la textura
-    float3 finalColor = saturate(ambient + diffuseColor * diffuseTerm + specularColor * specularTerm);
+    float3 finalLight = saturate(ambient + diffuseColor * diffuseTerm + specularColor * specularTerm);
+    
+    text3 = (text3.rgb * diffuseTerm + specularColor, 1.0f);
 	
 	//color final
-	//fColor = float4(text1.rgb * diffuse, 1.0f);
-    fColor.a = 0.5;
-    return float4(text1.rgb * finalColor, 0.5f);
-
+    return float4(text1.rgb * text3.rgb * finalLight, 0.5f);
 }

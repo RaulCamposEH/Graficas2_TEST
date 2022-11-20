@@ -165,6 +165,7 @@
     <ClCompile Include="XACT3Util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agua.h" />
     <ClInclude Include="Billboard.h" />
     <ClInclude Include="Camara.h" />
     <ClInclude Include="ColBox.h" />
@@ -203,6 +204,10 @@
     <Text Include="SkyDome.fx" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Agua.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Billboard.hlsl" />
     <Text Include="Text.fx">
       <FileType>Document</FileType>
