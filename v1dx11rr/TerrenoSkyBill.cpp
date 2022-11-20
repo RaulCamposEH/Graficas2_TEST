@@ -133,6 +133,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 char keyboardData[256];
 bool init = false;
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+unsigned long anterior;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -165,12 +166,16 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         {
             if (keyboardData[DIK_E]) {
                 dxrr->MontarVehiculo();
+                break;
+            }
+            if (keyboardData[DIK_Q]) {
+                dxrr->alternarItem();
+                break;
             }
             break;
         }
         case WM_KEYUP: 
         {
-
             switch (wParam)
             {
                 case VK_F1:
@@ -183,6 +188,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                     dxrr->actualizarPosiciones = true;
                     break;
                 }
+
             }
             break;
         } 
@@ -208,7 +214,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 dxrr->drive = false;
             }
 
-           
             if (keyboardData[DIK_S] & 0x80) {
                 dxrr->vel = -5.f;
                 dxrr->vel = -10.f;
@@ -217,18 +222,21 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 dxrr->vel = 5.f;
                 dxrr->vel = 10.f;
             }
+
             if (keyboardData[DIK_A] & 0x80) {
                 dxrr->rotatecar = -5.f;
             }
             if (keyboardData[DIK_D] & 0x80) {
                 dxrr->rotatecar = 5.f;
             }
+
             if (keyboardData[DIK_Z] & 0x80) {
                 dxrr->first = true;
             }
             if (keyboardData[DIK_X] & 0x80) {
                 dxrr->first = false;
             }
+
             if (keyboardData[DIK_B] & 0x80) {
                 dxrr->breakpoint = true;
             }
@@ -262,14 +270,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 dxrr->rotationModel -= 5.0f;
             }
 
-
-
             DIMOUSESTATE mouseData;
             m_pMouseDevice->GetDeviceState(sizeof(mouseData), (void*)&mouseData);
 
             // Mouse move
             dxrr->izqder = (mouseData.lX / 1000.0f);
             dxrr->arriaba = -(mouseData.lY / 1000.0f);
+
 
             if (gamePad->IsConnected())
             {
@@ -285,12 +292,19 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                     if (velocidad > 0.19) dxrr->vel = velocidad;
                     else if (velocidad < -0.19) dxrr->vel = velocidad;
                 }
-                if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_A && !stillpressed) {
-                    if (!stillpressed) dxrr->SavePosition();
-                    stillpressed = true;
+                /*
+                if (anterior == gamePad->GetState().dwPacketNumber) {
+                    dxrr->packnumber = 1;
+                    if (gamePad->GetState().Gamepad.wButtons & XINPUT_GAMEPAD_X) {
+                        dxrr->alternarItem();
+                    }
                 }
-                else stillpressed = false;
+                
+                else dxrr->packnumber = 0;
+                anterior = gamePad->GetState().dwPacketNumber;
+                */
             }
+
 
             break;
         }
