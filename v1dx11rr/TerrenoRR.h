@@ -8,6 +8,7 @@
 #include <DxErr.h>
 #include <D3Dcompiler.h>
 #include <d3dx10math.h>
+#include <xnamath.h>
 
 
 class TerrenoRR{
@@ -38,11 +39,17 @@ private:
 	ID3D11ShaderResourceView* colorMap3;
 	ID3D11ShaderResourceView* blendMap;
 	ID3D11ShaderResourceView* blendMap2;
+	ID3D11ShaderResourceView* normalMap;
+	ID3D11ShaderResourceView* normalMap2;
+	ID3D11ShaderResourceView* normalMap3;
 	ID3D11SamplerState* colorMapSampler;
 
 	ID3D11Buffer* viewCB;
 	ID3D11Buffer* projCB;
 	ID3D11Buffer* worldCB;
+	ID3D11Buffer* CamPosCB;
+	ID3D11Buffer* SunPosCB;
+
 	D3DXMATRIX viewMatrix;
 	D3DXMATRIX projMatrix;
 
@@ -65,6 +72,9 @@ private:
 	wchar_t* PiedraTex = L"Assets/Terreno/StoneTex.jpg";
 	wchar_t* blendtex = L"Assets/Terreno/blend1.png";
 	wchar_t* blendtex2 = L"Assets/Terreno/blend2.png";
+	wchar_t* CespedNormal = L"Assets/Terreno/CespedNormal.png";
+	wchar_t* DirtNormal = L"Assets/Terreno/DirtNormal.png";
+	wchar_t* BrickNormal = L"Assets/Terreno/BrickNormal.png";
 
 public:
 	TerrenoRR(int ancho, int alto, ID3D11Device* D3DDevice, ID3D11DeviceContext* D3DContext)
@@ -258,6 +268,10 @@ public:
 		d3dResult = D3DX11CreateShaderResourceViewFromFile( d3dDevice, blendtex, 0, 0, &blendMap, 0 );
 		d3dResult = D3DX11CreateShaderResourceViewFromFile( d3dDevice, blendtex2, 0, 0, &blendMap2, 0 );
 
+		d3dResult = D3DX11CreateShaderResourceViewFromFile(d3dDevice, CespedNormal, 0, 0, &normalMap, 0);
+		d3dResult = D3DX11CreateShaderResourceViewFromFile(d3dDevice, DirtNormal, 0, 0, &normalMap2, 0);
+		d3dResult = D3DX11CreateShaderResourceViewFromFile(d3dDevice, BrickNormal, 0, 0, &normalMap3, 0);
+
 		if( FAILED( d3dResult ) )
 		{
 			return false;
@@ -303,6 +317,24 @@ public:
 		d3dResult = d3dDevice->CreateBuffer( &constDesc, 0, &worldCB );
 
 		if( FAILED( d3dResult ) )
+		{
+			return false;
+		}
+
+
+		constDesc.ByteWidth = sizeof(XMFLOAT4);
+
+		d3dResult = d3dDevice->CreateBuffer(&constDesc, 0, &CamPosCB);
+
+		if (FAILED(d3dResult))
+		{
+			return false;
+		}
+
+
+		d3dResult = d3dDevice->CreateBuffer(&constDesc, 0, &SunPosCB);
+
+		if (FAILED(d3dResult))
 		{
 			return false;
 		}
@@ -373,6 +405,10 @@ public:
 			projCB->Release();
 		if(worldCB)
 			worldCB->Release();
+		if (CamPosCB)
+			CamPosCB->Release();
+		if (SunPosCB)
+			SunPosCB->Release();
 		if(heightMap)
 			heightMap->Release();
 		if(alturaData)
@@ -397,13 +433,15 @@ public:
 		viewCB = 0;
 		projCB = 0;
 		worldCB = 0;
+		CamPosCB = 0;
+		SunPosCB = 0;
 	}
 
 	void Update(float dt)
 	{
 	}
 
-	void Draw(D3DXMATRIX vista, D3DXMATRIX proyeccion)
+	void Draw(D3DXMATRIX vista, D3DXMATRIX proyeccion, XMFLOAT3 m_CamPos, XMFLOAT3 m_LightPos)
 	{
 		static float rotation = 0.0f;
 		rotation += 0.01;		
@@ -430,6 +468,11 @@ public:
 		d3dContext->PSSetShaderResources( 2, 1, &colorMap3);
 		d3dContext->PSSetShaderResources( 3, 1, &blendMap);
 		d3dContext->PSSetShaderResources( 4, 1, &blendMap2);
+
+		d3dContext->PSSetShaderResources(5, 1, &normalMap);
+		d3dContext->PSSetShaderResources(6, 1, &normalMap2);
+		d3dContext->PSSetShaderResources(7, 1, &normalMap3);
+
 		d3dContext->PSSetSamplers( 0, 1, &colorMapSampler);
 
 		//mueve la camara
@@ -447,10 +490,14 @@ public:
 		d3dContext->UpdateSubresource( worldCB, 0, 0, &worldMat, 0, 0 );
 		d3dContext->UpdateSubresource( viewCB, 0, 0, &vista, 0, 0 );
 		d3dContext->UpdateSubresource( projCB, 0, 0, &proyeccion, 0, 0 );
+		d3dContext->UpdateSubresource( CamPosCB, 0, 0, &m_CamPos, 0, 0);
+		d3dContext->UpdateSubresource(SunPosCB, 0, 0, &m_LightPos, 0, 0);
 		//le pasa al shader los buffers
 		d3dContext->VSSetConstantBuffers( 0, 1, &worldCB );
 		d3dContext->VSSetConstantBuffers( 1, 1, &viewCB );
 		d3dContext->VSSetConstantBuffers( 2, 1, &projCB );
+		d3dContext->VSSetConstantBuffers( 3, 1, &CamPosCB);
+		d3dContext->VSSetConstantBuffers(4, 1, &SunPosCB);
 		//cantidad de trabajos
 		int cuenta = (anchoTexTerr - 1) * (altoTexTerr - 1) * 6;
 		d3dContext->DrawIndexed( cuenta, 0, 0 );

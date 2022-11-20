@@ -204,9 +204,6 @@
     <Text Include="SkyDome.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Agua.fx">
-      <FileType>Document</FileType>
-    </Text>
     <FxCompile Include="Billboard.hlsl" />
     <Text Include="Text.fx">
       <FileType>Document</FileType>
