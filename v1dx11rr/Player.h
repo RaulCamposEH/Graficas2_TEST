@@ -18,6 +18,7 @@ public:
 	bool itemOnInventory;
 	bool FPC = true;
 	int puntos = 0;
+	int seguidoPor = 0;
 
 	Player(GameModel* Model, Camara* Camara, fvec3 ColSize) {
 		mPlayerModel = Model;
@@ -35,13 +36,17 @@ public:
 	}
 
 	//en base a una colision obtener el item del juego
-	void obtenerItem(Item* item) {
+	void obtenerItem(Item* item, bool &result) {
 		if (!item->getItemState()) {
 			if (CajaDeColision->CheckSphereColission(item->getPos(), item->GetColitionRadio())) {
 				item->TakeItem();
 				itemOnHand = item->getItemState();
 				itemOnInventory = item->getItemState();
+				result = true;
 			}
+		}
+		else {
+			result = false;
 		}
 	}
 
@@ -86,6 +91,10 @@ public:
 		return position;
 	}
 
+	int GetSeguimientoGallina() {
+		return seguidoPor;
+	}
+
 	void SetPos(fvec3 value) {
 		position = value;
 	}
@@ -97,5 +106,9 @@ public:
 
 	void SumPoint() {
 		puntos += 1;
+	}
+
+	void SetGallina(int id) {
+		seguidoPor = id;
 	}
 };
