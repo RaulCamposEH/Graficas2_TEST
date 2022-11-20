@@ -157,6 +157,7 @@ public:
 	bool first = true;
 	bool drive = false;
 	bool rangoCamioneta = false;
+	bool mount = false;
 
 	float segundos = 301;
 
@@ -616,7 +617,7 @@ public:
 	}
 	
 	void Update(void) {
-		if (vel > 0 || vel < 0) startWalkingSfx();
+		if ((vel > 0 || vel < 0) && !drive) startWalkingSfx();
 		else stopWalkingSfx();
 
 		if (actualizarPosiciones) GetPositions();
@@ -789,8 +790,8 @@ public:
 		std::string montar = "Presiona \"E\" para Manejar";
 		if (rangoCamioneta) texto->DrawsText(-0.15, -0.6, montar.c_str(), 0.005);
 		if (Jugador->itemOnInventory) {
-			std::string textocontrol = "Presiona \"Q\" o \"X\" para Alternar Semillas";
-			texto->DrawsText(-0.35, -0.6, textocontrol.c_str(), 0.005);
+			std::string textocontrol = "Presiona \"Q\" para Alternar Semillas";
+			texto->DrawsText(-0.20, -0.6, textocontrol.c_str(), 0.005);
 		}
 		segundos -= 0.02;
 
