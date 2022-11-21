@@ -26,15 +26,16 @@ public:
 	}
 
 	void Draw(Camara* camara, float scale, float specForce) {
+		XMFLOAT3 m_lightPos(0.0f, 0.0f, 0.0f);
 		if (activated) { 
 			mTrampaModels[1]->setPos(position);
 			mTrampaModels[1]->setAltura(position.y);
-			mTrampaModels[1]->Draw(camara, scale, specForce); 
+			mTrampaModels[1]->Draw(camara, scale, specForce, m_lightPos);
 		}
 		else {
 			mTrampaModels[0]->setPos(position);
 			mTrampaModels[0]->setAltura(position.y);
-			mTrampaModels[0]->Draw(camara, scale, specForce);
+			mTrampaModels[0]->Draw(camara, scale, specForce, m_lightPos);
 		}
 	}
 

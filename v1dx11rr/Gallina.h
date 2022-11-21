@@ -1,5 +1,6 @@
 #pragma once
 #include "Player.h"
+#include "DXRR.h"
 
 class Gallina {
 private:
@@ -76,12 +77,12 @@ public:
 		SetPos(pos);
 	}
 
-	void Draw(Camara* camara, float scale, float specForce) {
+	void Draw(Camara* camara, float scale, float specForce, XMFLOAT3 m_LightPos) {
 		mChickenModel->setPos(position);
 		mChickenModel->setAltura(position.y);
 		CajaDeColision = CajaDeColision->reposBox(position, fvec3(5.0f, 5.0f, 5.0f));
 		mChickenModel->setYRot(anguloMira);
-		if (!saved) mChickenModel->Draw(camara, scale, specForce);
+		if (!saved) mChickenModel->Draw(camara, scale, specForce, m_LightPos);
 	}
 
 	void giroGallina(float& angulo, float jugadorZ, float jugadorX, float gallinaZ, float gallinaX) {

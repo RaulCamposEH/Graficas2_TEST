@@ -318,7 +318,7 @@ public:
 	}
 
 
-	void Draw(D3DXMATRIX vista, D3DXMATRIX proyeccion, D3DXVECTOR3 poscam, float xx, float zz, float posy, float escala, vector2* uv1, vector2* uv2, vector2* uv3, vector2* uv4, int frame)
+	void Draw(D3DXMATRIX vista, D3DXMATRIX proyeccion, D3DXVECTOR3 poscam, float xx, float zz, float posy, float escala, vector2* uv1, vector2* uv2, vector2* uv3, vector2* uv4, int frame, bool animated)
 	{
 		posx = xx;
 		posz = zz;
@@ -348,6 +348,20 @@ public:
 		vertices[3].pos.z = 1 * escala;
 		vertices[3].UV.x = uv4[frame].u;
 		vertices[3].UV.y = uv4[frame].v;
+
+		if (!animated) {
+			vertices[0].UV.x = 0;
+			vertices[0].UV.y = 1;
+
+			vertices[1].UV.x = 0;
+			vertices[1].UV.y = 0;
+
+			vertices[2].UV.x = 1;
+			vertices[2].UV.y = 0;
+
+			vertices[3].UV.x = 1;
+			vertices[3].UV.y = 1;
+		}
 
 		//proceso de guardar el buffer de vertices para su uso en el render
 		D3D11_BUFFER_DESC vertexDesc;

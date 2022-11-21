@@ -214,7 +214,10 @@
     <Text Include="Primitive.fx">
       <FileType>Document</FileType>
     </Text>
-    <FxCompile Include="Modelo.fx" />
+    <FxCompile Include="Modelo.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

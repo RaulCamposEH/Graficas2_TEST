@@ -38,9 +38,12 @@ public:
 
 	void Draw(Camara* camara, float _scale, float specForce) {
 		if (!tomado) {
+
+			XMFLOAT3 m_lightPos(0.0f,0.0f,0.0f);
+
 			mItemModel->setPos(position);
 			mItemModel->setAltura(position.y + (dezplazamientoItem * 4.0f));
-			mItemModel->Draw(camara, _scale, specForce);
+			mItemModel->Draw(camara, _scale, specForce, m_lightPos);
 		}
 	}
 

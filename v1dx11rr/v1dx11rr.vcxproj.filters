@@ -166,9 +166,6 @@
     <FxCompile Include="Modelo.fx">
       <Filter>Archivos de código fuente\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Agua.fx">
-      <Filter>Archivos de código fuente\Shaders</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader.fx">
@@ -186,9 +183,6 @@
       <Filter>Archivos de código fuente\Shaders</Filter>
     </Text>
     <Text Include="Primitive.fx">
-      <Filter>Archivos de código fuente\Shaders</Filter>
-    </Text>
-    <Text Include="Agua.fx">
       <Filter>Archivos de código fuente\Shaders</Filter>
     </Text>
   </ItemGroup>
