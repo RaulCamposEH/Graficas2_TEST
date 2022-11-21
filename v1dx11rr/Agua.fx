@@ -95,7 +95,7 @@ PS_Input VS_Main(VS_Input vertex)
     vsOut.binorm = normalize(binormal);
 
     // Calculate light vector
-    vsOut.lightVec = normalize(-sunPos - worldPos);
+    vsOut.lightVec = normalize(sunPos - worldPos);
     
     // Calculate camera vector
     vsOut.cameraVec = normalize(cameraPos - worldPos);
@@ -137,20 +137,22 @@ float4 PS_Main(PS_Input pix) : SV_TARGET
 	//calcular bump normals
     float3 bumpnormal = (text2.r * pix.tangent) + (text2.g * pix.binorm) + (text2.b * pix.normal);
     bumpnormal = normalize(bumpnormal);	
+    
+    lightVec = -lightVec;
 	
 	//diffuse basada en el bump map
     float3 diffuseTerm = saturate(dot(bumpnormal, lightVec));
     diffuseTerm = normalize(diffuseTerm); //light intensity
 	
     //especular
-    float3 R = normalize(lightVec + cameraVec);
+    float3 R = normalize(-lightVec + cameraVec);
     float specularTerm = pow(saturate(dot(normal, R)), 100); // puntito de luz
 		
 	// Luzes que multiplicaaran por la textura
-    float3 finalLight = saturate(ambient + diffuseColor * diffuseTerm + specularColor * specularTerm);
+    float3 finalLight = saturate(ambient + diffuseColor * diffuseTerm) + (specularColor * specularTerm);
     
-    text3 = (text3.rgb * diffuseTerm + specularColor, 1.0f);
+
 	
 	//color final
-    return float4(text1.rgb * text3.rgb * finalLight, 0.5f);
+    return float4(text1.rgb  * finalLight, 0.5f);
 }
