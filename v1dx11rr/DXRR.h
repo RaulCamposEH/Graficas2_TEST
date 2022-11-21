@@ -623,7 +623,7 @@ public:
 	}
 	
 	void Update(void) {
-		if ((vel > 0 || vel < 0) && !drive) startWalkingSfx();
+		if ((vel > 0 || vel < 0) && !mount) startWalkingSfx();
 		else stopWalkingSfx();
 
 		if (actualizarPosiciones) GetPositions();
@@ -845,8 +845,8 @@ public:
 		if(chickenTwo->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
 		if(chickenThree->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
 
-		std::string num = "Number: " + std::to_string(packnumber);
-		texto->DrawsText(-0.10, 0, num.c_str(), 0.005);
+		//std::string num = "Number: " + std::to_string(packnumber);
+		//texto->DrawsText(-0.10, 0, num.c_str(), 0.005);
 		std::string pts = "Puntos: " + std::to_string(Jugador->puntos);
 		texto->DrawsText(-0.80, -0.55, pts.c_str(), 0.005);
 		std::string montar = "Presiona \"E\" para Manejar";
@@ -880,7 +880,7 @@ public:
 		}
 		#pragma region ImGui Debug Stuff
 
-		if (false) {
+		if (true) {
 
 			ImGui_ImplDX11_NewFrame();
 			ImGui_ImplWin32_NewFrame();

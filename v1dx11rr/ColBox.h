@@ -20,7 +20,6 @@ public:
 	}
 
 	ColBox(fvec3 _o, fvec3 _s, float angleY) {
-		angleY = 
 		mOrigen.x = (_o.x * cosf(angleY) - _o.z * sinf(angleY));
 		mOrigen.y = _o.y;
 		mOrigen.z = (_o.x * sinf(angleY) + _o.z * cosf(angleY));
