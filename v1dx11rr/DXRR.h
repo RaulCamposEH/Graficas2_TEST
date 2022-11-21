@@ -57,7 +57,7 @@ public:
 	CXACT3Util m_XACT3;
 #pragma endregion
 
-	int frameBillboard;
+	int frameBillboard = 0;
 
 #pragma region Scene Stuff
 
@@ -67,6 +67,8 @@ public:
 	Camara* camara;
 
 	AguaRR* Aguita;
+
+	BillboardRR* planta;
 
 	Player* Jugador;
 	Gallina* chickenOne;
@@ -129,6 +131,9 @@ public:
 	float tiempo_inv = 0.0f;
 	bool colisionando = false;
 
+	int detarame[50];
+	int detarame2[50];
+
 	GUI* gallinasHUD[4];
 
 	GUI* itemSemillas[2];
@@ -162,6 +167,8 @@ public:
 
 	float segundos = 301;
 #pragma endregion
+
+	XMFLOAT3 m_lightPos = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
 	void addTex(ResourceCollection& col, int number, const wchar_t* texture) {
 		col.emplace_back(number, texture);
@@ -209,6 +216,16 @@ public:
 
     DXRR(HWND hWnd, int Ancho, int Alto)
 	{
+		int num = rand();
+		int num2 = rand();
+
+		for (int i = 0; i < 50; i++) {
+			num = -100 + rand() % ((400) - (-400));
+			num2 = -100 + rand() % ((400) - (-400));
+			detarame[i] = num;
+			detarame2[i] = num2;
+		}
+
 		GetPositions();
 		#pragma region Inicializacion de elementos
 		breakpoint = false;
@@ -224,11 +241,12 @@ public:
 		IniciaD3D(hWnd);
 		izqder = 0;
 		arriaba = 0;
-		billCargaFuego();
 
 		auto eye = D3DXVECTOR3(0, 80, 6);
 		auto target = D3DXVECTOR3(0, 80, 0);
 		auto up = D3DXVECTOR3(0, 1, 0);
+
+		planta = new BillboardRR(L"planta.png", L"plantaNormal.png", d3dDevice, d3dContext, 1);
 
 		camara = new Camara(eye, target, up, Ancho, Alto);
 		terreno = new TerrenoRR(1200, 1200, d3dDevice, d3dContext);
@@ -244,9 +262,10 @@ public:
 
 		Character = new GameModel(d3dDevice, d3dContext, "Assets/personaje/personaje.obj", fvec3(60, 0, 30), CharacterTextures);
 
-		ChickenTextures.reserve(2);
+		ChickenTextures.reserve(3);
 		addTex(ChickenTextures, 0, L"Assets/gallina/gallina.png");
 		addTex(ChickenTextures, 1, L"Assets/noSpecMap.jpg");
+		addTex(ChickenTextures, 2, L"Assets/gallina/gallinaNormal.png");
 
 		Chicken = new GameModel(d3dDevice, d3dContext, "Assets/gallina/gallina.obj", fvec3(0, 0, 0), ChickenTextures);
 
@@ -262,33 +281,38 @@ public:
 
 		FoodBag = new GameModel(d3dDevice, d3dContext, "Assets/Bolsa/Bolsa.obj", fvec3(0, 0, 0), FoodBagTextures);
 
-		SiloTextures.reserve(2);
+		SiloTextures.reserve(3);
 		addTex(SiloTextures, 0, L"Assets/Silo/SiloColor.png");
-		addTex(SiloTextures, 1, L"Assets/noSpecMap.jpg");
+		addTex(SiloTextures, 1, L"Assets/Silo/SiloSpecular.png");
+		addTex(SiloTextures, 2, L"Assets/Silo/SiloNormal.png");
 
 		Silo = new GameModel(d3dDevice, d3dContext, "Assets/Silo/Silo.obj", fvec3(40, 0, 20), SiloTextures);
 
-		GraneroTextures.reserve(2);
-		addTex(GraneroTextures, 0, L"Assets/Granero/GraneroColor.png");
-		addTex(GraneroTextures, 1, L"Assets/noSpecMap.jpg");
+		GraneroTextures.reserve(3);
+		addTex(GraneroTextures, 0, L"Assets/granero/graneroColor.png");
+		addTex(GraneroTextures, 1, L"Assets/granero/GraneroSpecular.png");
+		addTex(GraneroTextures, 2, L"Assets/granero/GraneroNormal.png");
 
 		Granero = new GameModel(d3dDevice, d3dContext, "Assets/Granero/Granero.obj", fvec3(0, 0, 0), GraneroTextures);
 
-		CamionetaTextures.reserve(2);
+		CamionetaTextures.reserve(3);
 		addTex(CamionetaTextures, 0, L"Assets/camioneta/camionetaColor.jpg");
 		addTex(CamionetaTextures, 1, L"Assets/camioneta/camionetaSpec.jpg");
+		addTex(CamionetaTextures, 2, L"Assets/camioneta/camionetaNormal.jpg");
 
 		Camioneta = new GameModel(d3dDevice, d3dContext, "Assets/camioneta/camioneta.obj", fvec3(0, 0, 0), CamionetaTextures);
 
-		GarageTextures.reserve(2);
+		GarageTextures.reserve(3);
 		addTex(GarageTextures, 0, L"Assets/garage/garageColor.jpg");
-		addTex(GarageTextures, 1, L"Assets/noSpecMap.jpg");
+		addTex(GarageTextures, 1, L"Assets/garage/GargSpec.jpg");
+		addTex(GarageTextures, 2, L"Assets/garage/garageNormal.jpg");
 
 		Garage = new GameModel(d3dDevice, d3dContext, "Assets/garage/garage.obj", fvec3(0, 0, 0), GarageTextures);
 
-		HenoTextures.reserve(2);
+		HenoTextures.reserve(3);
 		addTex(HenoTextures, 0, L"Assets/heno/henoColor.png");
-		addTex(HenoTextures, 1, L"Assets/noSpecMap.jpg");
+		addTex(HenoTextures, 1, L"Assets/heno/hay_HGT.png");
+		addTex(HenoTextures, 2, L"Assets/heno/henoNormal.png");
 
 		Heno = new GameModel(d3dDevice, d3dContext, "Assets/heno/heno.obj", fvec3(0, 0, 0), HenoTextures);
 		
@@ -743,13 +767,6 @@ public:
 			Camioneta->mPosicion.z = camara->Camaracontra().z;
 			Camioneta->mPosicion.y = terreno->Superficie(camara->Camaracontra().x, camara->Camaracontra().z);
 		}
-		
-
-		/*
-		Tronco->mPosicion.x = xc;
-		Tronco->mPosicion.z = 0;
-		Tronco->mPosicion.y = yc + terreno->Superficie(xc, 0);
-		*/
 
 	}
 
@@ -796,6 +813,9 @@ public:
 		Tronco->mPosicion.z = 0;
 		Tronco->mPosicion.y = yc + terreno->Superficie(xc, 0);
 
+		for (int i = 0; i < 50; i++) {
+			planta->Draw(camara->vista, camara->proyeccion, camara->posCam, detarame[i], detarame2[i], terreno->Superficie(detarame2[i], detarame2[i]), 5, uv1, uv2, uv3, uv4, frameBillboard, false);
+		}
 		terreno->Draw(camara->vista, camara->proyeccion, m_camPos, m_lightPos);
 
 		movetext += 0.0025;
@@ -846,18 +866,18 @@ public:
 
 		#pragma region My Drawing Stuff
 		//Models
-		Granero->Draw(camara, 1.5f, 1.0f);
-		Heno->Draw(camara, 1.0f, 1.0f);
-		Tronco->Draw(camara, 1.0f, 1.0f);
-		Garage->Draw(camara, 1.25f, 1.0f);
-		Camioneta->Draw2(camara, 1.0f, 1.0f);
-		Silo->Draw(camara, 1.0f, 1.0f);
+		Granero->Draw(camara, 1.5f, 1.0f, m_lightPos);
+		Heno->Draw(camara, 1.0f, 1.0f, m_lightPos);
+		Tronco->Draw(camara, 1.0f, 1.0f, m_lightPos);
+		Garage->Draw(camara, 1.25f, 1.0f, m_lightPos);
+		Camioneta->Draw2(camara, 1.0f, 1.0f, m_lightPos);
+		Silo->Draw(camara, 1.0f, 1.0f, m_lightPos);
 
 		//Gameplay Elements
 		Jugador->Draw(camara, 1.0f, 1.0f);
-		chickenOne->Draw(camara, 1.0f, 1.0f);
-		chickenTwo->Draw(camara,  1.0f, 1.0f);
-		chickenThree->Draw(camara, 1.0f, 1.0f);
+		chickenOne->Draw(camara, 1.0f, 1.0f, m_lightPos);
+		chickenTwo->Draw(camara,  1.0f, 1.0f, m_lightPos);
+		chickenThree->Draw(camara, 1.0f, 1.0f, m_lightPos);
 
 		TurnOnAlphaBlending();
 		item->Draw(camara, 1.0f, 1.0f);

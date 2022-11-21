@@ -95,10 +95,12 @@ public:
 
 	void Draw(Camara* camara, float scale, float specForce) {
 		if (!FPC) {
+			XMFLOAT3 m_lightPos(0.0f, 0.0f, 0.0f);
+
 			mPlayerModel->setPos(position);
 			mPlayerModel->setAltura(position.y);
 			CajaDeColision = CajaDeColision->reposBox(position, this->scale);
-			mPlayerModel->Draw(camara, scale, specForce);
+			mPlayerModel->Draw(camara, scale, specForce, m_lightPos);
 		}
 	}
 

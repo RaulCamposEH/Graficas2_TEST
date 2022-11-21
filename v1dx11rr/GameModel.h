@@ -37,6 +37,8 @@ public:
 	ID3D11Buffer* viewCB;
 	ID3D11Buffer* projCB;
 	ID3D11Buffer* worldCB;
+	ID3D11Buffer* SunPosCB;
+
 	D3DXMATRIX viewMatrix;
 	D3DXMATRIX projMatrix;
 
@@ -67,7 +69,7 @@ public:
 
 	}
 
-	void Draw(Camara* camara, float scale, float specForce) {
+	void Draw(Camara* camara, float scale, float specForce, XMFLOAT3 m_LightPos) {
 
 		unsigned int stride = sizeof(VertexObj);
 		unsigned int offset = 0;
@@ -114,16 +116,18 @@ public:
 		mContext->UpdateSubresource(projCB, 0, 0, &camara->proyeccion, 0, 0);
 		mContext->UpdateSubresource(cameraPosCB, 0, 0, &camPos, 0, 0);
 		mContext->UpdateSubresource(specForceCB, 0, 0, &specForce, 0, 0);
+		mContext->UpdateSubresource(SunPosCB, 0, 0, &m_LightPos, 0, 0);
 		//le pasa al shader los buffers
 		mContext->VSSetConstantBuffers(0, 1, &worldCB);
 		mContext->VSSetConstantBuffers(1, 1, &viewCB);
 		mContext->VSSetConstantBuffers(2, 1, &projCB);
 		mContext->VSSetConstantBuffers(3, 1, &cameraPosCB);
 		mContext->VSSetConstantBuffers(4, 1, &specForceCB);
+		mContext->VSSetConstantBuffers(5, 1, &SunPosCB);
 
 		mContext->Draw(ObjParser.m_nVertexCount, 0);
 	}
-	void Draw2(Camara* camara, float scale, float specForce) {
+	void Draw2(Camara* camara, float scale, float specForce, XMFLOAT3 m_LightPos) {
 		unsigned int stride = sizeof(VertexObj);
 		unsigned int offset = 0;
 
@@ -193,12 +197,14 @@ public:
 		mContext->UpdateSubresource(projCB, 0, 0, &camara->proyeccion, 0, 0);
 		mContext->UpdateSubresource(cameraPosCB, 0, 0, &camPos, 0, 0);
 		mContext->UpdateSubresource(specForceCB, 0, 0, &specForce, 0, 0);
+		mContext->UpdateSubresource(SunPosCB, 0, 0, &m_LightPos, 0, 0);
 		//le pasa al shader los buffers
 		mContext->VSSetConstantBuffers(0, 1, &worldCB);
 		mContext->VSSetConstantBuffers(1, 1, &viewCB);
 		mContext->VSSetConstantBuffers(2, 1, &projCB);
 		mContext->VSSetConstantBuffers(3, 1, &cameraPosCB);
 		mContext->VSSetConstantBuffers(4, 1, &specForceCB);
+		mContext->VSSetConstantBuffers(5, 1, &SunPosCB);
 
 		mContext->Draw(ObjParser.m_nVertexCount, 0);
 	}
@@ -356,6 +362,8 @@ private:
 
 		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &cameraPosCB))) return false;
 		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &specForceCB))) return false;
+		if (FAILED(mDevice->CreateBuffer(&constDesc, 0, &SunPosCB))) return false;
+
 		return true;
 	}
 
