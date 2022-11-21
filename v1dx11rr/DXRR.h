@@ -794,7 +794,7 @@ public:
 
 		#pragma region My Drawing Stuff
 		//Models
-		Granero->Draw(camara, 1.0f, 1.0f);
+		Granero->Draw(camara, 1.5f, 1.0f);
 		Heno->Draw(camara, 1.0f, 1.0f);
 		Tronco->Draw(camara, 1.0f, 1.0f);
 		Garage->Draw(camara, 1.0f, 1.0f);
@@ -811,12 +811,6 @@ public:
 		item->Draw(camara, 1.0f, 1.0f);
 		TurnOffAlphaBlending();
 
-		Granero->Draw(camara, 1.5f, 1.0f);
-		Heno->Draw(camara, 1.0f, 1.0f);
-		Tronco->Draw(camara, 1.0f, 1.0f);
-		Garage->Draw(camara, 1.0f, 1.0f);
-		Camioneta->Draw2(camara, 1.5f, 1.0f);
-		Silo->Draw(camara, 1.0f, 1.0f);
 
 		TurnOnAlphaBlending();
 			WinTarget->Draw(camara, 1.0f);
