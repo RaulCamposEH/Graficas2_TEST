@@ -123,12 +123,15 @@ float4 PS_Main(PS_Input pix) : SV_TARGET
 
     lightDir = normalize(pix.lightVec);
 	
-    lightDir.y = -lightDir.y;
+   // lightDir.y = -lightDir.y;
 	
     float3 bumpnormal = (bumpmap.r * pix.tangent) + (bumpmap.g * pix.binorm) + (bumpmap.b * pix.normal);
     bumpnormal = normalize(bumpnormal);
 	
-    lightIntensity = saturate(dot(bumpnormal, lightDir));
+    if (lightDir.y < cameraPos.y)
+        lightIntensity = 0;
+	else
+        lightIntensity = saturate(dot(bumpnormal, lightDir));
 	
 	if (lightIntensity > 0) {
 		// Determine the final diffuse color based on the diffuse color and the amount of light intensity.
