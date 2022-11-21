@@ -661,6 +661,12 @@ public:
 		}
 		
 
+		/*
+		Tronco->mPosicion.x = xc;
+		Tronco->mPosicion.z = 0;
+		Tronco->mPosicion.y = yc + terreno->Superficie(xc, 0);
+		*/
+
 	}
 
 	void Render(void)

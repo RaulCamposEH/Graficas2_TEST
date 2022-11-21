@@ -150,9 +150,7 @@ float4 PS_Main(PS_Input pix) : SV_TARGET
 		
 	// Luzes que multiplicaaran por la textura
     float3 finalLight = saturate(ambient + diffuseColor * diffuseTerm) + (specularColor * specularTerm);
-    
-
-	
+    	
 	//color final
     return float4(text1.rgb  * finalLight, 0.5f);
 }
