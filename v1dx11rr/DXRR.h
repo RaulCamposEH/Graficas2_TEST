@@ -199,7 +199,10 @@ public:
 	}
 
 	void MontarVehiculo() {
-		if(rangoCamioneta || !first) first = !first;
+		if (rangoCamioneta || !first) {
+			first = !first;
+			mount = !mount;
+		}
 	}
 
     DXRR(HWND hWnd, int Ancho, int Alto)

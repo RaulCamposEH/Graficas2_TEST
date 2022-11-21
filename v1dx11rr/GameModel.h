@@ -123,9 +123,7 @@ public:
 
 		mContext->Draw(ObjParser.m_nVertexCount, 0);
 	}
-
 	void Draw2(Camara* camara, float scale, float specForce) {
-
 		unsigned int stride = sizeof(VertexObj);
 		unsigned int offset = 0;
 
@@ -184,7 +182,10 @@ public:
 
 		D3DXMatrixRotationY(&rotationMat, (rotaY * (D3DX_PI / 180)));
 
-		D3DXMATRIX worldMat = rotationMat * translationMat;
+		D3DXMATRIX scaleMat;
+		D3DXMatrixScaling(&scaleMat, scale, scale * 1.5, scale);
+
+		D3DXMATRIX worldMat = rotationMat *scaleMat* translationMat;
 
 		//		worldMat = matrixobj * worldMat;
 
@@ -208,7 +209,9 @@ public:
 	void drive() {
 		D3DXMATRIX translationMat;
 		D3DXMatrixRotationY(&translationMat, (rotaY * (D3DX_PI / 180)));
+		
 		matrixobj = matrixobj * translationMat;
+
 	}
 
 	float getX() { return this->mPosicion.x; }
