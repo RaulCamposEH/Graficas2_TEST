@@ -113,6 +113,7 @@ public:
 
 #pragma endregion
 
+#pragma region Gameplay Stuff
 	float movetext = 0;
 
 	std::vector<ObjectPositions> trampasPosiciones;
@@ -160,6 +161,7 @@ public:
 	bool mount = false;
 
 	float segundos = 301;
+#pragma endregion
 
 	void addTex(ResourceCollection& col, int number, const wchar_t* texture) {
 		col.emplace_back(number, texture);
@@ -369,7 +371,7 @@ public:
 		Camioneta->setYRot(GetRadians(90.0f));
 		Camioneta->setAltura(terreno->Superficie(Camioneta->getX(), Camioneta->getZ()));
 
-		Heno->setPos(fvec3(285.0f, 0.0f, 360.0f));
+		Heno->setPos(fvec3(275.0f, 0.0f, 360.0f));
 		Heno->setYRot(GetRadians(180.0f));
 		Heno->setAltura(terreno->Superficie(Heno->getX(), Heno->getZ()));
 
@@ -809,7 +811,7 @@ public:
 		item->Draw(camara, 1.0f, 1.0f);
 		TurnOffAlphaBlending();
 
-		Granero->Draw(camara, 1.0f, 1.0f);
+		Granero->Draw(camara, 1.5f, 1.0f);
 		Heno->Draw(camara, 1.0f, 1.0f);
 		Tronco->Draw(camara, 1.0f, 1.0f);
 		Garage->Draw(camara, 1.0f, 1.0f);
