@@ -67,7 +67,7 @@ public:
 	}
 
 	//ejecutar antes de hacer un draw en render
-	void Update(fvec3 newpos, const ColArray ColeccionColisiones) {
+	void Update(fvec3 newpos, const ColArray& ColeccionColisiones) {
 		//Mover el personaje
 		fvec3 posAnterior = GetPos();
 		//ColBox CajaAnterior = *CajaDeColision;

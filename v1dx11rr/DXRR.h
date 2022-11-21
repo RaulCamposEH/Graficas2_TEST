@@ -815,7 +815,7 @@ public:
 		Heno->Draw(camara, 1.0f, 1.0f);
 		Tronco->Draw(camara, 1.0f, 1.0f);
 		Garage->Draw(camara, 1.0f, 1.0f);
-		Camioneta->Draw2(camara, 1.0f, 1.0f);
+		Camioneta->Draw2(camara, 1.5f, 1.0f);
 		Silo->Draw(camara, 1.0f, 1.0f);
 
 		TurnOnAlphaBlending();

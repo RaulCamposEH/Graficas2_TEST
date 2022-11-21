@@ -164,9 +164,6 @@ public:
 		D3DXMATRIX translationMat2;
 		D3DXMatrixTranslation(&translationMat2, 0, 0, move);
 
-		D3DXMATRIX scaleMat;
-		D3DXMatrixScaling(&scaleMat, scale, scale * 1.5, scale);
-
 		D3DXMATRIX worldMat;// = rotationMat * scaleMat * translationMat;
 
 		worldMat = rotationMat;
