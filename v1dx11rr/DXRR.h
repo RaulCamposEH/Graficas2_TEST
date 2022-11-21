@@ -110,7 +110,7 @@ public:
 	GameModel* Tronco;
 
 	ColArray Colisiones;
-
+	RadioColArray RadioColisiones;
 #pragma endregion
 
 #pragma region Gameplay Stuff
@@ -312,7 +312,7 @@ public:
 			trampas.push_back(new Trampa(Trampas[0], Trampas[1], camara, fvec3(pos.x, pos.y, pos.z), 2.0f));
 		}
 
-		Jugador = new Player(Character, camara, fvec3(2.0f, 10.0f, 2.0f));
+		Jugador = new Player(Character, camara, fvec3(5.0f, 20.0f, 5.0f));
 
 		chickenOne = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f, 1);
 		chickenTwo = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f, 2);
@@ -333,7 +333,7 @@ public:
 		#pragma region Inizializacion de Elementos de Interfaz
 
 		XMFLOAT4 verde = XMFLOAT4(0.2, 0.7, 0.2, 0.5);
-		WinTarget = new Primitive(d3dDevice, d3dContext, "Assets/Primitives/Cylinder.obj", D3DXVECTOR3(0, 0, 0), 5.0f, verde);
+		WinTarget = new Primitive(d3dDevice, d3dContext, "Assets/Primitives/Cylinder.obj", D3DXVECTOR3(0, 0, 0), 7.5f, verde);
 
 		vida[0] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_full.png");
 		vida[1] = new GUI(d3dDevice, d3dContext, 0.15, 0.26, L"Assets/UI/health_2.png");
@@ -379,8 +379,23 @@ public:
 		Tronco->setYRot(GetRadians(295.0f));
 		Tronco->setAltura(terreno->Superficie(Tronco->getX(), Tronco->getZ()));
 
-		WinTarget->setPos(fvec3(320.0f, 0.0f, 335.0f));
+		WinTarget->setPos(fvec3(310.0f, 0.0f, 320.0f));
 		WinTarget->setAltura(terreno->Superficie(WinTarget->getX(), WinTarget->getZ()));
+
+		Colisiones = {
+			//Granero
+			ColBox(fvec3(Granero->getPos().x + 2.5, Granero->getPos().y, Granero->getPos().z + 2.5), fvec3(39.5f, 30.0f, 43.0f)),
+
+			//Garage
+			ColBox(fvec3(Garage->getPos().x, Garage->getPos().y, Garage->getPos().z + 13.25), fvec3(21.5f, 20.0f, 2.5f)),
+			ColBox(fvec3(Garage->getPos().x - 5.0f, Garage->getPos().y, Garage->getPos().z - 13.25), fvec3(17.f, 20.0f, 2.5f)),
+			ColBox(fvec3(Garage->getPos().x + 21.5f, Garage->getPos().y, Garage->getPos().z), fvec3(2.5, 20.0f, 13.25f))
+		};
+
+		RadioColisiones = {
+			//Silo
+			fvec3(Silo->getPos().x, 12.5f, Silo->getPos().z)
+		};
 	}
 
 	~DXRR()
@@ -661,7 +676,8 @@ public:
 		item->Update();
 		
 		fvec3 pos = fvec3(x, y, z);
-		Jugador->Update(pos, Colisiones);
+		Jugador->Update(camara->posCam, Colisiones, RadioColisiones);
+
 		bool obtenido = false;
 		Jugador->obtenerItem(item, obtenido);
 		if (obtenido)
@@ -792,52 +808,19 @@ public:
 			//-11, -78, 4, 5, uv1, uv2, uv3, uv4, frameBillboard);
 		//TurnOffAlphaBlending();
 
-		#pragma region My Drawing Stuff
-		//Models
-		Granero->Draw(camara, 1.5f, 1.0f);
-		Heno->Draw(camara, 1.0f, 1.0f);
-		Tronco->Draw(camara, 1.0f, 1.0f);
-		Garage->Draw(camara, 1.0f, 1.0f);
-		Camioneta->Draw2(camara, 1.0f, 1.0f);
-		Silo->Draw(camara, 1.0f, 1.0f);
-
-		//Gameplay Elements
-		Jugador->Draw(camara, 1.0f, 1.0f);
-		chickenOne->Draw(camara, 1.0f, 1.0f);
-		chickenTwo->Draw(camara,  1.0f, 1.0f);
-		chickenThree->Draw(camara, 1.0f, 1.0f);
-
-		TurnOnAlphaBlending();
-		item->Draw(camara, 1.0f, 1.0f);
-		TurnOffAlphaBlending();
-
-
-		TurnOnAlphaBlending();
-			WinTarget->Draw(camara, 1.0f);
-		TurnOffAlphaBlending();
-
-		for (auto trampa : trampas) {
-			trampa->Draw(camara, 1.0f, 1.0f);
-		}
-
-		TurnOnAlphaBlending();
-	    Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_camPos, m_lightPos);
-		TurnOffAlphaBlending();
-		#pragma endregion
-
 		#pragma region UI Stuff
 
 		if (Jugador->itemOnHand) itemSemillas[1]->Draw(0.85, 0.75);
 		else itemSemillas[0]->Draw(0.85, 0.75);
 
-		if (vidas == 3) vida[0]->Draw(0.75, -0.75);
-		else if (vidas == 2) vida[1]->Draw(0.75, -0.75);
-		else if (vidas == 1) vida[2]->Draw(0.75, -0.75);
-		else if (vidas == 0) gameOver->Draw(0.0, 0.0);
-		
-		if(chickenOne->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
-		if(chickenTwo->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
-		if(chickenThree->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
+		if (Jugador->vidas == 3) vida[0]->Draw(0.75, -0.75);
+		else if (Jugador->vidas == 2) vida[1]->Draw(0.75, -0.75);
+		else if (Jugador->vidas == 1) vida[2]->Draw(0.75, -0.75);
+		else if (Jugador->vidas == 0) gameOver->Draw(0.0, 0.0);
+
+		if (chickenOne->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
+		if (chickenTwo->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
+		if (chickenThree->GetFallInTrap()) gameOver->Draw(0.0, 0.0);
 
 		//std::string num = "Number: " + std::to_string(packnumber);
 		//texto->DrawsText(-0.10, 0, num.c_str(), 0.005);
@@ -860,6 +843,40 @@ public:
 		}
 
 		#pragma endregion
+
+		#pragma region My Drawing Stuff
+		//Models
+		Granero->Draw(camara, 1.5f, 1.0f);
+		Heno->Draw(camara, 1.0f, 1.0f);
+		Tronco->Draw(camara, 1.0f, 1.0f);
+		Garage->Draw(camara, 1.25f, 1.0f);
+		Camioneta->Draw2(camara, 1.0f, 1.0f);
+		Silo->Draw(camara, 1.0f, 1.0f);
+
+		//Gameplay Elements
+		Jugador->Draw(camara, 1.0f, 1.0f);
+		chickenOne->Draw(camara, 1.0f, 1.0f);
+		chickenTwo->Draw(camara,  1.0f, 1.0f);
+		chickenThree->Draw(camara, 1.0f, 1.0f);
+
+		TurnOnAlphaBlending();
+		item->Draw(camara, 1.0f, 1.0f);
+		TurnOffAlphaBlending();
+
+
+		TurnOnAlphaBlending();
+			WinTarget->Draw(camara, 1.5f);
+		TurnOffAlphaBlending();
+
+		for (auto trampa : trampas) {
+			trampa->Draw(camara, 1.0f, 1.0f);
+		}
+
+		TurnOnAlphaBlending();
+	    Aguita->Draw(camara->vista, camara->proyeccion, movetext, m_camPos, m_lightPos);
+		TurnOffAlphaBlending();
+		#pragma endregion
+
 
 		if (rotationModel > 360.0f) {
 			rotationModel = 0.0f;

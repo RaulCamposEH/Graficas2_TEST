@@ -214,6 +214,7 @@ public:
 	float getX() { return this->mPosicion.x; }
 	float getZ() { return this->mPosicion.z; }
 	fvec3 getPos() { return this->mPosicion; }
+	float getRotaY() { return this->rotaY; }
 
 	void setPos(fvec3 pos) { this->mPosicion = pos; }
 	void setYRot(float y) { rotaY = y; }

@@ -46,6 +46,11 @@ public:
 				gallina[i]->SetFallInTrap();
 			}
 		}
+		bool colPlayer = jugador->CajaDeColision->CheckSphereColission(position, colRadio) && !jugador->invulnerable;
+		if (colPlayer) {
+			activated = true;
+			jugador->getDamage();
+		}
 	}
 
 	void SetPos(fvec3 pos) {
