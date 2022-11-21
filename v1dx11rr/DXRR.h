@@ -722,6 +722,7 @@ public:
 			Camioneta->mPosicion.z = camara->Camaracontra().z;
 			Camioneta->mPosicion.y = terreno->Superficie(camara->Camaracontra().x, camara->Camaracontra().z);
 		}
+		
 
 		/*
 		Tronco->mPosicion.x = xc;
@@ -769,6 +770,10 @@ public:
 		m_lightPos.x = xc;
 		m_lightPos.y = yc + terreno->Superficie(xc,0.0f);
 		m_lightPos.z = 0.0f;
+
+		Tronco->mPosicion.x = xc;
+		Tronco->mPosicion.z = 0;
+		Tronco->mPosicion.y = yc + terreno->Superficie(xc, 0);
 
 		terreno->Draw(camara->vista, camara->proyeccion, m_camPos, m_lightPos);
 
