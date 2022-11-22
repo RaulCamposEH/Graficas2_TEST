@@ -342,9 +342,9 @@ public:
 		chickenTwo = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f, 2);
 		chickenThree = new Gallina(Chicken, fvec3(1.0f, 1.0f, 1.0f), 70.0f, 3);
 
-		chickenOne->SetPos(fvec3(10.0f, 0.0f, 80.0f));
-		chickenTwo->SetPos(fvec3(40.0f, 0.0f, 80.0f));
-		chickenThree->SetPos(fvec3(80.0f, 0.0f, 80.0f));
+		chickenOne->SetPos(fvec3(-450.0f, 0.0f, 428.0f));
+		chickenTwo->SetPos(fvec3(-362.0f, 0.0f, -402.0f));
+		chickenThree->SetPos(fvec3(390.0f, 0.0f, -420.0f));
 
 		item = new Item(ChickenFood, 10.0f);
 		item->SetPos(fvec3(187.0f, 0, 300.0f));
