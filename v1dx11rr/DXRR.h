@@ -808,11 +808,11 @@ public:
 		m_lightPos.x = xc;
 		m_lightPos.y = yc + terreno->Superficie(xc,0.0f);
 		m_lightPos.z = 0.0f;
-
+/*
 		Tronco->mPosicion.x = xc;
 		Tronco->mPosicion.z = 0;
 		Tronco->mPosicion.y = yc + terreno->Superficie(xc, 0);
-
+		*/
 		for (int i = 0; i < 50; i++) {
 			planta->Draw(camara->vista, camara->proyeccion, camara->posCam, detarame[i], detarame2[i], terreno->Superficie(detarame2[i], detarame2[i]), 5, uv1, uv2, uv3, uv4, frameBillboard, false);
 		}
@@ -911,7 +911,7 @@ public:
 		}
 		#pragma region ImGui Debug Stuff
 
-		if (true) {
+		if (false) {
 
 			ImGui_ImplDX11_NewFrame();
 			ImGui_ImplWin32_NewFrame();
