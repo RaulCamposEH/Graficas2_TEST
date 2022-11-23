@@ -700,7 +700,10 @@ public:
 		item->Update();
 		
 		fvec3 pos = fvec3(x, y, z);
+
 		Jugador->Update(camara->posCam, Colisiones, RadioColisiones);
+
+		
 
 		bool obtenido = false;
 		Jugador->obtenerItem(item, obtenido);
@@ -751,18 +754,11 @@ public:
 		}
 		static float angbuff = -camara->ang2 + 90;
 
-		if (drive == true) {
-			if (angbuff < -camara->ang2 + 91) {
-				Camioneta->setYRot(angbuff);
-				angbuff += 2;
-			}
+		fvec3 newposi = fvec3(camara->Camaracontra().x, terreno->Superficie(camara->Camaracontra().x, camara->Camaracontra().z), camara->Camaracontra().z);
 
-			if (angbuff > -camara->ang2 + 89) {
-				Camioneta->setYRot(angbuff);
-				angbuff -= 2;
-			}
+		if (drive == true && Camioneta->UpdateCar(newposi, Colisiones, RadioColisiones)){
 
-			if (angbuff == -camara->ang2 + 90) Camioneta->setYRot(angbuff);
+	     	Camioneta->setYRot(-camara->ang2 + 91);
 			Camioneta->mPosicion.x = camara->Camaracontra().x;
 			Camioneta->mPosicion.z = camara->Camaracontra().z;
 			Camioneta->mPosicion.y = terreno->Superficie(camara->Camaracontra().x, camara->Camaracontra().z);

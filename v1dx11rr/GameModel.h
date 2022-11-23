@@ -48,10 +48,14 @@ public:
 	XMFLOAT3 camPos;
 	ID3D11Buffer* specForceCB;
 
+	fvec3 scale = fvec3(5.0f, 20.0f, 5.0f);
+
 	CObjParser ObjParser;
 	float rotaY;
 	float rotaX;
 	float rotaZ;
+
+	ColBox* CajaDeColision;
 
 	GameModel(ID3D11Device* dev, ID3D11DeviceContext* cont, char* path, D3DXVECTOR3 Posicion, ResourceCollection Textures)
 		: mDevice(dev), mContext(cont), mModel_path(path), mTextureCollection(Textures) 
@@ -59,6 +63,7 @@ public:
 		this->mPosicion = Posicion;
 		this->Init();
 		D3DXMatrixTranslation(&matrixobj, 0, 0, 0);
+		CajaDeColision = new ColBox(mPosicion, scale);
 	}
 
 	~GameModel() {
@@ -280,6 +285,35 @@ public:
 		specForceCB = 0;
 	}
 
+	//ejecutar antes de hacer un draw en render
+	bool UpdateCar(fvec3& newpos, const ColArray& ColeccionColisiones, const RadioColArray& RadioColisiones) {
+		//Mover el personaje
+
+		fvec3 posAnterior = mPosicion;
+		ColBox CajaAnterior = *CajaDeColision;
+
+		CajaDeColision = CajaDeColision->reposBox(newpos, scale);
+		for (ColBox Colision : ColeccionColisiones)
+		{
+			if (CajaDeColision->CheckColission(Colision))
+			{	
+      				setPos(posAnterior);
+				CajaDeColision = CajaDeColision->reposBox(posAnterior, scale);
+				newpos = posAnterior;
+				return false;
+			}
+		}
+		for (fvec3 RadioCol : RadioColisiones) {
+			if (CajaDeColision->CheckSphereColission(RadioCol, RadioCol.y))
+			{
+				setPos(posAnterior);
+				CajaDeColision = CajaDeColision->reposBox(posAnterior, scale);
+				newpos = posAnterior;
+				return false;
+			}
+		}
+	}
+
 private:
 
 	bool LoadModel() {
@@ -366,6 +400,5 @@ private:
 
 		return true;
 	}
-
 };
 #endif
